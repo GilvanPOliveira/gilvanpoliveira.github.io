@@ -37,6 +37,7 @@ canvas {
   z-index: 0;
 }
 
+
 .card {
   display: flex;
   flex-direction: column;
@@ -431,37 +432,90 @@ canvas {
   margin: 24px;
   button {
     background: rgb(135, 181, 206);
-    box-shadow: 0 3px 6px rgb(135, 181, 206);
     border: none;
-    color: #43647a;
-    width: 150px;
-    padding: 12px;
+    color: #283e4f;
+    text-align: center;
+    width: 180px;
+    height: 50px;
     border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 3px 6px #698ea4;
   }
-  button:hover {
-    background: #698ea4;
-    color: #c6dbe9;
-    box-shadow: 0 3px 6px #283e4f;
-  }
+}
+
+.btnHover {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.btnHover text {
+  position: relative;
+  z-index: 5;
+  transition: color 1s;
+}
+
+.btnHover:hover text {
+  color: #95b3c7;
+}
+
+.btnHover span {
+  position: absolute;
+  display: block;
+  content: "";
+  z-index: 0;
+  width: 0;
+  height: 0;
+  left: 50%;
+  top: 50%;
+  border-radius: 100%;
+  background: #182738;
+  transform: translate(-50%, -50%);
+  transition: width 1s, padding-top 1s;
+}
+
+.btnHover:hover span {
+  width: calc(100% * 2.25);
+  padding-top: calc(100% * 2.25);
 }
 
 .marca a {
   display: flex;
   width: 100%;
   justify-content: center;
+  position: relative;
 }
 
 .marca img {
   margin-top: 10px;
   max-width: 80px;
   max-height: 120px;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.6s;
 }
 
-.marca a:hover img {
-  transform: scale(1.3);
-  transition: 0.6s;
+.marca img:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
+}
+
+.marca a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("assets/marcaHover.gif") no-repeat center center;
+  background-size: cover;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.6s;
+  z-index: 1;
+}
+
+.marca a:hover::after {
+  opacity: 0.3;
 }
 
 @media (max-width: 320px) {
