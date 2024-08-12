@@ -7,7 +7,14 @@ var animations = [];
 var circles = [];
 
 var colorPicker = (function () {
-  var colors = ["#182738", "#283E4F", "#43647A", "#698EA4", "#95B3C7", "#C6DBE9"];
+  var colors = [
+    "#182738",
+    "#283E4F",
+    "#43647A",
+    "#698EA4",
+    "#95B3C7",
+    "#C6DBE9",
+  ];
   var index = 0;
   function next() {
     index = (index + 1) % colors.length;
@@ -39,10 +46,11 @@ function addClickListeners() {
 }
 
 function handleEvent(e) {
-  if (e.touches) {
+  if (e.touches && window.innerWidth >= 380) {
     e.preventDefault();
     e = e.touches[0];
   }
+
   var currentColor = colorPicker.current();
   var nextColor = colorPicker.next();
   var targetR = calcPageFillRadius(e.pageX, e.pageY);
