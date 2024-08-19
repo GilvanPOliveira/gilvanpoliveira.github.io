@@ -5,7 +5,7 @@ const card = document.querySelector(".card");
 var c = document.getElementById("c");
 var ctx = c.getContext("2d");
 var cH;
-var cW;
+var cW; 
 var bgColor = "#87B5CE";
 var animations = [];
 var circles = [];

@@ -482,19 +482,20 @@ canvas {
   width: 100%;
   justify-content: center;
   position: relative;
+  margin-top: 20px;
 }
 
 .marca img {
-  margin-top: 10px;
-  max-width: 80px;
-  max-height: 120px;
+  border-radius: 20px;
+  max-width: 170px;
+  max-height: 170px;
   position: relative;
   z-index: 2;
-  transition: opacity 0.6s;
+  transition: opacity 1.5s;
 }
 
 .marca img:hover {
-  opacity: 1;
+  opacity: 0;
   filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
 }
 
@@ -502,19 +503,18 @@ canvas {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url("assets/marcaHover.gif") no-repeat center center;
+  width: 170px;
+  height: 170px;
+  background: url("assets/marcaHover.png") no-repeat center center;
   background-size: cover;
   border-radius: 20px;
   opacity: 0;
-  transition: opacity 0.6s;
+  transition: opacity 1.5s;
   z-index: 1;
 }
 
 .marca a:hover::after {
-  opacity: 0.3;
+  opacity: 1;
 }
 
 @media (max-width: 320px) {
