@@ -1,21 +1,17 @@
 * {
   box-sizing: border-box;
 }
-
 a {
   text-decoration: none;
   color: #283e4f;
 }
-
 li {
   list-style: none;
 }
-
 ul {
   padding: 0;
   margin-top: 0;
 }
-
 body,
 html {
   margin: 0;
@@ -31,7 +27,6 @@ html {
   font-optical-sizing: auto;
   font-style: normal;
 }
-
 canvas {
   display: block;
   position: absolute;
@@ -53,6 +48,8 @@ canvas {
   background-color: #fff;
   box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
   z-index: 2;
+  /* Permite cliques passarem pelo card */
+  /* pointer-events: none;  */
 }
 
 .card.is-active .card-header {
@@ -104,10 +101,12 @@ canvas {
 
 .card-cover {
   width: 100%;
-  height: 160px;
+  height: 100%;
   position: absolute;
+  height: 160px;
   top: -20%;
   left: 0;
+  will-change: top;
   background-size: cover;
   background-position: center;
   filter: blur(30px);
@@ -120,6 +119,9 @@ canvas {
   height: 100px;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
   border-radius: 50%;
+  -o-object-position: center;
+  object-position: center;
+  -o-object-fit: cover;
   object-fit: cover;
   position: absolute;
   bottom: 0;
@@ -170,6 +172,21 @@ canvas {
   padding: 20px;
 }
 
+.card::-webkit-scrollbar {
+  width: 0.1px;
+}
+
+.card::-webkit-scrollbar-thumb {
+  background: #95b3c7;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.card::-webkit-scrollbar-track {
+  background: #c6dbe9;
+  border-radius: 12px;
+}
+
 .card-desc {
   margin: 0;
   color: #43647a;
@@ -200,7 +217,9 @@ canvas {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transform: 0.3s;
   background-color: rgba(93, 133, 193, 0.05);
+  border-radius: 50%;
   margin-right: 10px;
 }
 
@@ -212,6 +231,7 @@ canvas {
 .card-social a:last-child {
   margin-right: 0;
 }
+
 .card-timeline {
   margin-top: 30px;
   position: relative;
@@ -246,7 +266,9 @@ canvas {
   left: 37px;
   width: 8px;
   height: 8px;
+  border: 2px solid linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
   border-radius: 50%;
+  color: rgba(134, 134, 134, 0.7);
   background: linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
   text-indent: -35px;
   line-height: 0.6;
@@ -261,6 +283,7 @@ canvas {
 
 .card-item-desc {
   color: #283e4f;
+  position: relative;
   font-weight: 400;
   line-height: 1.6;
   font-size: clamp(14px, 1.4vw + 7px, 14px);
@@ -274,7 +297,20 @@ canvas {
 }
 
 .card-item-project:after {
-  display: none;
+  content: attr(data-year);
+  width: 10px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
+  border-radius: 50%;
+  color: rgba(134, 134, 134, 0.7);
+  background: linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
+  text-indent: -35px;
+  line-height: 0.6;
+  font-size: clamp(10px, 1vw + 5px, 10px);
 }
 
 .card-item-desc li {
@@ -289,18 +325,20 @@ canvas {
   left: -6px;
   width: 8px;
   height: 2px;
+  border: 2px solid linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
+  color: rgba(134, 134, 134, 0.7);
   background: linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
+  text-indent: -35px;
+  line-height: 0.6;
+  font-size: clamp(10px, 1vw + 5px, 10px);
 }
 
 .card-section {
   display: none;
-  opacity: 0;
-  transition: opacity 0.5s ease;
 }
 
 .card-section.is-active {
   display: block;
-  opacity: 1;
   animation: fadeIn 0.9s both;
 }
 
@@ -311,15 +349,19 @@ canvas {
   position: sticky;
   bottom: 0;
   left: 0;
-  z-index: 3;
 }
 
 .card-buttons button {
   flex: 1 1 auto;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   background: 0;
   border: 0;
   padding: 15px 5px;
   cursor: pointer;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   color: #182738;
   transition: 0.3s;
   outline: 0;
@@ -327,34 +369,35 @@ canvas {
   font-size: clamp(14px, 1.4vw + 7px, 14px);
 }
 
-.card-buttons button:hover,
-.card-buttons button.is-active {
+.card-buttons button:first-child {
+  border-top-left-radius: 0px;
+}
+
+.card-buttons button:last-child {
+  border-top-right-radius: 0px;
+}
+
+.card-buttons button.is-active,
+.card-buttons button:hover {
   color: #c6dbe9;
+  /* background: linear-gradient(
+    to bottom,
+    rgba(68, 100, 122, 0) 0%,
+    rgba(69, 100, 122, 0.2) 44%,
+    rgba(70, 100, 122, 0.4) 100%
+  ); */
   background: #283e4f;
 }
 
-/* -----------------------------------
-   MODO ESCURO
------------------------------------- */
-body.dark-mode {
-  background-color: #121212;
-  color: #f0f0f0;
-}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(40px);
+  }
 
-body.dark-mode .card {
-  background-color: #1f1f1f;
-  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .card-buttons button {
-  background-color: #2a2a2a;
-  color: #f0f0f0;
-}
-
-body.dark-mode .card-buttons button:hover,
-body.dark-mode .card-buttons button.is-active {
-  background-color: #43647a;
-  color: #fff;
+  100% {
+    opacity: 1;
+  }
 }
 
 .card-contact-wrapper {
@@ -396,17 +439,16 @@ body.dark-mode .card-buttons button.is-active {
   align-items: center;
   justify-content: center;
   margin: 24px;
-}
-
-.card-reuniao button {
-  background: rgb(135, 181, 206);
-  border: none;
-  color: #283e4f;
-  text-align: center;
-  width: 180px;
-  height: 50px;
-  border-radius: 5px;
-  cursor: pointer;
+  button {
+    background: rgb(135, 181, 206);
+    border: none;
+    color: #283e4f;
+    text-align: center;
+    width: 180px;
+    height: 50px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 }
 
 .btnHover {
@@ -445,7 +487,6 @@ body.dark-mode .card-buttons button.is-active {
   padding-top: calc(100% * 2.25);
 }
 
-/* Marca com efeito hover */
 .marca a {
   display: flex;
   width: 100%;
@@ -491,25 +532,19 @@ body.dark-mode .card-buttons button.is-active {
   opacity: 1;
 }
 
-/* -----------------------------------
-   RESPONSIVO
------------------------------------- */
 @media (max-width: 320px) {
   .card-fullname {
     font-size: clamp(10px, 1vw + 5px, 10px);
   }
-
   .card-contact svg {
     display: none;
   }
-
   .card-buttons {
     flex-direction: column;
     border: #182738 solid 1px;
     border-radius: 13px;
     margin-top: 20px;
   }
-
   .card-buttons .is-active {
     font-size: clamp(12px, 1.2vw + 6px, 12px);
   }
@@ -519,45 +554,27 @@ body.dark-mode .card-buttons button.is-active {
   .card {
     overflow-y: auto;
   }
-
   #experience {
     overflow-y: auto;
     height: 1200px;
   }
-
   .card-content {
     padding: 10px;
   }
-
-  .card-timeline:after,
+  .card-timeline:after {
+    display: none;
+  }
   .card-item:after {
     display: none;
   }
-
   .card-item {
     padding: 0;
     margin-bottom: 24px;
   }
-
   .card-contact a {
     font-size: clamp(12px, 1.2vw + 6px, 12px);
   }
-
   .contact-me {
     text-align: center;
-  }
-}
-
-/* -----------------------------------
-   ANIMAÇÕES
------------------------------------- */
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translate(40px);
-  }
-
-  100% {
-    opacity: 1;
   }
 }
