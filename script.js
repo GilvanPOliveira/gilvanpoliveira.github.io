@@ -201,6 +201,34 @@ const handleButtonClick = (e) => {
   e.target.setAttribute("aria-selected", "true");
 };
 
+// Modo escuro
+const toggleThemeButton = document.getElementById("toggle-theme");
+const body = document.body;
+
+const applyTheme = (theme) => {
+  if (theme === "dark") {
+    body.classList.add("dark-mode");
+    toggleThemeButton.textContent = "Modo Claro";
+  } else {
+    body.classList.remove("dark-mode");
+    toggleThemeButton.textContent = "Modo Escuro";
+  }
+};
+
+const toggleTheme = () => {
+  const isDark = body.classList.toggle("dark-mode");
+  const newTheme = isDark ? "dark" : "light";
+  localStorage.setItem("theme", newTheme);
+  toggleThemeButton.textContent = isDark ? "Modo Claro" : "Modo Escuro";
+};
+
+toggleThemeButton.addEventListener("click", toggleTheme);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  applyTheme(savedTheme);
+});
+
 // Inicialização
 (() => {
   resizeCanvas();
