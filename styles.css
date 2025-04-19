@@ -42,9 +42,6 @@ canvas {
   z-index: 0;
 }
 
-/* -----------------------------------
-   CARD
------------------------------------- */
 .card {
   display: flex;
   flex-direction: column;
@@ -215,7 +212,6 @@ canvas {
 .card-social a:last-child {
   margin-right: 0;
 }
-
 .card-timeline {
   margin-top: 30px;
   position: relative;
@@ -361,6 +357,140 @@ body.dark-mode .card-buttons button.is-active {
   color: #fff;
 }
 
+.card-contact-wrapper {
+  margin-top: 20px;
+}
+
+.card-contact {
+  display: flex;
+  align-items: center;
+  color: #283e4f;
+  cursor: pointer;
+  font-size: clamp(14px, 1.4vw + 7px, 14px);
+  margin-left: 20px;
+}
+
+.card-contact a {
+  display: flex;
+  align-items: center;
+  font-size: clamp(12px, 1.4vw + 7px, 14px);
+}
+
+.card-contact + .card-contact {
+  margin-top: 12px;
+  margin-left: 20px;
+}
+
+.card-contact svg {
+  flex-shrink: 0;
+  width: 30px;
+  min-height: 34px;
+  margin-right: 12px;
+  transition: 0.3s;
+  padding-right: 12px;
+  border-right: 1px solid #c6dbe9;
+}
+
+.card-reuniao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 24px;
+}
+
+.card-reuniao button {
+  background: rgb(135, 181, 206);
+  border: none;
+  color: #283e4f;
+  text-align: center;
+  width: 180px;
+  height: 50px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btnHover {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.btnHover text {
+  position: relative;
+  z-index: 5;
+  transition: color 1s;
+}
+
+.btnHover:hover text {
+  color: #95b3c7;
+}
+
+.btnHover span {
+  position: absolute;
+  display: block;
+  content: "";
+  z-index: 0;
+  width: 0;
+  height: 0;
+  left: 50%;
+  top: 50%;
+  border-radius: 100%;
+  background: #182738;
+  transform: translate(-50%, -50%);
+  transition: width 1s, padding-top 1s;
+}
+
+.btnHover:hover span {
+  width: calc(100% * 2.25);
+  padding-top: calc(100% * 2.25);
+}
+
+/* Marca com efeito hover */
+.marca a {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  position: relative;
+  margin-top: 20px;
+}
+
+.marca img {
+  position: relative;
+  max-width: 130px;
+  max-height: 130px;
+  background-size: cover;
+  z-index: 2;
+  transition: opacity 1.5s;
+}
+
+.marca img:hover {
+  opacity: 0;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
+}
+
+.marca a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url("assets/marcaHover.gif") no-repeat center center;
+  mask-image: url("assets/marca.png");
+  mask-size: 65px;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 1.5s;
+  z-index: 1;
+}
+
+.marca a:hover::after {
+  opacity: 1;
+}
+
 /* -----------------------------------
    RESPONSIVO
 ------------------------------------ */
@@ -368,15 +498,18 @@ body.dark-mode .card-buttons button.is-active {
   .card-fullname {
     font-size: clamp(10px, 1vw + 5px, 10px);
   }
+
   .card-contact svg {
     display: none;
   }
+
   .card-buttons {
     flex-direction: column;
     border: #182738 solid 1px;
     border-radius: 13px;
     margin-top: 20px;
   }
+
   .card-buttons .is-active {
     font-size: clamp(12px, 1.2vw + 6px, 12px);
   }
@@ -386,20 +519,32 @@ body.dark-mode .card-buttons button.is-active {
   .card {
     overflow-y: auto;
   }
+
   #experience {
     overflow-y: auto;
     height: 1200px;
   }
+
   .card-content {
     padding: 10px;
   }
+
   .card-timeline:after,
   .card-item:after {
     display: none;
   }
+
   .card-item {
     padding: 0;
     margin-bottom: 24px;
+  }
+
+  .card-contact a {
+    font-size: clamp(12px, 1.2vw + 6px, 12px);
+  }
+
+  .contact-me {
+    text-align: center;
   }
 }
 
