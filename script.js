@@ -1,7 +1,6 @@
 const buttons = document.querySelectorAll(".card-buttons button");
 const sections = document.querySelectorAll(".card-section");
 const card = document.querySelector(".card");
-
 const canvas = document.getElementById("c");
 const ctx = canvas.getContext("2d");
 
@@ -12,7 +11,6 @@ const animations = [];
 const colorPicker = (() => {
   const colors = ["#182738", "#283E4F", "#43647A", "#698EA4", "#95B3C7", "#C6DBE9"];
   let index = 0;
-
   return {
     next: () => {
       index = (index + 1) % colors.length;
@@ -79,7 +77,13 @@ const handleEvent = (e) => {
   const rippleSize = Math.min(200, canvasWidth * 0.4);
   const minCoverDuration = 750;
 
-  const pageFill = new Circle({ x: e.pageX, y: e.pageY, r: 0, fill: nextColor });
+  const pageFill = new Circle({
+    x: e.pageX,
+    y: e.pageY,
+    r: 0,
+    fill: nextColor,
+  });
+
   const fillAnimation = anime({
     targets: pageFill,
     r: targetR,
@@ -171,7 +175,7 @@ const handleInactiveUser = () => {
   document.addEventListener("touchstart", clear);
 };
 
-// Navegação entre seções do card
+// Troca entre seções
 const handleButtonClick = (e) => {
   const targetSection = e.target.getAttribute("data-section");
   const section = document.querySelector(targetSection);
@@ -183,7 +187,9 @@ const handleButtonClick = (e) => {
   }
 
   if (window.innerWidth <= 320) {
-    if (["#about", "#contact", "#experience", "#project"].includes(targetSection)) {
+    if (
+      ["#about", "#contact", "#experience", "#project"].includes(targetSection)
+    ) {
       card.classList.remove("is-active");
     } else {
       card.classList.add("is-active");
@@ -196,12 +202,12 @@ const handleButtonClick = (e) => {
   e.target.classList.add("is-active");
   section.classList.add("is-active");
 
-  // Atualiza aria-selected para acessibilidade
+  // Acessibilidade
   buttons.forEach((btn) => btn.setAttribute("aria-selected", "false"));
   e.target.setAttribute("aria-selected", "true");
 };
 
-// Modo escuro
+// MODO ESCURO
 const toggleThemeButton = document.getElementById("toggle-theme");
 const body = document.body;
 
