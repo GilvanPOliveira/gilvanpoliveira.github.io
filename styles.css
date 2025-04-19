@@ -1,17 +1,21 @@
 * {
   box-sizing: border-box;
 }
+
 a {
   text-decoration: none;
   color: #283e4f;
 }
+
 li {
   list-style: none;
 }
+
 ul {
   padding: 0;
   margin-top: 0;
 }
+
 body,
 html {
   margin: 0;
@@ -27,6 +31,7 @@ html {
   font-optical-sizing: auto;
   font-style: normal;
 }
+
 canvas {
   display: block;
   position: absolute;
@@ -37,6 +42,9 @@ canvas {
   z-index: 0;
 }
 
+/* -----------------------------------
+   CARD
+------------------------------------ */
 .card {
   display: flex;
   flex-direction: column;
@@ -48,8 +56,6 @@ canvas {
   background-color: #fff;
   box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
   z-index: 2;
-  /* Permite cliques passarem pelo card */
-  /* pointer-events: none;  */
 }
 
 .card.is-active .card-header {
@@ -101,12 +107,10 @@ canvas {
 
 .card-cover {
   width: 100%;
-  height: 100%;
-  position: absolute;
   height: 160px;
+  position: absolute;
   top: -20%;
   left: 0;
-  will-change: top;
   background-size: cover;
   background-position: center;
   filter: blur(30px);
@@ -119,9 +123,6 @@ canvas {
   height: 100px;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
   border-radius: 50%;
-  -o-object-position: center;
-  object-position: center;
-  -o-object-fit: cover;
   object-fit: cover;
   position: absolute;
   bottom: 0;
@@ -172,21 +173,6 @@ canvas {
   padding: 20px;
 }
 
-.card::-webkit-scrollbar {
-  width: 0.1px;
-}
-
-.card::-webkit-scrollbar-thumb {
-  background: #95b3c7;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-
-.card::-webkit-scrollbar-track {
-  background: #c6dbe9;
-  border-radius: 12px;
-}
-
 .card-desc {
   margin: 0;
   color: #43647a;
@@ -217,9 +203,7 @@ canvas {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transform: 0.3s;
   background-color: rgba(93, 133, 193, 0.05);
-  border-radius: 50%;
   margin-right: 10px;
 }
 
@@ -266,9 +250,7 @@ canvas {
   left: 37px;
   width: 8px;
   height: 8px;
-  border: 2px solid linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
   border-radius: 50%;
-  color: rgba(134, 134, 134, 0.7);
   background: linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
   text-indent: -35px;
   line-height: 0.6;
@@ -283,7 +265,6 @@ canvas {
 
 .card-item-desc {
   color: #283e4f;
-  position: relative;
   font-weight: 400;
   line-height: 1.6;
   font-size: clamp(14px, 1.4vw + 7px, 14px);
@@ -297,20 +278,7 @@ canvas {
 }
 
 .card-item-project:after {
-  content: attr(data-year);
-  width: 10px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: 8px;
-  height: 8px;
-  border: 2px solid linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
-  border-radius: 50%;
-  color: rgba(134, 134, 134, 0.7);
-  background: linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
-  text-indent: -35px;
-  line-height: 0.6;
-  font-size: clamp(10px, 1vw + 5px, 10px);
+  display: none;
 }
 
 .card-item-desc li {
@@ -325,20 +293,18 @@ canvas {
   left: -6px;
   width: 8px;
   height: 2px;
-  border: 2px solid linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
-  color: rgba(134, 134, 134, 0.7);
   background: linear-gradient(to bottom, #43647a 0%, #283e4f 100%);
-  text-indent: -35px;
-  line-height: 0.6;
-  font-size: clamp(10px, 1vw + 5px, 10px);
 }
 
 .card-section {
   display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
 .card-section.is-active {
   display: block;
+  opacity: 1;
   animation: fadeIn 0.9s both;
 }
 
@@ -349,19 +315,15 @@ canvas {
   position: sticky;
   bottom: 0;
   left: 0;
+  z-index: 3;
 }
 
 .card-buttons button {
   flex: 1 1 auto;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
   background: 0;
   border: 0;
   padding: 15px 5px;
   cursor: pointer;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   color: #182738;
   transition: 0.3s;
   outline: 0;
@@ -369,169 +331,39 @@ canvas {
   font-size: clamp(14px, 1.4vw + 7px, 14px);
 }
 
-.card-buttons button:first-child {
-  border-top-left-radius: 0px;
-}
-
-.card-buttons button:last-child {
-  border-top-right-radius: 0px;
-}
-
-.card-buttons button.is-active,
-.card-buttons button:hover {
+.card-buttons button:hover,
+.card-buttons button.is-active {
   color: #c6dbe9;
-  /* background: linear-gradient(
-    to bottom,
-    rgba(68, 100, 122, 0) 0%,
-    rgba(69, 100, 122, 0.2) 44%,
-    rgba(70, 100, 122, 0.4) 100%
-  ); */
   background: #283e4f;
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translate(40px);
-  }
-
-  100% {
-    opacity: 1;
-  }
+/* -----------------------------------
+   MODO ESCURO
+------------------------------------ */
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
 }
 
-.card-contact-wrapper {
-  margin-top: 20px;
+body.dark-mode .card {
+  background-color: #1f1f1f;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.1);
 }
 
-.card-contact {
-  display: flex;
-  align-items: center;
-  color: #283e4f;
-  cursor: pointer;
-  font-size: clamp(14px, 1.4vw + 7px, 14px);
-  margin-left: 20px;
+body.dark-mode .card-buttons button {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
 }
 
-.card-contact a {
-  display: flex;
-  align-items: center;
-  font-size: clamp(12px, 1.4vw + 7px, 14px);
+body.dark-mode .card-buttons button:hover,
+body.dark-mode .card-buttons button.is-active {
+  background-color: #43647a;
+  color: #fff;
 }
 
-.card-contact + .card-contact {
-  margin-top: 12px;
-  margin-left: 20px;
-}
-
-.card-contact svg {
-  flex-shrink: 0;
-  width: 30px;
-  min-height: 34px;
-  margin-right: 12px;
-  transition: 0.3s;
-  padding-right: 12px;
-  border-right: 1px solid #c6dbe9;
-}
-
-.card-reuniao {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 24px;
-  button {
-    background: rgb(135, 181, 206);
-    border: none;
-    color: #283e4f;
-    text-align: center;
-    width: 180px;
-    height: 50px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-}
-
-.btnHover {
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-}
-
-.btnHover text {
-  position: relative;
-  z-index: 5;
-  transition: color 1s;
-}
-
-.btnHover:hover text {
-  color: #95b3c7;
-}
-
-.btnHover span {
-  position: absolute;
-  display: block;
-  content: "";
-  z-index: 0;
-  width: 0;
-  height: 0;
-  left: 50%;
-  top: 50%;
-  border-radius: 100%;
-  background: #182738;
-  transform: translate(-50%, -50%);
-  transition: width 1s, padding-top 1s;
-}
-
-.btnHover:hover span {
-  width: calc(100% * 2.25);
-  padding-top: calc(100% * 2.25);
-}
-
-.marca a {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  position: relative;
-  margin-top: 20px;
-}
-
-.marca img {
-  position: relative;
-  max-width: 130px;
-  max-height: 130px;
-  background-size: cover;
-  z-index: 2;
-  transition: opacity 1.5s;
-}
-
-.marca img:hover {
-  opacity: 0;
-  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
-}
-
-.marca a::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: url("assets/marcaHover.gif") no-repeat center center;
-  mask-image: url("assets/marca.png");
-  mask-size: 65px;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  background-size: cover;
-  background-position: center;
-  mix-blend-mode: screen;
-  opacity: 0;
-  transition: opacity 1.5s;
-  z-index: 1;
-}
-
-.marca a:hover::after {
-  opacity: 1;
-}
-
+/* -----------------------------------
+   RESPONSIVO
+------------------------------------ */
 @media (max-width: 320px) {
   .card-fullname {
     font-size: clamp(10px, 1vw + 5px, 10px);
@@ -561,9 +393,7 @@ canvas {
   .card-content {
     padding: 10px;
   }
-  .card-timeline:after {
-    display: none;
-  }
+  .card-timeline:after,
   .card-item:after {
     display: none;
   }
@@ -571,10 +401,18 @@ canvas {
     padding: 0;
     margin-bottom: 24px;
   }
-  .card-contact a {
-    font-size: clamp(12px, 1.2vw + 6px, 12px);
+}
+
+/* -----------------------------------
+   ANIMAÇÕES
+------------------------------------ */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(40px);
   }
-  .contact-me {
-    text-align: center;
+
+  100% {
+    opacity: 1;
   }
 }
