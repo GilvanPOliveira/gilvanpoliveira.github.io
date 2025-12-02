@@ -1,88 +1,54 @@
-# Portfólio | Gilvan Oliveira
+# Gilvan Oliveira
 
-## ✨ Sobre
+Portfólio profissional desenvolvido em **Vue 3 + TypeScript + Vite** com **Tailwind CSS**, focado em apresentar meus principais projetos, stack e experimentos de forma clara, moderna e responsiva.
 
-Este é o portfólio pessoal de **Gilvan Oliveira**, desenvolvido com foco em acessibilidade, responsividade e performance.  
-A aplicação destaca experiências, projetos desenvolvidos com HTML, CSS, JavaScript e frameworks como React, Vue, Next.js e Angular, além de integrar interações visuais e agendamento de reuniões com `Cal.com`.
+> Projeto em evolução contínua: novos projetos e melhorias visuais/UX serão adicionados com frequência.
 
----
+## Arquitetura do projeto - Layout & UX
 
-## 📌 Funcionalidades
+### Seções da Home
+- Hero 
+  
+  Headline principal, resumo curto e CTAs para “Projetos em destaque” e “Lab”.
 
-- Página única com navegação suave entre seções
-- Animações dinâmicas com `anime.js`
-- Modo escuro com toggle e persistência
-- Integração com redes sociais (LinkedIn, GitHub, WhatsApp, Gmail)
-- Efeito de clique visual interativo
-- Responsivo para mobile e desktop
-- Agendamento direto via Cal.com
+- Projetos em destaque 
+  
+  Cards com:
+  - Nome do projeto
+  - Tagline
+  - Descrição curta
+  - Tech stack
+  - Papel exercido
+  - Status (online, building, lab) com badge e cores distintas
+  - Links para demo e código (quando disponíveis)
 
----
+- Sobre 
+  
+  Bloco textual com um resumo da trajetória e pontos-chave (bullet points).
 
-## 🖼️ Demonstração
+- Stack & Skills
 
-> Deploy: [Acesse Aqui](https://gilvanpoliveira.github.io)
+  Cards agrupando:
+  - Frontend / Backend / DevOps / etc.
+  - Cada card com lista de tecnologias/áreas.
 
----
+- Lab
 
-## ⚙️ Tecnologias utilizadas
+  Espaço para experimentos e estudos (ex.: VaCrochetando, SwipeTok, 3D printing, testes com IA, etc.).
 
-| Frontend         | Animação   | API Externa     |
-|------------------|------------|-----------------|
-| HTML5            | Anime.js   | Cal.com         |
-| CSS3 (Sass-like) | CSS Transitions | WhatsApp Link |
-| JavaScript ES6   | SVG        | Gmail Mailto    |
+- Contato (CTA)
 
----
+  Chamado direto para contato com:
+  - E-mail
+  - GitHub
+  - LinkedIn
 
-## 🚀 Instalação
+## 🛠 Tecnologias Utilizadas
 
-Abra o terminal e execute:
-
-    git clone https://github.com/GilvanPOliveira/portfolio-gilvan.git
-    cd portfolio-gilvan
-
-Depois, basta abrir o arquivo `index.html` no navegador.
-
----
-
-## 🧪 Estrutura de Arquivos
-
-    portfolio-gilvan/
-    ├── assets/              # Imagens, ícones, gifs
-    ├── index.html           # Página principal
-    ├── script.js            # Scripts com lógica de interação
-    ├── styles.css           # Estilo geral e tema
-    └── README.md            # Documentação do projeto
-
----
-
-## 🛠️ Como contribuir
-
-1. Faça um fork do projeto
-2. Crie uma nova branch: `git checkout -b minha-feature`
-3. Commit suas mudanças: `git commit -m 'feat: minha nova feature'`
-4. Faça push para a branch: `git push origin minha-feature`
-5. Abra um Pull Request
-
----
-
-## 🧑‍💻 Autor
-
-[**Gilvan Oliveira**](https://www.linkedin.com/in/gilvanpoliveira/)  
-Desenvolvedor Full Stack • Engenheiro Civil • Entusiasta de tecnologia
-
----
-
-## ⚖️ Licença
-
-Este projeto está sob a licença MIT.  
-Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
+[![My Skills](https://skillicons.dev/icons?i=html,css,typescript,tailwind,vue,vite,&perline=9)](https://github.com/GilvanPOliveira)
 
 ## 📬 Contato
 
-- WhatsApp: [+55 (81) 99258-1741](https://web.whatsapp.com/send?phone=5581992581741)
-- Email: [gilvanpoliveira06@gmail.com](mailto:gilvanpoliveira06@gmail.com)
-- GitHub: [@GilvanPOliveira](https://github.com/GilvanPOliveira)
+Se tiver dúvidas ou sugestões, fique à vontade para entrar em contato:
+- E-mail: gilvanoliveira06@gmail.com
+- Portifólio: [Gilvan Oliveira](https://gilvanpoliveira.github.io/)
