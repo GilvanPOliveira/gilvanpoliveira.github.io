@@ -40,12 +40,14 @@ const getColor = (index: number): Color => {
   return COLORS[safeIndex] as Color
 }
 
+let animationFrameId = 0
+let idleTimer: number | undefined
+let resize: (() => void) | undefined
+let handlePointer: ((evt: MouseEvent | TouchEvent) => void) | undefined
+
 onMounted(() => {
   const canvas = canvasRef.value
   if (!canvas) return
-
-  const context = canvas.getContext('2d')
-  if (!context) return
 
   const ctx = canvas.getContext('2d')
   if (!ctx) return
@@ -69,10 +71,9 @@ onMounted(() => {
   const particles: Particle[] = []
   const ripples: Ripple[] = []
 
-  let animationFrameId = 0
   let lastTime = performance.now()
 
-  const resize = () => {
+  resize = () => {
     const dpr = window.devicePixelRatio || 1
     width = window.innerWidth
     height = window.innerHeight
@@ -110,7 +111,10 @@ onMounted(() => {
       })
     }
 
-    const maxRadius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
+    const maxRadius = Math.hypot(
+      Math.max(x, width - x),
+      Math.max(y, height - y),
+    )
 
     ripples.push({
       x,
@@ -123,7 +127,7 @@ onMounted(() => {
     })
   }
 
-  const handlePointer = (evt: MouseEvent | TouchEvent) => {
+  handlePointer = (evt: MouseEvent | TouchEvent) => {
     let clientX: number | null = null
     let clientY: number | null = null
 
@@ -205,7 +209,7 @@ onMounted(() => {
   window.addEventListener('mousedown', handlePointer)
   window.addEventListener('touchstart', handlePointer, { passive: true })
 
-  const idleTimer = window.setTimeout(() => {
+  idleTimer = window.setTimeout(() => {
     spawnBurst(width / 2, height / 2)
   }, 1200)
 
@@ -213,14 +217,16 @@ onMounted(() => {
     lastTime = t
     loop(t)
   })
+})
 
-  onBeforeUnmount(() => {
-    window.cancelAnimationFrame(animationFrameId)
-    window.clearTimeout(idleTimer)
-    window.removeEventListener('resize', resize)
+onBeforeUnmount(() => {
+  if (animationFrameId) window.cancelAnimationFrame(animationFrameId)
+  if (idleTimer) window.clearTimeout(idleTimer)
+  if (resize) window.removeEventListener('resize', resize)
+  if (handlePointer) {
     window.removeEventListener('mousedown', handlePointer)
     window.removeEventListener('touchstart', handlePointer)
-  })
+  }
 })
 </script>
 
