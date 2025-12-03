@@ -30,7 +30,7 @@ export const featuredProjects: FeaturedProject[] = [
     tagline: 'Landing page para monetização com swipes no TikTok',
     description:
       'Página de vendas focada em conversão, apresentando planos, diferenciais e provas sociais para quem quer usar o formato de swipes para monetizar no TikTok.',
-    techStack: ['React', 'Vite', 'Tailwind CSS'],
+    techStack: ['Javascript', 'React', 'Vite', 'Tailwind CSS'],
     role: 'UI, copy inicial, estrutura de planos',
     status: 'online',
     githubUrl: '',
@@ -49,13 +49,15 @@ export const featuredProjects: FeaturedProject[] = [
     githubUrl: 'https://github.com/GilvanPOliveira/bsn_desafio_tecnico'
   },
   {
-    id: 'projeto-4',
-    name: 'Projeto em construção #2',
-    tagline: 'Outro slot para um futuro projeto importante',
+    id: 'calpav',
+    name: 'CalPav – Cálculo de Espessura de Pavimento de Concreto',
+    tagline: 'Ferramenta acadêmica para dimensionamento de pavimentos rígidos segundo DNIT',
     description:
-      'Segundo espaço para um projeto que complemente bem seu portfólio atual — pode ser algo mais voltado a backend, devops ou outro nicho estratégico.',
-    techStack: ['A definir'],
-    role: 'A definir',
-    status: 'building',
+      'Aplicação desenvolvida como TCC em Engenharia Civil para calcular a espessura de pavimentos de concreto, seguindo a metodologia brasileira recomendada pelo DNIT. Permite lançar cargas por eixo, número previsto de veículos e verificar se a espessura adotada atende aos critérios normativos, com visão organizada dos resultados e apoio à elaboração de memoriais de cálculo.',
+    techStack: ['Javascript', 'React', 'Styled-Components', 'Vite'],
+    role: 'Desenvolvimento da ferramenta, modelagem dos cálculos e validação acadêmica',
+    status: 'online',
+    liveUrl: 'https://tcc-2024-calpav.vercel.app/',
+    githubUrl: '',
   },
 ];

@@ -3,7 +3,7 @@ import { skillCategories } from '../../data/skills'
 </script>
 
 <template>
-  <section id="stack" class="scroll-mt-24 py-12 sm:py-16 lg:py-24 bg-slate-900/60 text-slate-100">
+  <section id="stack" class="scroll-mt-24 py-10 sm:py-10 lg:py-10 bg-slate-900/60 text-slate-100">
     <div class="max-w-5xl mx-auto px-4 space-y-6 sm:space-y-8">
       <header class="space-y-2">
         <p

@@ -33,8 +33,9 @@ function handleNavClick() {
       class="fixed inset-x-0 top-0 z-40 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-sm"
     >
       <nav class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <span class="font-semibold tracking-wide"> Gilvan Oliveira </span>
-
+        <a href="https://github.com/GilvanPOliveira">
+          <span class="font-semibold tracking-wide"> Gilvan Oliveira </span>
+        </a>
         <ul class="hidden md:flex items-center gap-6 text-sm text-slate-300">
           <li v-for="link in links" :key="link.href">
             <a :href="link.href" class="hover:text-emerald-400 transition">

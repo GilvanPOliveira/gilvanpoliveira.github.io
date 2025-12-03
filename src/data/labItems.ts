@@ -12,7 +12,7 @@ export interface LabItem {
 export const labItems: LabItem[] = [
   {
     id: '3d-print-biqu-b1',
-    title: 'Ajustes e firmware da Biqu B1',
+    title: 'Ajustes de firmware da Biqu B1',
     description:
       'Brincando com firmware Marlin, macros e configurações de hardware para melhorar a qualidade das impressões.',
     type: 'experimento',
@@ -21,7 +21,7 @@ export const labItems: LabItem[] = [
   },
   {
     id: 'portfolio-v1',
-    title: 'Portfólio v1 – HTML, CSS, JS + anime.js',
+    title: 'Portfólio antigo – HTML, CSS, JS + anime.js',
     type: 'estudo',
     description:
       'Primeira versão do meu portfólio, focada em acessibilidade, responsividade e animações com anime.js, dark mode com toggle e integração com Cal.com para agendamento de reuniões.',
@@ -30,7 +30,7 @@ export const labItems: LabItem[] = [
   },
   {
     id: 'origamid-labs',
-    title: 'Labs Origamid – UI e HTML/CSS avançado',
+    title: 'Labs Origamid – UI/UX, HTML/CSS avançado, Javascript',
     type: 'estudo',
     description:
       'Coleção de projetos práticos como Bikcraft, FlexBlog, Surfbot, Wildbeast e outros, focados em layout responsivo, Flexbox, Grid e boas práticas de semântica.',
@@ -48,10 +48,10 @@ export const labItems: LabItem[] = [
   },
   {
     id: 'fullstack-mundos',
-    title: 'Full Stack – Mundos 1 a 5',
+    title: 'Labs Fullstack - Tecnólogo em Desenvolvimento Fullstack',
     type: 'estudo',
     description:
-      'Organização das atividades do curso de Desenvolvimento Full Stack em “Mundos”, com projetos por níveis e alguns deploys, explorando front, back e integração.',
+      'Organização das atividades do curso Tecnólogo em Desenvolvimento Fullstack, dividido em “Mundos”, com projetos por níveis e alguns deploys, explorando front, back e integração.',
     tags: ['JavaScript', 'Node.js', 'Jupyter Notebook'],
     link: 'https://github.com/GilvanPOliveira/FullStack'
   },
@@ -60,7 +60,7 @@ export const labItems: LabItem[] = [
     title: 'Pokedex híbrida – Ionic + Angular',
     type: 'estudo',
     description:
-      'Versão de estudo da Pokedex híbrida criada para o desafio técnico da BSN: scroll infinito, detalhes ricos de cada Pokémon, múltiplas requisições em paralelo e favoritos em memória.',
+      'Versão de estudo da Pokedex híbrida criada para um desafio técnico para comprovar conhecimentos em Angular e Ionic, com: scroll infinito, detalhes ricos de cada Pokémon, múltiplas requisições em paralelo e favoritos em memória.',
     tags: ['Ionic 7', 'Angular 15+', 'TypeScript', 'PokeAPI'],
     link: 'https://github.com/GilvanPOliveira/bsn_desafio_tecnico'
   }

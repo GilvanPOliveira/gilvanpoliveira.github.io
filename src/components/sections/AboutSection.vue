@@ -10,8 +10,8 @@ const highlights = [
 </script>
 
 <template>
-  <section id="about" class="scroll-mt-24 py-16 md:py-24 bg-slate-950/60 text-slate-100">
-    <div class="max-w-4xl mx-auto px-4 space-y-6">
+  <section id="about" class="scroll-mt-24 py-10 md:py-10 bg-slate-950/60 text-slate-100">
+    <div class="max-w-5xl mx-auto px-6 space-y-6">
       <header class="space-y-2">
         <p class="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-400">Sobre</p>
         <h2 class="text-2xl md:text-3xl font-bold">Quem é o {{ profile.name }} ?</h2>
