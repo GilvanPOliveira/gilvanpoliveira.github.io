@@ -44,7 +44,7 @@ export const featuredProjects: FeaturedProject[] = [
       'Aplicação híbrida que consome a PokeAPI para listar Pokémons com scroll infinito, exibir detalhes completos (sprites, habilidades, movimentos, encontros) e gerenciar uma lista de favoritos em memória.',
     techStack: ['Ionic 7', 'Angular 15+', 'TypeScript', 'PokeAPI'],
     role: 'Frontend / Mobile Hybrid',
-    status: 'online',
+    status: 'lab',
     liveUrl: 'https://bsn-pokedex-app.vercel.app/',
     githubUrl: 'https://github.com/GilvanPOliveira/bsn_desafio_tecnico'
   },
@@ -53,10 +53,10 @@ export const featuredProjects: FeaturedProject[] = [
     name: 'CalPav – Cálculo de Espessura de Pavimento de Concreto',
     tagline: 'Ferramenta acadêmica para dimensionamento de pavimentos rígidos segundo DNIT',
     description:
-      'Aplicação desenvolvida como TCC em Engenharia Civil para calcular a espessura de pavimentos de concreto, seguindo a metodologia brasileira recomendada pelo DNIT. Permite lançar cargas por eixo, número previsto de veículos e verificar se a espessura adotada atende aos critérios normativos, com visão organizada dos resultados e apoio à elaboração de memoriais de cálculo.',
+      'Aplicação desenvolvida como estudo para o curso de Engenharia Civil para calcular a espessura de pavimentos de concreto, seguindo a metodologia brasileira recomendada pelo DNIT. Permite lançar cargas por eixo, número previsto de veículos e verificar se a espessura adotada atende aos critérios normativos, com visão organizada dos resultados e apoio à elaboração de memoriais de cálculo.',
     techStack: ['Javascript', 'React', 'Styled-Components', 'Vite'],
     role: 'Desenvolvimento da ferramenta, modelagem dos cálculos e validação acadêmica',
-    status: 'online',
+    status: 'lab',
     liveUrl: 'https://tcc-2024-calpav.vercel.app/',
     githubUrl: '',
   },
