@@ -48,10 +48,10 @@ const highlights = [
         </p>
       </div>
 
-      <ul class="mt-4 space-y-2 text-sm text-slate-300">
-        <li v-for="item in highlights" :key="item" class="flex gap-2">
-          <span class="mt-[3px] h-[6px] w-[6px] rounded-full bg-emerald-400"></span>
-          <span>{{ item }}</span>
+      <ul class="mt-4 space-y-2 text-sm leading-5 text-slate-300">
+        <li v-for="item in highlights" :key="item" class="flex items-start gap-2">
+          <span class="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-emerald-400"></span>
+          <span class="leading-5">{{ item }}</span>
         </li>
       </ul>
     </div>
