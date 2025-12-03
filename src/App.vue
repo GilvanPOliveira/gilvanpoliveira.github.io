@@ -111,18 +111,18 @@ function handleNavClick() {
       </div>
     </main>
 
-    <footer class="relative z-10 mt-4 bg-slate-950/90 border-t border-slate-800/80">
+    <footer class="relative z-10 mt-4 bg-slate-950 border-t border-slate-800/80">
       <div
-        class="max-w-5xl mx-auto px-4 py-3 text-xs text-slate-500 flex flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left"
+        class="max-w-5xl mx-auto px-4 pt-3 pb-2 text-[13px] text-slate-300 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"
       >
-        <span> © {{ new Date().getFullYear() }} Gilvan Oliveira </span>
+        <span class="block"> © {{ new Date().getFullYear() }} Gilvan Oliveira </span>
 
-        <span class="flex items-center gap-4 justify-center sm:justify-end">
+        <span class="flex items-center gap-4">
           <a
             href="https://github.com/GilvanPOliveira"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 hover:text-emerald-100 transition"
+            class="inline-flex items-center gap-2 text-slate-200 hover:text-emerald-300 transition"
             aria-label="GitHub de Gilvan Oliveira"
           >
             <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24">
@@ -137,10 +137,10 @@ function handleNavClick() {
             href="https://www.linkedin.com/in/gilvanpoliveira"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 hover:text-emerald-100 transition"
+            class="inline-flex items-center gap-2 text-slate-200 hover:text-emerald-300 transition"
             aria-label="LinkedIn de Gilvan Oliveira"
           >
-            <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24">
+            <svg class="h-5 w-4 shrink-0" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
                 d="M20.45 20.45h-3.56v-5.58c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM3.56 20.45h3.56V9H3.56v11.45Z"

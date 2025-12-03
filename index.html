@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="/icon.svg" />
@@ -7,10 +8,7 @@
 
   <title>Gilvan Oliveira – Desenvolvedor Full Stack & Engenheiro Civil</title>
 
-  <meta
-    name="description"
-    content="Portfólio de Gilvan Oliveira, desenvolvedor full stack e engenheiro civil. Projetos em Vue, React, Node, Angular, além de experiências com 3D printing, automação e arquitetura de software."
-  />
+  <meta name="description" content="Portfólio de Gilvan Oliveira, desenvolvedor full stack e engenheiro civil. Projetos em Vue, React, Node, Angular, além de experiências com 3D printing, automação e arquitetura de software." />
 
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://gilvanpoliveira.github.io/" />
@@ -19,69 +17,67 @@
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Gilvan Oliveira – Desenvolvedor Full Stack & Engenheiro Civil" />
-  <meta
-    property="og:description"
-    content="Portfólio com projetos em destaque, stack, laboratório de experimentos e contato direto para oportunidades."
-  />
+  <meta property="og:description" content="Portfólio com projetos em destaque, stack, laboratório de experimentos e contato direto para oportunidades." />
   <meta property="og:url" content="https://gilvanpoliveira.github.io/" />
   <meta property="og:image" content="https://gilvanpoliveira.github.io/icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  </noscript>
 </head>
 
 
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
 
-    <script type="text/javascript">
-      (function (C, A, L) {
-        let p = function (a, ar) {
-          a.q.push(ar);
+  <script type="text/javascript">
+    (function (C, A, L) {
+      let p = function (a, ar) {
+        a.q.push(ar);
+      };
+      let d = C.document;
+      C.Cal =
+        C.Cal ||
+        function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement('script')).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () {
+              p(api, arguments);
+            };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === 'string') {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ['initNamespace', namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
         };
-        let d = C.document;
-        C.Cal =
-          C.Cal ||
-          function () {
-            let cal = C.Cal;
-            let ar = arguments;
-            if (!cal.loaded) {
-              cal.ns = {};
-              cal.q = cal.q || [];
-              d.head.appendChild(d.createElement('script')).src = A;
-              cal.loaded = true;
-            }
-            if (ar[0] === L) {
-              const api = function () {
-                p(api, arguments);
-              };
-              const namespace = ar[1];
-              api.q = api.q || [];
-              if (typeof namespace === 'string') {
-                cal.ns[namespace] = cal.ns[namespace] || api;
-                p(cal.ns[namespace], ar);
-                p(cal, ['initNamespace', namespace]);
-              } else p(cal, ar);
-              return;
-            }
-            p(cal, ar);
-          };
-      })(window, 'https://app.cal.com/embed/embed.js', 'init');
+    })(window, 'https://app.cal.com/embed/embed.js', 'init');
 
-      Cal('init', 'reuniao-agendada', { origin: 'https://cal.com' });
+    Cal('init', 'reuniao-agendada', { origin: 'https://cal.com' });
 
-      Cal.ns['reuniao-agendada']('ui', {
-        cssVarsPerTheme: {
-          branding: { brandColor: '#637faa' },
-        },
-        hideEventTypeDetails: false,
-        layout: 'month_view',
-      });
-    </script>
-  </body>
+    Cal.ns['reuniao-agendada']('ui', {
+      cssVarsPerTheme: {
+        branding: { brandColor: '#637faa' },
+      },
+      hideEventTypeDetails: false,
+      layout: 'month_view',
+    });
+  </script>
+</body>
+
 </html>
