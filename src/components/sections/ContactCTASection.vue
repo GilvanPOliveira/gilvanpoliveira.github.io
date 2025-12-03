@@ -30,12 +30,11 @@ import { profile } from '../../data/profile'
           <span>Enviar E-mail</span>
         </a>
 
-        <button
-          type="button"
+        <a
+          href="https://cal.com/gilvanpoliveira/reuniao-agendada"
+          target="_blank"
+          rel="noopener noreferrer"
           class="w-full sm:w-auto px-5 py-2.5 rounded-full border border-slate-600 text-slate-100 font-medium hover:border-emerald-400 hover:text-emerald-100 transition text-sm flex items-center justify-center gap-2"
-          data-cal-namespace="reuniao-agendada"
-          data-cal-link="gilvanpoliveira/reuniao-agendada"
-          data-cal-config='{"layout":"month_view"}'
         >
           <svg class="h-5 w-5 shrink-0" viewBox="0 0 48 48">
             <path
@@ -49,7 +48,7 @@ import { profile } from '../../data/profile'
             />
           </svg>
           <span>Agendar uma reunião</span>
-        </button>
+        </a>
       </div>
       <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-2 sm:gap-3 pt-0">
         <a
