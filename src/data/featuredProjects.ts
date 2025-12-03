@@ -1,4 +1,4 @@
-export type ProjectStatus = 'online' | 'building' | 'paused';
+export type ProjectStatus = 'online' | 'building' | 'lab';
 
 export interface FeaturedProject {
   id: string;

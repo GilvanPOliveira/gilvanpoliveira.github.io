@@ -26,7 +26,7 @@ export const labItems: LabItem[] = [
     description:
       'Primeira versão do meu portfólio, focada em acessibilidade, responsividade e animações com anime.js, dark mode com toggle e integração com Cal.com para agendamento de reuniões.',
     tags: ['HTML5', 'CSS3', 'JavaScript', 'anime.js', 'Cal.com'],
-    link: 'https://gilvanpoliveira.github.io'
+    link: 'https://projetos-pessoais-portifolio-antigo.vercel.app/'
   },
   {
     id: 'origamid-labs',

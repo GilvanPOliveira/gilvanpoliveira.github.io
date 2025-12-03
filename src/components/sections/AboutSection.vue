@@ -21,7 +21,7 @@ const highlights = [
         <p>
           {{ profile.shortBio }}
         </p>
-        <p class="text-slate-400">
+        <p class="text-slate-200">
           Sou desenvolvedor full stack e engenheiro civil, apaixonado por resolver problemas de
           forma estruturada, seja em código, seja em projetos do mundo real. Nos últimos anos, venho
           consolidando uma base sólida em desenvolvimento web por meio de cursos como Origamid,
@@ -30,7 +30,7 @@ const highlights = [
           principalmente com JavaScript e TypeScript, construindo aplicações com Vue, React e
           Angular.
         </p>
-        <p class="text-slate-400">
+        <p class="text-slate-200">
           Tenho experiência também com Node.js, Ionic, HTML, CSS/Sass, Python (Flask), SQL e MySQL,
           o que me permite transitar com facilidade entre front-end, back-end e integrações. Pelo
           meu background em engenharia, também atuo com ferramentas como Revit, AutoCAD, Civil 3D,
@@ -39,7 +39,7 @@ const highlights = [
           minha impressora 3D para refinar calibração e confiabilidade do equipamento ou ajustar um
           Raspiberry Pi ou ESP32 para automatização ou apenas testes.
         </p>
-        <p class="text-slate-400">
+        <p class="text-slate-200">
           Gosto de enxergar meus projetos como um todo: arquitetura, experiência do usuário,
           utilidade, microinterações e como cada detalhe se conecta aos objetivos de negócio
           idealizado. Busco escrever código claro, consistente e sustentável, que facilite

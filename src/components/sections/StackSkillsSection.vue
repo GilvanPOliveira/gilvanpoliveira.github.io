@@ -30,7 +30,7 @@ import { skillCategories } from '../../data/skills'
           <h3 class="font-semibold text-slate-100">
             {{ category.label }}
           </h3>
-          <ul class="space-y-1 text-slate-400">
+          <ul class="space-y-1 text-slate-200">
             <li v-for="item in category.items" :key="item">
               {{ item }}
             </li>

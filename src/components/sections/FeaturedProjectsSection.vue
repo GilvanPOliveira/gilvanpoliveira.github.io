@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { featuredProjects } from '../../data/featuredProjects';
+import { featuredProjects } from '../../data/featuredProjects'
 
-const projects = featuredProjects;
+const projects = featuredProjects
 
 const statusLabel = {
   online: 'Online',
   building: 'Em construção',
   lab: 'Experimento',
-} as const;
+} as const
 
 const statusClass = {
-  online: 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300',
+  online: 'border-emerald-500/50 bg-emerald-500/10 text-emerald-100',
   building: 'border-amber-500/50 bg-amber-500/10 text-amber-300',
   lab: 'border-sky-500/50 bg-sky-500/10 text-sky-300',
-} as const;
+} as const
 
-type StatusKey = keyof typeof statusLabel;
+type StatusKey = keyof typeof statusLabel
 
 const normalizeStatus = (status: string): StatusKey | null => {
-  const normalized = status.toLowerCase().trim() as StatusKey;
-  return normalized in statusLabel ? normalized : null;
-};
+  const normalized = status.toLowerCase().trim() as StatusKey
+  return normalized in statusLabel ? normalized : null
+}
 
 const getStatusLabel = (status: string): string => {
-  const key = normalizeStatus(status);
-  if (key) return statusLabel[key];
-  return status;
-};
+  const key = normalizeStatus(status)
+  if (key) return statusLabel[key]
+  return status
+}
 
 const getStatusClass = (status: string): string => {
-  const key = normalizeStatus(status);
-  if (key) return statusClass[key];
-  return 'border-slate-600/70 bg-slate-900/60 text-slate-300';
-};
+  const key = normalizeStatus(status)
+  if (key) return statusClass[key]
+  return 'border-slate-600/70 bg-slate-900/60 text-slate-300'
+}
 </script>
 
 <template>
@@ -41,9 +41,7 @@ const getStatusClass = (status: string): string => {
     class="scroll-mt-24 py-12 sm:py-10 lg:py-10 bg-slate-900/60 text-slate-100"
   >
     <div class="max-w-5xl mx-auto px-4 space-y-6 sm:space-y-8">
-      <header
-        class="space-y-2"
-      >
+      <header class="space-y-2">
         <p
           class="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-emerald-400"
         >
@@ -53,7 +51,8 @@ const getStatusClass = (status: string): string => {
           Projetos que representam meu trabalho
         </h2>
         <p class="text-xs sm:text-sm md:text-base text-slate-400 max-w-2xl">
-          Uma curadoria dos projetos que mais traduzem a forma como eu penso sobre produto, arquitetura e experiência.
+          Uma curadoria dos projetos que mais traduzem a forma como eu penso sobre produto,
+          arquitetura e experiência.
         </p>
       </header>
 
@@ -64,14 +63,12 @@ const getStatusClass = (status: string): string => {
           v-reveal="{ delay: index * 80, glow: true }"
           class="group relative flex h-full flex-col rounded-2xl border border-slate-800 bg-slate-950/50 p-4 sm:p-5 shadow-sm transition hover:-translate-y-1 hover:border-emerald-400/60 hover:shadow-lg hover:shadow-emerald-500/10"
         >
-          <div
-            class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3"
-          >
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
             <div class="space-y-1">
               <h3 class="text-base sm:text-lg font-semibold">
                 {{ project.name }}
               </h3>
-              <p class="text-[11px] sm:text-[9px] text-emerald-300">
+              <p class="text-[11px] sm:text-[9px] text-emerald-100">
                 {{ project.tagline }}
               </p>
             </div>
@@ -100,7 +97,7 @@ const getStatusClass = (status: string): string => {
             </span>
           </div>
 
-          <p class="mt-3 text-[11px] sm:text-xs text-slate-400">
+          <p class="mt-3 text-[11px] sm:text-xs text-slate-200">
             Papel:
             <span class="text-slate-200">{{ project.role }}</span>
           </p>
@@ -116,7 +113,6 @@ const getStatusClass = (status: string): string => {
               class="inline-flex justify-center sm:justify-start items-center gap-1 rounded-full bg-emerald-500 px-4 py-2 font-medium text-slate-950 transition hover:bg-emerald-400"
             >
               Ver online
-              <span aria-hidden="true">↗</span>
             </a>
 
             <a
@@ -124,16 +120,12 @@ const getStatusClass = (status: string): string => {
               :href="project.githubUrl"
               target="_blank"
               rel="noreferrer"
-              class="inline-flex justify-center sm:justify-start items-center gap-1 rounded-full border border-slate-700 px-4 py-2 font-medium text-slate-100 transition hover:border-emerald-400 hover:text-emerald-300"
+              class="inline-flex justify-center sm:justify-start items-center gap-1 rounded-full border border-slate-700 px-4 py-2 font-medium text-slate-100 transition hover:border-emerald-400 hover:text-emerald-100"
             >
               Ver código
-              <span aria-hidden="true">&lt;/&gt;</span>
             </a>
 
-            <span
-              v-if="!project.liveUrl && !project.githubUrl"
-              class="text-[11px] text-slate-500"
-            >
+            <span v-if="!project.liveUrl && !project.githubUrl" class="text-[11px] text-slate-500">
               Links serão adicionados quando o projeto estiver publicado.
             </span>
           </div>

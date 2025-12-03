@@ -5,14 +5,22 @@ import { profile } from '../../data/profile'
 <template>
   <section
     id="hero"
-    class="scroll-mt-24 min-h-[70vh] sm:min-h-[80vh] flex items-center justify-center bg-slate-950/60 text-slate-100"
+    class="scroll-mt-24 min-h-[70vh] sm:min-h-[80vh] flex items-center justify-center bg-slate-950/60 text-slate-100 pt-10 pb-10"
   >
     <div class="w-full max-w-3xl px-4 text-center space-y-4 sm:space-y-6">
-      <a href="https://github.com/GilvanPOliveira">
+      <a
+        href="https://github.com/GilvanPOliveira"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Abrir GitHub de Gilvan Oliveira"
+        class="inline-block w-fit mx-auto"
+      >
         <img
           src="../../assets/perfil.png"
           alt="Foto de perfil de Gilvan Oliveira"
-          class="block mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-200 ring-2 ring-emerald-400/60 shadow-lg shadow-emerald-500/20"
+          width="256"
+          height="256"
+          class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-200 ring-2 ring-emerald-400/60 shadow-lg shadow-emerald-500/20"
         />
       </a>
       <p class="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-emerald-400">
@@ -46,8 +54,8 @@ import { profile } from '../../data/profile'
       <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-2 sm:gap-3 pt-3 sm:pt-4">
         <a
           v-reveal="{ glow: true }"
-          href="#lab"
-          class="w-full sm:w-auto px-5 py-2.5 rounded-full border border-slate-600 text-slate-100 font-medium hover:border-emerald-400 hover:text-emerald-300 transition text-sm"
+          href="#projects"
+          class="w-full sm:w-auto px-5 py-2.5 rounded-full border border-slate-600 text-slate-100 font-medium hover:border-emerald-400 hover:text-emerald-100 transition text-sm"
         >
           Ver projetos em destaque
         </a>
@@ -55,7 +63,7 @@ import { profile } from '../../data/profile'
         <a
           v-reveal="{ glow: true }"
           href="#lab"
-          class="w-full sm:w-auto px-5 py-2.5 rounded-full border border-slate-600 text-slate-100 font-medium hover:border-emerald-400 hover:text-emerald-300 transition text-sm"
+          class="w-full sm:w-auto px-5 py-2.5 rounded-full border border-slate-600 text-slate-100 font-medium hover:border-emerald-400 hover:text-emerald-100 transition text-sm"
         >
           Ir para o laboratório
         </a>
