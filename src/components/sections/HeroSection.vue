@@ -1,26 +1,12 @@
 <script setup lang="ts">
 import { profile } from '../../data/profile'
-import matrixBg from '../../assets/background.webp'
 </script>
 
 <template>
   <section
     id="hero"
-    class="relative overflow-hidden scroll-mt-24 min-h-[70vh] sm:min-h-[80vh] flex items-center justify-center bg-slate-950/60 text-slate-100 pt-10 pb-10"
+    class="scroll-mt-24 min-h-[70vh] sm:min-h-[80vh] flex items-center justify-center bg-slate-950/60 text-slate-100 pt-10 pb-10"
   >
-    <div
-      class="pointer-events-none absolute inset-0 -z-10 opacity-25"
-      aria-hidden="true"
-    >
-      <img
-        :src="matrixBg"
-        alt=""
-        loading="lazy"
-        decoding="async"
-        class="w-full h-full object-cover"
-      />
-    </div>
-
     <div class="w-full max-w-3xl px-4 text-center space-y-4 sm:space-y-6">
       <a
         href="https://github.com/GilvanPOliveira"
@@ -39,7 +25,6 @@ import matrixBg from '../../assets/background.webp'
           class="block mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-200 ring-2 ring-emerald-400/60 shadow-lg shadow-emerald-500/20"
         />
       </a>
-
       <p class="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-emerald-400">
         - Portifólio -
       </p>
