@@ -18,9 +18,11 @@ import { profile } from '../../data/profile'
         <img
           src="../../assets/perfil.webp"
           alt="Foto de perfil de Gilvan Oliveira"
-          width="159"
-          height="192"
-          class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-200 ring-2 ring-emerald-400/60 shadow-lg shadow-emerald-500/20"
+          width="128"
+          height="128"
+          fetchpriority="high"
+          decoding="async"
+          class="block mx-auto w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-200 ring-2 ring-emerald-400/60 shadow-lg shadow-emerald-500/20"
         />
       </a>
       <p class="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-emerald-400">
