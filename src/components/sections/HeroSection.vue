@@ -16,7 +16,7 @@ import { profile } from '../../data/profile'
         class="inline-block w-fit mx-auto"
       >
         <img
-          src="../../assets/perfil.png"
+          src="../../assets/perfil.webp"
           alt="Foto de perfil de Gilvan Oliveira"
           width="159"
           height="192"

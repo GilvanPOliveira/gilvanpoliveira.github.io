@@ -54,7 +54,9 @@ onMounted(() => {
 
   const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
-  if (prefersReducedMotion) {
+  const isSmallScreen = window.matchMedia?.('(max-width: 639px)').matches
+
+  if (prefersReducedMotion || isSmallScreen) {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     ctx.fillStyle = '#020617'
@@ -111,10 +113,7 @@ onMounted(() => {
       })
     }
 
-    const maxRadius = Math.hypot(
-      Math.max(x, width - x),
-      Math.max(y, height - y),
-    )
+    const maxRadius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
 
     ripples.push({
       x,
