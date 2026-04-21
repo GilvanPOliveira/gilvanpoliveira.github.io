@@ -1,54 +1,135 @@
-# Gilvan Oliveira
+# Portfolio
 
-Portfólio profissional desenvolvido em **Vue 3 + TypeScript + Vite** com **Tailwind CSS**, focado em apresentar meus principais projetos, stack e experimentos de forma clara, moderna e responsiva.
+Portfólio pessoal desenvolvido para apresentar projetos, stack principal e trajetória profissional, com integração direta à API do GitHub.
 
-> Projeto em evolução contínua: novos projetos e melhorias visuais/UX serão adicionados com frequência.
+## Sobre
 
-## Arquitetura do projeto - Layout & UX
+Aplicação web construída como vitrine técnica, permitindo visualizar repositórios reais, acessar detalhes dos projetos e manter o portfólio sempre atualizado a partir do GitHub.
 
-### Seções da Home
-- Hero 
-  
-  Headline principal, resumo curto e CTAs para “Projetos em destaque” e “Lab”.
+O projeto foi desenvolvido com foco em clareza visual, organização de interface e integração com dados externos.
 
-- Projetos em destaque 
-  
-  Cards com:
-  - Nome do projeto
-  - Tagline
-  - Descrição curta
-  - Tech stack
-  - Papel exercido
-  - Status (online, building, lab) com badge e cores distintas
-  - Links para demo e código (quando disponíveis)
+## Objetivo
 
-- Sobre 
-  
-  Bloco textual com um resumo da trajetória e pontos-chave (bullet points).
+Consolidar conhecimentos em desenvolvimento frontend e integração com APIs, incluindo:
 
-- Stack & Skills
+- componentização
+- responsividade
+- consumo de API externa
+- organização de interface
+- navegação entre páginas
+- integração com dados reais
 
-  Cards agrupando:
-  - Frontend / Backend / DevOps / etc.
-  - Cada card com lista de tecnologias/áreas.
+## Funcionalidades
 
-- Lab
+### Estrutura do portfólio
 
-  Espaço para experimentos e estudos (ex.: VaCrochetando, SwipeTok, 3D printing, testes com IA, etc.).
+- página inicial com apresentação
+- seção de projetos
+- página de detalhe do projeto
+- seção sobre
+- seção de contato
 
-- Contato (CTA)
+### Integração com GitHub
 
-  Chamado direto para contato com:
-  - E-mail
-  - GitHub
-  - LinkedIn
+- listagem de repositórios públicos
+- ordenação por atualização
+- leitura de README por projeto
+- acesso ao repositório no GitHub
+- acesso ao deploy quando disponível
 
-## 🛠 Tecnologias Utilizadas
+### Navegação
 
-[![My Skills](https://skillicons.dev/icons?i=html,css,typescript,tailwind,vue,vite,&perline=9)](https://github.com/GilvanPOliveira)
+- seleção de projeto
+- paginação de repositórios
+- navegação entre projetos
+- acesso à página detalhada
 
-## 📬 Contato
+### Responsividade
 
-Se tiver dúvidas ou sugestões, fique à vontade para entrar em contato:
-- E-mail: gilvanoliveira06@gmail.com
-- Portifólio: [Gilvan Oliveira](https://gilvanpoliveira.github.io/)
+- adaptação para desktop, tablet e mobile
+- ajuste de layout em telas pequenas
+- leitura do README apenas em telas maiores
+- botão de acesso ao README no mobile
+
+## Variáveis de ambiente
+
+O projeto utiliza variáveis para integração com a API do GitHub.
+
+```env
+VITE_GITHUB_USERNAME=seu_usuario_github
+VITE_GITHUB_TOKEN=seu_token_github
+```
+
+### Variáveis
+
+- `VITE_GITHUB_USERNAME`: usuário do GitHub utilizado na busca
+- `VITE_GITHUB_TOKEN`: token pessoal para autenticação e aumento do limite da API
+
+## Estrutura do repositório
+
+```text
+portfolio/
+|-- public/
+|-- src/
+|   |-- components/
+|   |-- router/
+|   |-- services/
+|   |-- views/
+|   |-- App.vue
+|   `-- main.ts
+|-- .env.example
+|-- package.json
+|-- tailwind.config.js
+|-- tsconfig.json
+`-- vite.config.ts
+```
+
+## Como executar
+
+```bash
+git clone <url-do-repositorio>
+cd portfolio
+npm install
+```
+
+Crie o `.env` a partir do `.env.example`.
+
+### Exemplo de `.env`
+
+```env
+VITE_GITHUB_USERNAME=seu_usuario_github
+VITE_GITHUB_TOKEN=seu_token_github
+```
+
+Execute:
+
+```bash
+npm run dev
+```
+
+## Como testar
+
+1. configurar o `.env` com usuário e token do GitHub
+2. iniciar o projeto localmente
+3. acessar a página de projetos
+4. validar listagem dos repositórios
+5. abrir um projeto específico
+6. verificar leitura do README
+7. testar comportamento responsivo
+
+## Stack
+
+[![My Skills](https://skillicons.dev/icons?i=vue,ts,vite,tailwind,github&perline=5)](https://skillicons.dev)
+
+- Vue 3
+- TypeScript
+- Vite
+- Tailwind CSS
+- GitHub API
+
+## Contato
+
+- Portfolio: https://gilvanpoliveira.github.io
+- Email: [gilvanoliveira06@gmail.com](mailto:gilvanoliveira06@gmail.com)
+- GitHub: https://github.com/GilvanPOliveira
+- LinkedIn: https://www.linkedin.com/in/gilvan-oliveira
