@@ -36,7 +36,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(12, 18, 33, 0.85);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -55,7 +55,7 @@ body {
   background-clip: text;
   color: transparent;
 }
- 
+
 .noise-overlay::before {
   content: '';
   position: absolute;

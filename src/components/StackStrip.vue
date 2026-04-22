@@ -22,10 +22,11 @@ function shouldShowFallback(label: string) {
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-2 justify-center">
+  <div class="flex flex-wrap justify-center gap-2" role="list" aria-label="Stacks e ferramentas">
     <div
       v-for="item in props.items"
       :key="item.label"
+      role="listitem"
       class="flex h-12 min-w-[44px] items-center"
       :title="item.label"
     >
@@ -34,14 +35,14 @@ function shouldShowFallback(label: string) {
         :src="getIconUrl(item.icon)"
         :alt="item.label"
         class="h-12 w-12 object-contain"
+        width="48"
+        height="48"
         loading="lazy"
+        decoding="async"
         @error="markAsFailed(item.label)"
       />
- 
-      <span
-        v-else
-        class="text-xs text-slate-300"
-      >
+
+      <span v-else class="text-xs text-slate-300">
         {{ item.label }}
       </span>
     </div>
