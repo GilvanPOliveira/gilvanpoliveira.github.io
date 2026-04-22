@@ -48,7 +48,7 @@ export const databasesRelational: StackItem[] = [
 export const databasesNoSQL: StackItem[] = [
   { label: 'MongoDB', icon: 'mongodb' },
   { label: 'Firebase', icon: 'firebase' },
-  { label: 'supabase', icon: 'supabase' },
+  { label: 'Supabase', icon: 'supabase' },
 ]
 
 export const mobile: StackItem[] = [
@@ -57,7 +57,7 @@ export const mobile: StackItem[] = [
   { label: 'Swift', icon: 'swift' },
 ]
 
-export const Tools: StackItem[] = [
+export const tools: StackItem[] = [
   { label: 'Git', icon: 'git' },
   { label: 'Postman', icon: 'postman' },
   { label: 'Android Studio', icon: 'androidstudio' },
@@ -78,17 +78,6 @@ export const engineeringAndOtherStudies: StackItem[] = [
   { label: 'Unreal Engine', icon: 'unrealengine' },
 ]
 
-export const studyStacks: StackItem[] = [
-  ...frontend,
-  ...styling,
-  ...backend,
-  ...databasesRelational,
-  ...databasesNoSQL,
-  ...mobile,
-  ...Tools,
-  ...engineeringAndOtherStudies,
-]
-
 export const studyStackGroups = [
   { title: 'Front-end', items: frontend },
   { title: 'Back-end', items: backend },
@@ -96,7 +85,7 @@ export const studyStackGroups = [
   { title: 'Banco de Dados (Relacional)', items: databasesRelational },
   { title: 'Banco de Dados (Não Relacional)', items: databasesNoSQL },
   { title: 'Mobile', items: mobile },
-  { title: 'Ferramentas', items: Tools },
+  { title: 'Ferramentas', items: tools },
   { title: 'Outros', items: engineeringAndOtherStudies },
 ]
 
@@ -107,11 +96,11 @@ export const formations = [
   },
   {
     title: 'Bacharelado em Engenharia Civil',
-    value: 'Centro Universitário - Unibra',
+    value: 'Centro Universitário UNIBRA',
   },
 ]
 
-export const formationsTec = [
+export const technicalCourses = [
   {
     title: 'Desenvolvedor Full Stack',
     value: 'Vai na Web',
