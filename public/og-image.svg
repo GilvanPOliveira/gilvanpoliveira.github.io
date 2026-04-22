@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Portfólio de Gilvan Oliveira</title>
+  <desc id="desc">Imagem social com nome, função e especialidades de Gilvan Oliveira.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#040611" />
+      <stop offset="100%" stop-color="#071226" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="50%" stop-color="#22d3ee" />
+      <stop offset="100%" stop-color="#86efac" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="168" cy="112" r="180" fill="#7c3aed" opacity="0.16" />
+  <circle cx="1050" cy="520" r="220" fill="#22d3ee" opacity="0.12" />
+  <circle cx="840" cy="120" r="120" fill="#86efac" opacity="0.08" />
+  <rect x="72" y="72" width="1056" height="486" rx="36" fill="#0b1328" opacity="0.72" />
+  <rect x="72" y="72" width="1056" height="486" rx="36" fill="none" stroke="#1e293b" />
+
+  <text x="120" y="178" fill="#67e8f9" font-size="26" font-family="Aptos, Segoe UI, sans-serif" letter-spacing="6">
+    PORTFÓLIO
+  </text>
+  <text x="120" y="282" fill="#f8fafc" font-size="72" font-weight="700" font-family="Aptos, Segoe UI, sans-serif">
+    Gilvan Oliveira
+  </text>
+  <text x="120" y="346" fill="#cbd5e1" font-size="36" font-family="Aptos, Segoe UI, sans-serif">
+    Desenvolvedor Full Stack
+  </text>
+  <text x="120" y="420" fill="#94a3b8" font-size="28" font-family="Aptos, Segoe UI, sans-serif">
+    Vue • React • Angular • Python • APIs REST • Acessibilidade
+  </text>
+
+  <rect x="120" y="464" width="420" height="10" rx="5" fill="url(#accent)" />
+  <text x="120" y="530" fill="#e2e8f0" font-size="28" font-family="Aptos, Segoe UI, sans-serif">
+    gilvanpoliveira.github.io
+  </text>
+</svg>
