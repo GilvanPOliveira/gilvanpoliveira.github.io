@@ -2,6 +2,115 @@
 import MatrixShell from '../components/MatrixShell.vue'
 import { siteConfig } from '../data/site'
 
+const calLink = 'gilvanpoliveira/reuniao-agendada'
+const calConfig = {
+  layout: 'month_view',
+  theme: 'dark',
+}
+const calendarButtonClass =
+  'inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/50 hover:bg-cyan-400/20 sm:w-auto'
+let calEmbedPromise: Promise<void> | null = null
+
+type CalCommand = ((command: string, ...args: unknown[]) => void) & { q?: unknown[] }
+
+declare global {
+  interface Window {
+    Cal?: CalCommand & {
+      loaded?: boolean
+      ns?: Record<string, CalCommand>
+      q?: unknown[]
+    }
+  }
+}
+
+function createCalStub() {
+  if (window.Cal) {
+    return
+  }
+
+  const cal = ((command: string, ...args: unknown[]) => {
+    const currentCal = window.Cal
+
+    if (!currentCal) {
+      return
+    }
+
+    currentCal.q = currentCal.q || []
+
+    if (command === 'init') {
+      const namespace = args[0]
+      const namespaceQueue = ((...namespaceArgs: unknown[]) => {
+        namespaceQueue.q = namespaceQueue.q || []
+        namespaceQueue.q.push(namespaceArgs)
+      }) as CalCommand & { q?: unknown[] }
+
+      if (typeof namespace === 'string') {
+        currentCal.ns = currentCal.ns || {}
+        currentCal.ns[namespace] = currentCal.ns[namespace] || namespaceQueue
+        currentCal.ns[namespace].q = currentCal.ns[namespace].q || []
+        currentCal.ns[namespace].q?.push([command, ...args])
+        currentCal.q.push(['initNamespace', namespace])
+      } else {
+        currentCal.q.push([command, ...args])
+      }
+
+      return
+    }
+
+    currentCal.q.push([command, ...args])
+  }) as NonNullable<Window['Cal']>
+
+  cal.loaded = false
+  cal.ns = {}
+  cal.q = []
+  window.Cal = cal
+}
+
+function loadCalEmbed() {
+  if (calEmbedPromise) {
+    return calEmbedPromise
+  }
+
+  calEmbedPromise = new Promise((resolve, reject) => {
+    createCalStub()
+
+    if (window.Cal?.loaded) {
+      resolve()
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://app.cal.com/embed/embed.js'
+    script.async = true
+    script.onload = () => {
+      window.Cal?.('init', 'reuniao-agendada', { origin: 'https://cal.com' })
+      window.Cal?.ns?.['reuniao-agendada']?.('ui', {
+        theme: 'dark',
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      })
+      resolve()
+    }
+    script.onerror = () => reject(new Error('Falha ao carregar o agendamento.'))
+    document.head.appendChild(script)
+    window.Cal!.loaded = true
+  })
+
+  return calEmbedPromise
+}
+
+async function openCalendar() {
+  try {
+    await loadCalEmbed()
+    window.Cal?.ns?.['reuniao-agendada']?.('modal', {
+      calLink,
+      config: calConfig,
+    })
+  } catch {
+    window.open(siteConfig.calendarUrl, '_blank', 'noopener,noreferrer')
+  }
+}
+
 const primaryActions = [
   {
     label: 'GitHub',
@@ -26,14 +135,6 @@ const primaryActions = [
     target: undefined,
     className:
       'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white sm:w-auto',
-  },
-  {
-    label: 'Agende uma conversa',
-    href: siteConfig.calendarUrl,
-    rel: 'noopener noreferrer',
-    target: '_blank',
-    className:
-      'inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/50 hover:bg-cyan-400/20 sm:w-auto',
   },
 ] as const
 </script>
@@ -80,6 +181,14 @@ const primaryActions = [
               >
                 {{ action.label }}
               </a>
+
+              <button
+                type="button"
+                :class="calendarButtonClass"
+                @click="openCalendar"
+              >
+                Agende uma conversa
+              </button>
             </div>
           </section>
         </div>
@@ -193,11 +302,10 @@ const primaryActions = [
                 </div>
               </a>
 
-              <a
-                :href="siteConfig.calendarUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group block rounded-2xl border border-cyan-400/20 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/40 hover:bg-cyan-400/10"
+              <button
+                type="button"
+                class="group block w-full rounded-2xl border border-cyan-400/20 bg-black/20 px-4 py-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/40 hover:bg-cyan-400/10"
+                @click="openCalendar"
               >
                 <div class="flex items-start justify-between gap-3">
                   <div>
@@ -222,7 +330,7 @@ const primaryActions = [
                     <path d="M16 2v4M8 2v4M3 10h18" />
                   </svg>
                 </div>
-              </a>
+              </button>
             </div>
           </div>
         </section>
