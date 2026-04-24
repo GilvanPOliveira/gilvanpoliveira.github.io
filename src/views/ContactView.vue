@@ -8,7 +8,7 @@ const calConfig = {
   theme: 'dark',
 }
 const calendarButtonClass =
-  'inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/50 hover:bg-cyan-400/20 sm:w-auto'
+  'inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/50 hover:bg-cyan-400/20 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto'
 let calEmbedPromise: Promise<void> | null = null
 
 type CalCommand = ((command: string, ...args: unknown[]) => void) & { q?: unknown[] }
@@ -118,7 +118,7 @@ const primaryActions = [
     rel: 'me noopener noreferrer',
     target: '_blank',
     className:
-      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white sm:w-auto',
+      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
   },
   {
     label: 'LinkedIn',
@@ -126,7 +126,7 @@ const primaryActions = [
     rel: 'me noopener noreferrer',
     target: '_blank',
     className:
-      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white sm:w-auto',
+      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
   },
   {
     label: 'Email',
@@ -134,43 +134,52 @@ const primaryActions = [
     rel: undefined,
     target: undefined,
     className:
-      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white sm:w-auto',
+      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
   },
 ] as const
 </script>
 
 <template>
   <MatrixShell>
-    <section class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+    <section class="grid gap-6 max-[350px]:gap-4 xl:grid-cols-[1.15fr_0.85fr]">
       <article
-        class="rounded-[24px] border border-white/10 bg-white/5 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] sm:p-6 xl:h-[560px] xl:overflow-hidden"
+        class="rounded-[24px] border border-white/10 bg-white/5 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] max-[350px]:rounded-[18px] max-[350px]:p-4 sm:p-6 xl:h-[560px] xl:overflow-hidden"
       >
-        <div class="flex h-full flex-col text-justify">
-          <p class="text-sm uppercase tracking-[0.35em] text-cyan-300/80">Contato</p>
-
-          <h1 class="mt-4 text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">Vamos conversar</h1>
-
-          <p class="mt-6 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
-            Se você chegou até aqui, provavelmente quer conhecer melhor meu trabalho, conversar
-            sobre oportunidades ou trocar ideias sobre produtos e tecnologia. Mantive esta página
-            objetiva para que o contato seja rápido, claro e direto.
+        <div class="flex h-full flex-col">
+          <p class="text-sm uppercase tracking-[0.35em] text-cyan-300/80 max-[350px]:text-[11px] max-[350px]:tracking-[0.22em]">
+            Contato
           </p>
 
-          <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
-            Você pode falar comigo por email, acompanhar meu histórico técnico no GitHub, conectar
-            pelo LinkedIn ou abrir uma conversa já com horário marcado. O canal ideal depende do
-            contexto, mas todos eles estão prontos para uso.
-          </p>
+          <h1 class="mt-4 text-2xl font-semibold text-white max-[350px]:text-xl sm:text-3xl lg:text-4xl">
+            Vamos conversar
+          </h1>
 
-          <section class="mt-8 xl:mt-auto" aria-labelledby="contato-rapido-title">
+          <div
+            class="overflow-visible py-2 pr-0 text-justify sm:pr-2 xl:flex-1 xl:overflow-y-auto xl:pr-4"
+          >
+            <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 max-[350px]:text-left max-[350px]:leading-6 sm:text-base">
+              Se você chegou até aqui, provavelmente quer conhecer melhor meu trabalho, conversar
+              sobre oportunidades ou trocar ideias sobre produtos e tecnologia. Mantive esta página
+              objetiva para que o contato seja rápido, claro e direto.
+            </p>
+
+            <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 max-[350px]:text-left max-[350px]:leading-6 sm:text-base">
+              Você pode falar comigo por email, acompanhar meu histórico técnico no GitHub, conectar
+              pelo LinkedIn ou abrir uma conversa já com horário marcado. O canal ideal depende do
+              contexto, mas todos eles estão prontos para uso.
+            </p>
+
+          </div>
+
+          <section class="mt-8 max-[350px]:mt-6 xl:mt-auto" aria-labelledby="contato-rapido-title">
             <h2
               id="contato-rapido-title"
-              class="mb-3 text-xs uppercase tracking-[0.3em] text-violet-300/80"
+              class="mb-3 text-xs uppercase tracking-[0.3em] text-violet-300/80 max-[350px]:tracking-[0.18em]"
             >
               Acesso rápido
             </h2>
 
-            <div class="grid gap-3 sm:flex sm:flex-wrap">
+            <div class="grid gap-3 max-[350px]:gap-2 sm:flex sm:flex-wrap">
               <a
                 v-for="action in primaryActions"
                 :key="action.label"
@@ -194,39 +203,41 @@ const primaryActions = [
         </div>
       </article>
 
-      <aside class="grid gap-6 md:grid-cols-2 xl:grid-cols-1">
+      <aside class="grid gap-6 max-[350px]:gap-4 md:grid-cols-2 xl:grid-cols-1">
         <section
           aria-labelledby="redes-title"
-          class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 xl:h-[265px] xl:overflow-hidden"
+          class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 max-[350px]:rounded-[18px] max-[350px]:p-4 xl:h-[265px] xl:overflow-hidden"
         >
           <div class="flex h-full flex-col">
             <h2
               id="redes-title"
-              class="text-center text-xs uppercase tracking-[0.3em] text-emerald-300/80"
+              class="text-center text-xs uppercase tracking-[0.3em] text-emerald-300/80 max-[350px]:tracking-[0.18em]"
             >
               Minhas redes
             </h2>
 
-            <div class="mt-5 space-y-4 xl:min-h-0 xl:overflow-y-auto xl:pr-1">
+            <div class="mt-5 space-y-4 max-[350px]:mt-4 max-[350px]:space-y-3 xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-1">
               <a
                 :href="siteConfig.githubUrl"
                 target="_blank"
                 rel="me noopener noreferrer"
-                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-400/40 hover:bg-cyan-400/10"
+                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-400/40 hover:bg-cyan-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
               >
-                <div class="flex items-start justify-between gap-3">
-                  <div>
-                    <p class="text-sm font-medium text-white">
+                <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-white max-[350px]:text-[13px]">
                       Repositórios, laboratórios e histórico técnico
                     </p>
-                    <p class="mt-1 text-sm leading-6 text-slate-400">github.com/GilvanPOliveira</p>
+                    <p class="mt-1 break-words text-sm leading-6 text-slate-400 max-[350px]:text-xs max-[350px]:leading-5">
+                      github.com/GilvanPOliveira
+                    </p>
                   </div>
 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="h-4 w-4 shrink-0"
+                    class="h-4 w-4 shrink-0 max-[350px]:h-3.5 max-[350px]:w-3.5"
                     aria-hidden="true"
                   >
                     <path
@@ -240,12 +251,12 @@ const primaryActions = [
                 :href="siteConfig.linkedinUrl"
                 target="_blank"
                 rel="me noopener noreferrer"
-                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/40 hover:bg-violet-400/10"
+                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/40 hover:bg-violet-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
               >
-                <div class="flex items-start justify-between gap-3">
-                  <div>
-                    <p class="text-sm font-medium text-white">Perfil profissional e networking</p>
-                    <p class="mt-1 text-sm leading-6 text-slate-400">
+                <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-white max-[350px]:text-[13px]">Perfil profissional e networking</p>
+                    <p class="mt-1 break-words text-sm leading-6 text-slate-400 max-[350px]:text-xs max-[350px]:leading-5">
                       linkedin.com/in/gilvanpoliveira
                     </p>
                   </div>
@@ -254,7 +265,7 @@ const primaryActions = [
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="h-4 w-4 shrink-0"
+                    class="h-4 w-4 shrink-0 max-[350px]:h-3.5 max-[350px]:w-3.5"
                     aria-hidden="true"
                   >
                     <path
@@ -269,20 +280,29 @@ const primaryActions = [
 
         <section
           aria-labelledby="contato-direto-title"
-          class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 xl:h-[265px] xl:overflow-hidden"
+          class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 max-[350px]:rounded-[18px] max-[350px]:p-4 xl:h-[265px] xl:overflow-hidden"
         >
           <div class="flex h-full flex-col">
-            <div class="space-y-3 xl:min-h-0">
+            <h2
+              id="contato-direto-title"
+              class="text-center text-xs uppercase tracking-[0.3em] text-emerald-300/80 max-[350px]:tracking-[0.18em]"
+            >
+              Contato direto
+            </h2>
+
+            <div class="mt-5 space-y-4 max-[350px]:mt-4 max-[350px]:space-y-3 xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-1">
               <a
                 :href="`mailto:${siteConfig.email}`"
-                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10"
+                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
               >
-                <div class="flex items-start justify-between gap-3">
-                  <div>
-                    <p class="text-sm font-medium text-white">
+                <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-white max-[350px]:text-[13px]">
                       Canal direto para vagas, propostas e contato profissional
                     </p>
-                    <p class="mt-1 text-sm leading-6 text-slate-400">{{ siteConfig.email }}</p>
+                    <p class="mt-1 break-words text-sm leading-6 text-slate-400 max-[350px]:text-xs max-[350px]:leading-5">
+                      {{ siteConfig.email }}
+                    </p>
                   </div>
 
                   <svg
@@ -293,7 +313,7 @@ const primaryActions = [
                     stroke-width="1.8"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class="h-4 w-4 shrink-0"
+                    class="h-4 w-4 shrink-0 max-[350px]:h-3.5 max-[350px]:w-3.5"
                     aria-hidden="true"
                   >
                     <path d="M4 6h16v12H4z" />
@@ -304,13 +324,13 @@ const primaryActions = [
 
               <button
                 type="button"
-                class="group block w-full rounded-2xl border border-cyan-400/20 bg-black/20 px-4 py-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/40 hover:bg-cyan-400/10"
+                class="group block w-full rounded-2xl border border-cyan-400/20 bg-black/20 px-4 py-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/40 hover:bg-cyan-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
                 @click="openCalendar"
               >
-                <div class="flex items-start justify-between gap-3">
-                  <div>
-                    <p class="text-sm font-medium text-white">Agende uma conversa comigo</p>
-                    <p class="mt-3 text-sm leading-6 text-slate-400">
+                <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-white max-[350px]:text-[13px]">Agende uma conversa comigo</p>
+                    <p class="mt-3 text-sm leading-6 text-slate-400 max-[350px]:mt-2 max-[350px]:text-xs max-[350px]:leading-5">
                       Link direto para marcar uma conversa rápida ou alinhamento de ideias.
                     </p>
                   </div>
@@ -323,7 +343,7 @@ const primaryActions = [
                     stroke-width="1.8"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class="h-4 w-4 shrink-0"
+                    class="h-4 w-4 shrink-0 max-[350px]:h-3.5 max-[350px]:w-3.5"
                     aria-hidden="true"
                   >
                     <rect x="3" y="4" width="18" height="18" rx="2" />

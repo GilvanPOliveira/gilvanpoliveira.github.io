@@ -5,7 +5,6 @@ import StackStrip from '../components/StackStrip.vue'
 import { coreStacks, formations, technicalCourses } from '../data/profile'
 import { siteConfig } from '../data/site'
 
-const stackHelperText = 'seleção principal usada em projetos e estudos'
 </script>
 
 <template>
@@ -52,14 +51,8 @@ const stackHelperText = 'seleção principal usada em projetos e estudos'
                 id="stacks-destaque"
                 class="text-center text-xs uppercase tracking-[0.3em] text-violet-300/80 sm:text-left"
               >
-                Stacks em destaque
+                Stacks recentemente utilizadas
               </h2>
-
-              <p
-                class="text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 sm:text-left"
-              >
-                {{ stackHelperText }}
-              </p>
             </div>
 
             <div class="mt-6">

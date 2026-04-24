@@ -72,11 +72,11 @@ import { siteConfig } from '../data/site';
               id="study-stacks-title"
               class="text-center text-xs uppercase tracking-[0.3em] text-violet-300/80"
             >
-              Stacks já estudadas
+              Stacks estudadas
             </h2>
 
             <div
-              class="overflow-visible py-2 pr-0 text-justify sm:pr-2 xl:flex-1 xl:overflow-y-auto xl:pr-4"
+              class="overflow-visible py-2 pr-0 text-center sm:pr-2 xl:flex-1 xl:overflow-y-auto xl:pr-4"
             >
               <div class="space-y-4">
                 <section
