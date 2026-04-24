@@ -145,13 +145,10 @@ function goToPage(page: number) {
   const nextPage = Math.min(Math.max(1, page), totalPages.value);
   currentPage.value = nextPage;
 
-  const start = (nextPage - 1) * perPage.value;
-  const firstRepoOnPage = repos.value[start];
-
   router.replace({
     path: '/projetos',
     query: {
-      repo: firstRepoOnPage?.slug ?? selectedRepo.value?.slug ?? '',
+      repo: selectedRepo.value?.slug ?? '',
       page: String(nextPage),
     },
   });
