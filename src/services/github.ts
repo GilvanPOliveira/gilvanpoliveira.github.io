@@ -1,11 +1,12 @@
-import type { StackItem } from '../data/profile'
-
 const GITHUB_API_BASE = 'https://api.github.com'
+const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com'
 const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME || 'GilvanPOliveira'
-const REPOS_CACHE_KEY = `portfolio:github:repos:${GITHUB_USERNAME}`
+const REPOS_CACHE_KEY = `portfolio:github:repos:v2:${GITHUB_USERNAME}`
 const README_CACHE_PREFIX = `portfolio:github:readme:${GITHUB_USERNAME}:`
+const REPO_PROJECTS_CACHE_PREFIX = `portfolio:github:repo-projects:v2:${GITHUB_USERNAME}:`
 const REPOS_CACHE_TTL = 1000 * 60 * 30
 const README_CACHE_TTL = 1000 * 60 * 60 * 6
+const REPO_PROJECTS_CACHE_TTL = 1000 * 60 * 60 * 6
 
 type CacheEntry<T> = {
   timestamp: number
@@ -20,9 +21,22 @@ export type GitHubRepo = {
   language: string
   stargazersCount: number
   forksCount: number
+  createdAt: string
   updatedAt: string
   htmlUrl: string
   homepage: string
+  defaultBranch: string
+}
+
+export type GitHubRepoProject = {
+  id: string
+  name: string
+  slug: string
+  path: string
+  description: string
+  deployUrl: string
+  htmlUrl: string
+  readme: string
 }
 
 type GitHubRepoApiResponse = {
@@ -32,42 +46,31 @@ type GitHubRepoApiResponse = {
   language: string | null
   stargazers_count: number
   forks_count: number
+  created_at: string
   updated_at: string
   html_url: string
   homepage: string | null
+  default_branch: string
   fork: boolean
   archived: boolean
 }
 
-const memoryCache = new Map<string, CacheEntry<unknown>>()
-
-const GITHUB_LANGUAGE_ICON_MAP: Record<string, StackItem> = {
-  JavaScript: { label: 'JavaScript', icon: 'js' },
-  TypeScript: { label: 'TypeScript', icon: 'ts' },
-  Python: { label: 'Python', icon: 'python' },
-  Java: { label: 'Java', icon: 'java' },
-  PHP: { label: 'PHP', icon: 'php' },
-  HTML: { label: 'HTML5', icon: 'html' },
-  CSS: { label: 'CSS', icon: 'css' },
-  SCSS: { label: 'Sass', icon: 'sass' },
-  Sass: { label: 'Sass', icon: 'sass' },
-  Vue: { label: 'Vue', icon: 'vue' },
-  'Vue.js': { label: 'Vue', icon: 'vue' },
-  React: { label: 'React', icon: 'react' },
-  Angular: { label: 'Angular', icon: 'angular' },
-  Dart: { label: 'Dart', icon: 'dart' },
-  Swift: { label: 'Swift', icon: 'swift' },
-  Kotlin: { label: 'Kotlin', icon: 'kotlin' },
-  'C#': { label: 'C#', icon: 'cs' },
-  C: { label: 'C', icon: 'c' },
-  'C++': { label: 'C++', icon: 'cpp' },
-  Go: { label: 'Go', icon: 'go' },
-  Rust: { label: 'Rust', icon: 'rust' },
-  Shell: { label: 'Shell', icon: 'bash' },
-  Dockerfile: { label: 'Docker', icon: 'docker' },
-  SQL: { label: 'SQL', icon: 'postgres' },
-  PLpgSQL: { label: 'PostgreSQL', icon: 'postgres' },
+type GitHubTreeApiResponse = {
+  tree: Array<{
+    path: string
+    type: 'blob' | 'tree'
+  }>
+  truncated: boolean
 }
+
+type GitHubPortfolioStaticData = {
+  repos: GitHubRepo[]
+  readmesByRepo: Record<string, string>
+  repoProjectsByRepo: Record<string, GitHubRepoProject[]>
+}
+
+const memoryCache = new Map<string, CacheEntry<unknown>>()
+let staticPortfolioDataPromise: Promise<GitHubPortfolioStaticData | null> | null = null
 
 function buildHeaders(): HeadersInit {
   return {
@@ -127,8 +130,27 @@ function writeCache<T>(key: string, data: T) {
   try {
     window.sessionStorage.setItem(key, JSON.stringify(entry))
   } catch {
-    // Ignora falhas de escrita em ambientes com storage indisponível.
   }
+}
+
+async function fetchStaticPortfolioData() {
+  if (staticPortfolioDataPromise) {
+    return staticPortfolioDataPromise
+  }
+
+  staticPortfolioDataPromise = fetch('/github-portfolio.json', {
+    cache: 'no-cache',
+  })
+    .then((response) => {
+      if (!response.ok) {
+        return null
+      }
+
+      return response.json() as Promise<GitHubPortfolioStaticData>
+    })
+    .catch(() => null)
+
+  return staticPortfolioDataPromise
 }
 
 async function githubFetch<T>(input: string): Promise<T> {
@@ -173,17 +195,173 @@ function normalizeRepo(repo: GitHubRepoApiResponse): GitHubRepo {
     language: repo.language || '',
     stargazersCount: repo.stargazers_count,
     forksCount: repo.forks_count,
+    createdAt: repo.created_at,
     updatedAt: repo.updated_at,
     htmlUrl: repo.html_url,
     homepage: repo.homepage?.trim() || '',
+    defaultBranch: repo.default_branch || 'main',
   }
 }
 
-function mapLanguageToStack(language: string): StackItem | null {
-  return GITHUB_LANGUAGE_ICON_MAP[language.trim()] || null
+function formatProjectName(value: string) {
+  return decodeURIComponent(value)
+    .replace(/[-_]+/g, ' ')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase())
+}
+
+function slugifyProjectPath(path: string) {
+  return path
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+function cleanMarkdownText(value: string) {
+  return value
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[`*_>#-]/g, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function extractTitle(readme: string, fallback: string) {
+  const heading = readme
+    .split('\n')
+    .map((line) => line.trim())
+    .find((line) => /^#{1,2}\s+\S/.test(line))
+
+  return heading ? cleanMarkdownText(heading.replace(/^#{1,2}\s+/, '')) : formatProjectName(fallback)
+}
+
+function extractDescription(readme: string) {
+  const lines = readme.split('\n')
+  let insideCodeBlock = false
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim()
+
+    if (line.startsWith('```')) {
+      insideCodeBlock = !insideCodeBlock
+      continue
+    }
+
+    if (
+      insideCodeBlock ||
+      !line ||
+      line === '##' ||
+      line.startsWith('#') ||
+      line.startsWith('|') ||
+      line.startsWith('![') ||
+      /^[-*]\s+\[/.test(line) ||
+      /^[-*]\s*$/.test(line)
+    ) {
+      continue
+    }
+
+    const description = cleanMarkdownText(line)
+
+    if (description.length >= 24) {
+      return description.length > 180 ? `${description.slice(0, 177).trim()}...` : description
+    }
+  }
+
+  return 'Projeto publicado com deploy disponível.'
+}
+
+function normalizeUrl(url: string) {
+  return url.replace(/[),.;\]]+$/g, '').trim()
+}
+
+function isDeployUrl(url: string) {
+  try {
+    const { hostname } = new URL(url)
+    const normalizedHost = hostname.toLowerCase()
+
+    if (
+      normalizedHost === 'github.com' ||
+      normalizedHost.endsWith('.github.com') ||
+      normalizedHost.includes('shields.io') ||
+      normalizedHost.includes('skillicons.dev') ||
+      normalizedHost.includes('imgur.com')
+    ) {
+      return false
+    }
+
+    return [
+      'github.io',
+      'vercel.app',
+      'netlify.app',
+      'render.com',
+      'onrender.com',
+      'firebaseapp.com',
+      'web.app',
+      'surge.sh',
+    ].some((domain) => normalizedHost === domain || normalizedHost.endsWith(`.${domain}`))
+  } catch {
+    return false
+  }
+}
+
+function extractDeployUrl(readme: string) {
+  const markdownLinks = [...readme.matchAll(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/gi)]
+    .map((match) => ({
+      label: match[1].toLowerCase(),
+      url: normalizeUrl(match[2]),
+    }))
+    .filter((link) => isDeployUrl(link.url))
+
+  const preferredLink = markdownLinks.find((link) =>
+    /deploy|demo|preview|site|live|ver|acesse|aplicacao|aplicação|projeto/.test(link.label),
+  )
+
+  if (preferredLink) {
+    return preferredLink.url
+  }
+
+  if (markdownLinks.length) {
+    return markdownLinks[0].url
+  }
+
+  const bareUrl = [...readme.matchAll(/\bhttps?:\/\/[^\s<>)]+/gi)]
+    .map((match) => normalizeUrl(match[0]))
+    .find(isDeployUrl)
+
+  return bareUrl || ''
+}
+
+async function fetchRawFile(repoName: string, path: string, branch: string) {
+  const encodedPath = path
+    .split('/')
+    .map((part) => encodeURIComponent(part))
+    .join('/')
+
+  const response = await fetch(
+    `${GITHUB_RAW_BASE}/${GITHUB_USERNAME}/${repoName}/${encodeURIComponent(branch)}/${encodedPath}`,
+  )
+
+  if (!response.ok) {
+    return ''
+  }
+
+  return response.text()
 }
 
 export async function fetchGitHubRepos(forceRefresh = false): Promise<GitHubRepo[]> {
+  if (!forceRefresh) {
+    const staticData = await fetchStaticPortfolioData()
+
+    if (staticData?.repos?.length) {
+      return staticData.repos
+    }
+  }
+
   const cachedRepos = !forceRefresh ? readCache<GitHubRepo[]>(REPOS_CACHE_KEY, REPOS_CACHE_TTL) : null
 
   if (cachedRepos) {
@@ -191,49 +369,124 @@ export async function fetchGitHubRepos(forceRefresh = false): Promise<GitHubRepo
   }
 
   const repos = await githubFetch<GitHubRepoApiResponse[]>(
-    `${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`,
+    `${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=created`,
   )
 
   const normalizedRepos = repos
     .filter((repo) => !repo.fork && !repo.archived && !repo.name.endsWith('.github.io'))
     .map(normalizeRepo)
-    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
   writeCache(REPOS_CACHE_KEY, normalizedRepos)
 
   return normalizedRepos
 }
 
-export async function fetchGitHubTopStacks(limit = 7): Promise<StackItem[]> {
-  const repos = await fetchGitHubRepos()
-  const languageFrequency = new Map<string, number>()
+export async function fetchGitHubRepoProjects(
+  repo: GitHubRepo,
+  forceRefresh = false,
+): Promise<GitHubRepoProject[]> {
+  if (!forceRefresh) {
+    const staticData = await fetchStaticPortfolioData()
+    const staticProjects = staticData?.repoProjectsByRepo?.[repo.name.toLowerCase()]
 
-  repos.forEach((repo) => {
-    if (!repo.language) {
-      return
+    if (staticProjects) {
+      return staticProjects
     }
+  }
 
-    const mappedStack = mapLanguageToStack(repo.language)
+  const cacheKey = `${REPO_PROJECTS_CACHE_PREFIX}${repo.name.toLowerCase()}`
+  const defaultBranch = repo.defaultBranch || 'main'
+  const cachedProjects = !forceRefresh
+    ? readCache<GitHubRepoProject[]>(cacheKey, REPO_PROJECTS_CACHE_TTL)
+    : null
 
-    if (!mappedStack) {
-      return
-    }
+  if (cachedProjects) {
+    return cachedProjects
+  }
 
-    const currentCount = languageFrequency.get(repo.language) || 0
-    languageFrequency.set(repo.language, currentCount + 1)
-  })
+  const tree = await githubFetch<GitHubTreeApiResponse>(
+    `${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${repo.name}/git/trees/${encodeURIComponent(
+      defaultBranch,
+    )}?recursive=1`,
+  )
 
-  return [...languageFrequency.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, limit)
-    .map(([language]) => mapLanguageToStack(language))
-    .filter((item): item is StackItem => Boolean(item))
+  if (tree.truncated) {
+    writeCache(cacheKey, [])
+    return []
+  }
+
+  const readmePaths = tree.tree
+    .filter((item) => item.type === 'blob' && /(^|\/)readme\.md$/i.test(item.path))
+    .filter((item) => item.path.includes('/'))
+    .filter((item) => !isDependencyPath(item.path))
+    .map((item) => item.path)
+    .sort((a, b) => a.localeCompare(b, 'pt-BR'))
+
+  const projects = (
+    await Promise.all(
+      readmePaths.map(async (readmePath) => {
+        const readme = await fetchRawFile(repo.name, readmePath, defaultBranch)
+        const deployUrl = extractDeployUrl(readme)
+
+        if (!readme || !deployUrl) {
+          return null
+        }
+
+        const projectPath = readmePath.replace(/\/readme\.md$/i, '')
+        const projectSlug = slugifyProjectPath(projectPath)
+        const fallbackName = projectPath.split('/').at(-1) || projectPath
+
+        return {
+          id: `${repo.id}:${projectPath}`,
+          name: extractTitle(readme, fallbackName),
+          slug: projectSlug,
+          path: projectPath,
+          description: extractDescription(readme),
+          deployUrl,
+          htmlUrl: `${repo.htmlUrl}/tree/${encodeURIComponent(defaultBranch)}/${projectPath
+            .split('/')
+            .map((part) => encodeURIComponent(part))
+            .join('/')}`,
+          readme,
+        } satisfies GitHubRepoProject
+      }),
+    )
+  ).filter((project): project is GitHubRepoProject => Boolean(project))
+
+  const leafProjects = filterLeafProjects(projects)
+
+  writeCache(cacheKey, leafProjects)
+
+  return leafProjects
+}
+
+function isDependencyPath(path: string) {
+  return path
+    .split('/')
+    .map((part) => part.toLowerCase())
+    .some((part) => ['node_modules', 'vendor', '.venv', 'venv'].includes(part))
+}
+
+function filterLeafProjects(projects: GitHubRepoProject[]) {
+  return projects.filter(
+    (project) => !projects.some((candidate) => candidate.path.startsWith(`${project.path}/`)),
+  )
 }
 
 export async function fetchGitHubReadme(
   repoName: string,
   forceRefresh = false,
 ): Promise<string> {
+  if (!forceRefresh) {
+    const staticData = await fetchStaticPortfolioData()
+    const staticReadme = staticData?.readmesByRepo?.[repoName.toLowerCase()]
+
+    if (staticReadme) {
+      return staticReadme
+    }
+  }
+
   const cacheKey = `${README_CACHE_PREFIX}${repoName.toLowerCase()}`
   const cachedReadme = !forceRefresh ? readCache<string>(cacheKey, README_CACHE_TTL) : null
 
