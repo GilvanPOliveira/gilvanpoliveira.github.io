@@ -1,46 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { RouterLink } from 'vue-router';
-import MatrixShell from '../components/MatrixShell.vue';
-import StackStrip from '../components/StackStrip.vue';
-import { coreStacks, formations, technicalCourses, type StackItem } from '../data/profile';
-import { siteConfig } from '../data/site';
-import { fetchGitHubTopStacks } from '../services/github';
+import { RouterLink } from 'vue-router'
+import MatrixShell from '../components/MatrixShell.vue'
+import StackStrip from '../components/StackStrip.vue'
+import { coreStacks, formations, technicalCourses } from '../data/profile'
+import { siteConfig } from '../data/site'
 
-const githubStacks = ref<StackItem[]>([]);
-const isLoadingStacks = ref(true);
-
-const displayStacks = computed(() => {
-  return githubStacks.value.length ? githubStacks.value : coreStacks;
-});
-
-const stackHelperText = computed(() => {
-  if (isLoadingStacks.value) {
-    return 'Carregando sinais do GitHub...';
-  }
-
-  if (githubStacks.value.length) {
-    return 'stacks mais recorrentes com base nos repositórios públicos';
-  }
-
-  return 'seleção principal usada em projetos e estudos';
-});
-
-async function loadGitHubStacks() {
-  try {
-    const stacks = await fetchGitHubTopStacks(7);
-
-    if (stacks.length) {
-      githubStacks.value = stacks;
-    }
-  } finally {
-    isLoadingStacks.value = false;
-  }
-}
-
-onMounted(() => {
-  loadGitHubStacks();
-});
+const stackHelperText = 'seleção principal usada em projetos e estudos'
 </script>
 
 <template>
@@ -59,10 +24,10 @@ onMounted(() => {
           </h1>
 
           <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base text-justify">
-             Construo aplicações web completas
-            com JavaScript e TypeScript no frontend, Python no backend e integração com APIs REST e
-            bancos relacionais. Meu foco está em arquitetura limpa, código organizado, performance,
-            acessibilidade e interfaces que funcionam bem em qualquer tela.
+            Construo aplicações web completas com JavaScript e TypeScript no frontend, Python no
+            backend e integração com APIs REST e bancos relacionais. Meu foco está em arquitetura
+            limpa, código organizado, performance, acessibilidade e interfaces que funcionam bem em
+            qualquer tela.
           </p>
 
           <div class="mt-6 flex flex-wrap items-center justify-center gap-3 sm:justify-center">
@@ -92,14 +57,13 @@ onMounted(() => {
 
               <p
                 class="text-center text-[11px] uppercase tracking-[0.2em] text-slate-500 sm:text-left"
-                aria-live="polite"
               >
                 {{ stackHelperText }}
               </p>
             </div>
 
             <div class="mt-6">
-              <StackStrip :items="displayStacks" />
+              <StackStrip :items="coreStacks" />
             </div>
           </section>
         </div>
