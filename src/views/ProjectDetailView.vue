@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import MatrixShell from '../components/MatrixShell.vue';
 import { useGitHubPortfolio } from '../composables/useGitHubPortfolio';
 import { routeSeo } from '../data/site';
 import { formatGitHubDate } from '../services/github';
+import { getScrollBehavior } from '../utils/motion';
 import { applySeo } from '../utils/seo';
 
 const route = useRoute();
@@ -22,8 +23,9 @@ const {
 } = useGitHubPortfolio();
 
 const currentPage = ref(1);
-
-const PER_PAGE = 3;
+const perPage = ref(3);
+const detailArticle = ref<HTMLElement | null>(null);
+let resizeFrame = 0;
 
 const slug = computed(() => String(route.params.slug ?? ''));
 const projectSlug = computed(() => String(route.query.project ?? ''));
@@ -60,11 +62,11 @@ const selectedProjectDeployDisabled = computed(() => {
   }
 });
 
-const totalPages = computed(() => Math.max(1, Math.ceil(repoProjects.value.length / PER_PAGE)));
+const totalPages = computed(() => Math.max(1, Math.ceil(repoProjects.value.length / perPage.value)));
 
 const paginatedProjects = computed(() => {
-  const start = (currentPage.value - 1) * PER_PAGE;
-  return repoProjects.value.slice(start, start + PER_PAGE);
+  const start = (currentPage.value - 1) * perPage.value;
+  return repoProjects.value.slice(start, start + perPage.value);
 });
 
 const currentProjectIndex = computed(() => {
@@ -80,7 +82,50 @@ function syncCurrentPage() {
     return;
   }
 
-  currentPage.value = Math.floor(currentProjectIndex.value / PER_PAGE) + 1;
+  currentPage.value = Math.floor(currentProjectIndex.value / perPage.value) + 1;
+}
+
+function clampCurrentPage() {
+  if (currentPage.value > totalPages.value) {
+    currentPage.value = totalPages.value;
+  }
+
+  if (currentPage.value < 1) {
+    currentPage.value = 1;
+  }
+}
+
+function updatePerPage() {
+  const width = window.innerWidth;
+  perPage.value = width >= 640 && width < 1280 ? 4 : 3;
+}
+
+function handleResize() {
+  if (resizeFrame) {
+    return;
+  }
+
+  resizeFrame = window.requestAnimationFrame(() => {
+    resizeFrame = 0;
+    const previousPerPage = perPage.value;
+    updatePerPage();
+
+    if (previousPerPage !== perPage.value) {
+      if (selectedProject.value) {
+        syncCurrentPage();
+      } else {
+        clampCurrentPage();
+      }
+    }
+  });
+}
+
+async function scrollToSelectedProject() {
+  await nextTick();
+  detailArticle.value?.scrollIntoView({
+    block: 'start',
+    behavior: getScrollBehavior(),
+  });
 }
 
 function replaceProjectQuery(nextProjectSlug: string) {
@@ -88,7 +133,7 @@ function replaceProjectQuery(nextProjectSlug: string) {
     return;
   }
 
-  router.replace({
+  return router.replace({
     path: `/projetos/${encodeURIComponent(repo.value.slug)}`,
     query: {
       project: nextProjectSlug,
@@ -96,26 +141,20 @@ function replaceProjectQuery(nextProjectSlug: string) {
   });
 }
 
-function selectProject(nextProjectSlug: string) {
+async function selectProject(nextProjectSlug: string) {
   const index = repoProjects.value.findIndex((item) => item.slug === nextProjectSlug);
 
   if (index >= 0) {
-    currentPage.value = Math.floor(index / PER_PAGE) + 1;
+    currentPage.value = Math.floor(index / perPage.value) + 1;
   }
 
-  replaceProjectQuery(nextProjectSlug);
+  await replaceProjectQuery(nextProjectSlug);
+  await scrollToSelectedProject();
 }
 
 function goToPage(page: number) {
   const nextPage = Math.min(Math.max(1, page), totalPages.value);
   currentPage.value = nextPage;
-
-  const start = (nextPage - 1) * PER_PAGE;
-  const firstProjectOnPage = repoProjects.value[start];
-
-  if (firstProjectOnPage) {
-    replaceProjectQuery(firstProjectOnPage.slug);
-  }
 }
 
 function redirectToNotFound() {
@@ -191,7 +230,13 @@ watch(
   }
 );
 
+watch(perPage, () => {
+  clampCurrentPage();
+});
+
 onMounted(async () => {
+  updatePerPage();
+  window.addEventListener('resize', handleResize);
   await loadRepos();
 
   if (!repos.value.length) {
@@ -202,13 +247,22 @@ onMounted(async () => {
     redirectToNotFound();
   }
 });
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+
+  if (resizeFrame) {
+    window.cancelAnimationFrame(resizeFrame);
+  }
+});
 </script>
 
 <template>
   <MatrixShell>
-    <section class="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
+    <section class="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
       <article
-        class="rounded-[24px] border border-white/10 bg-white/5 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] sm:p-6 xl:h-[560px] xl:overflow-hidden"
+        ref="detailArticle"
+        class="min-w-0 rounded-[24px] border border-white/10 bg-white/5 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] sm:p-6 xl:h-[560px] xl:overflow-hidden"
         :aria-busy="loadingRepos || loadingRepoProjects"
       >
         <div
@@ -261,36 +315,36 @@ onMounted(async () => {
           </RouterLink>
         </div>
 
-        <div v-else-if="repo && selectedProject" class="flex h-full min-h-0 flex-col">
-          <p class="text-[10px] uppercase tracking-[0.28em] text-cyan-300/80 sm:text-xs">
+        <div v-else-if="repo && selectedProject" class="flex h-full min-w-0 min-h-0 flex-col">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-cyan-300/80 [overflow-wrap:anywhere] sm:text-xs">
             Repositório selecionado: {{ repo.name }}
           </p>
 
-          <h2 class="mt-3 break-words text-xl font-semibold text-slate-100 sm:text-2xl lg:text-3xl">
+          <h2 class="mt-3 text-xl font-semibold text-slate-100 [overflow-wrap:anywhere] sm:text-2xl lg:text-3xl">
             {{ selectedProject.name }}
           </h2>
 
-          <p class="mt-4 text-sm leading-7 text-slate-300">
+          <p class="mt-4 text-sm leading-7 text-slate-300 [overflow-wrap:anywhere]">
             {{ selectedProject.description }}
           </p>
 
           <div class="mt-5 flex flex-wrap gap-2">
-            <span class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs">
+            <span class="max-w-full rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 [overflow-wrap:anywhere] sm:text-xs">
               {{ repo.name }}
             </span>
 
-            <span class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs">
+            <span class="max-w-full rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 [overflow-wrap:anywhere] sm:text-xs">
               {{ selectedProject.path }}
             </span>
 
             <span
               v-if="repo.language"
-              class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs"
+              class="max-w-full rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 [overflow-wrap:anywhere] sm:text-xs"
             >
               {{ repo.language }}
             </span>
 
-            <span class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs">
+            <span class="max-w-full rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 [overflow-wrap:anywhere] sm:text-xs">
               Criado em {{ formatGitHubDate(repo.createdAt) }}
             </span>
           </div>
@@ -334,7 +388,7 @@ onMounted(async () => {
             </a>
           </div>
 
-          <div class="mt-5 min-h-0 flex-1 pb-8">
+          <div class="mt-5 hidden min-h-0 flex-1 pb-8 sm:block">
             <p class="mb-4 text-[10px] uppercase tracking-[0.28em] text-violet-300/80 sm:text-xs">
               README
             </p>
@@ -349,12 +403,12 @@ onMounted(async () => {
         </div>
       </article>
 
-      <aside class="grid gap-6">
+      <aside class="grid min-w-0 gap-6">
         <section
           aria-labelledby="repo-projects-title"
-          class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 xl:h-[560px] xl:overflow-hidden"
+          class="min-w-0 rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 xl:h-[560px] xl:overflow-hidden"
         >
-          <div class="flex h-full flex-col">
+          <div class="flex h-full min-w-0 flex-col">
             <h2
               id="repo-projects-title"
               class="text-center text-[10px] uppercase tracking-[0.28em] text-emerald-300/80 sm:text-xs"
@@ -362,7 +416,7 @@ onMounted(async () => {
               Projetos neste repositório
             </h2>
 
-            <div class="mt-5 flex h-full flex-col xl:min-h-0">
+            <div class="mt-5 flex h-full min-w-0 flex-col xl:min-h-0">
               <div
                 v-if="loadingRepoProjects"
                 class="flex min-h-[180px] items-center justify-center text-center text-sm text-slate-400 xl:flex-1"
@@ -395,7 +449,7 @@ onMounted(async () => {
                   :key="project.id"
                   type="button"
                   @click="selectProject(project.slug)"
-                  class="block w-full rounded-2xl border px-4 py-3 text-left transition"
+                  class="block min-w-0 w-full rounded-2xl border px-4 py-3 text-left transition"
                   :class="
                     selectedProject?.id === project.id
                       ? 'border-cyan-400/40 bg-cyan-400/10'
@@ -403,8 +457,8 @@ onMounted(async () => {
                   "
                   :aria-pressed="selectedProject?.id === project.id"
                 >
-                  <p class="text-sm font-medium text-white">{{ project.name }}</p>
-                  <p class="mt-1 text-xs leading-5 text-slate-400">
+                  <p class="text-sm font-medium text-white [overflow-wrap:anywhere]">{{ project.name }}</p>
+                  <p class="mt-1 text-xs leading-5 text-slate-400 [overflow-wrap:anywhere]">
                     {{ project.description }}
                   </p>
                 </button>
