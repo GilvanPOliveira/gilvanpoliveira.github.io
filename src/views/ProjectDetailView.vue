@@ -1,87 +1,132 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
-import { RouterLink, useRoute, useRouter } from 'vue-router'
-import MatrixShell from '../components/MatrixShell.vue'
-import { useGitHubPortfolio } from '../composables/useGitHubPortfolio'
-import { routeSeo } from '../data/site'
-import { formatGitHubDate } from '../services/github'
-import { applySeo } from '../utils/seo'
+import { computed, onMounted, ref, watch } from 'vue';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
+import MatrixShell from '../components/MatrixShell.vue';
+import { useGitHubPortfolio } from '../composables/useGitHubPortfolio';
+import { routeSeo } from '../data/site';
+import { formatGitHubDate } from '../services/github';
+import { applySeo } from '../utils/seo';
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
 const {
   repos,
-  readme,
+  repoProjects,
   loadingRepos,
-  loadingReadme,
+  loadingRepoProjects,
   reposError,
-  readmeError,
+  repoProjectsError,
   loadRepos,
-  loadReadme,
-} = useGitHubPortfolio()
+  loadRepoProjects,
+} = useGitHubPortfolio();
 
-const currentPage = ref(1)
+const currentPage = ref(1);
 
-const PER_PAGE = 3
+const PER_PAGE = 3;
 
-const slug = computed(() => String(route.params.slug ?? ''))
+const slug = computed(() => String(route.params.slug ?? ''));
+const projectSlug = computed(() => String(route.query.project ?? ''));
 
-const repo = computed(() => repos.value.find((item) => item.slug === slug.value) ?? null)
+const repo = computed(() => repos.value.find((item) => item.slug === slug.value) ?? null);
 
-const totalPages = computed(() => Math.max(1, Math.ceil(repos.value.length / PER_PAGE)))
-
-const paginatedRepos = computed(() => {
-  const start = (currentPage.value - 1) * PER_PAGE
-  return repos.value.slice(start, start + PER_PAGE)
-})
-
-const currentRepoIndex = computed(() => {
-  if (!repo.value) {
-    return -1
+const selectedProject = computed(() => {
+  if (!repoProjects.value.length) {
+    return null;
   }
 
-  return repos.value.findIndex((item) => item.slug === repo.value?.slug)
-})
+  return repoProjects.value.find((project) => project.slug === projectSlug.value) ?? repoProjects.value[0];
+});
 
-const previousRepo = computed(() => {
-  if (currentRepoIndex.value <= 0) {
-    return null
+const projectsRoute = computed(() => ({
+  path: '/projetos',
+  query: repo.value
+    ? {
+        repo: repo.value.slug,
+      }
+    : undefined,
+}));
+
+const selectedProjectDeployDisabled = computed(() => {
+  if (!selectedProject.value?.deployUrl) {
+    return true;
   }
 
-  return repos.value[currentRepoIndex.value - 1] ?? null
-})
+  try {
+    const deployUrl = new URL(selectedProject.value.deployUrl);
+    return deployUrl.hostname.toLowerCase() === 'gilvanpoliveira.github.io';
+  } catch {
+    return true;
+  }
+});
 
-const nextRepo = computed(() => {
-  if (currentRepoIndex.value < 0 || currentRepoIndex.value >= repos.value.length - 1) {
-    return null
+const totalPages = computed(() => Math.max(1, Math.ceil(repoProjects.value.length / PER_PAGE)));
+
+const paginatedProjects = computed(() => {
+  const start = (currentPage.value - 1) * PER_PAGE;
+  return repoProjects.value.slice(start, start + PER_PAGE);
+});
+
+const currentProjectIndex = computed(() => {
+  if (!selectedProject.value) {
+    return -1;
   }
 
-  return repos.value[currentRepoIndex.value + 1] ?? null
-})
+  return repoProjects.value.findIndex((item) => item.slug === selectedProject.value?.slug);
+});
 
 function syncCurrentPage() {
-  if (!repo.value) {
-    return
+  if (!selectedProject.value || currentProjectIndex.value < 0) {
+    return;
   }
 
-  currentPage.value = Math.floor(currentRepoIndex.value / PER_PAGE) + 1
+  currentPage.value = Math.floor(currentProjectIndex.value / PER_PAGE) + 1;
+}
+
+function replaceProjectQuery(nextProjectSlug: string) {
+  if (!repo.value) {
+    return;
+  }
+
+  router.replace({
+    path: `/projetos/${encodeURIComponent(repo.value.slug)}`,
+    query: {
+      project: nextProjectSlug,
+    },
+  });
+}
+
+function selectProject(nextProjectSlug: string) {
+  const index = repoProjects.value.findIndex((item) => item.slug === nextProjectSlug);
+
+  if (index >= 0) {
+    currentPage.value = Math.floor(index / PER_PAGE) + 1;
+  }
+
+  replaceProjectQuery(nextProjectSlug);
 }
 
 function goToPage(page: number) {
-  const nextPage = Math.min(Math.max(1, page), totalPages.value)
-  currentPage.value = nextPage
+  const nextPage = Math.min(Math.max(1, page), totalPages.value);
+  currentPage.value = nextPage;
+
+  const start = (nextPage - 1) * PER_PAGE;
+  const firstProjectOnPage = repoProjects.value[start];
+
+  if (firstProjectOnPage) {
+    replaceProjectQuery(firstProjectOnPage.slug);
+  }
 }
 
 function redirectToNotFound() {
-  const pathMatch = route.path.replace(/^\/+/, '').split('/').filter(Boolean)
+  const pathMatch = route.path.replace(/^\/+/, '').split('/').filter(Boolean);
 
   router.replace({
     name: 'not-found',
     params: {
       pathMatch,
     },
-  })
+  });
 }
 
 watch(
@@ -89,67 +134,82 @@ watch(
   (currentRepo) => {
     if (!currentRepo) {
       if (!loadingRepos.value && repos.value.length) {
-        redirectToNotFound()
+        redirectToNotFound();
       }
 
       applySeo({
         title: routeSeo.projectDetail.title,
         description: routeSeo.projectDetail.description,
         path: '/projetos',
-      })
-      return
+      });
+      return;
     }
 
-    syncCurrentPage()
-    void loadReadme(currentRepo.name)
+    void loadRepoProjects(currentRepo);
     applySeo({
       title: `${currentRepo.name} | Projetos | Gilvan Oliveira`,
       description: currentRepo.description,
       path: `/projetos/${encodeURIComponent(currentRepo.slug)}`,
-    })
+    });
   },
-  { immediate: true },
-)
+  { immediate: true }
+);
 
 watch(
   [repos, loadingRepos],
   ([currentRepos, isLoading]) => {
     if (!isLoading && currentRepos.length && !repo.value) {
-      redirectToNotFound()
+      redirectToNotFound();
     }
   },
-  { deep: true },
-)
+  { deep: true }
+);
 
 watch(
-  () => route.params.slug,
-  () => {
-    syncCurrentPage()
+  [repoProjects, loadingRepoProjects],
+  ([currentProjects, isLoading]) => {
+    if (isLoading || !repo.value || !currentProjects.length) {
+      return;
+    }
+
+    const hasProjectInRoute = currentProjects.some((project) => project.slug === projectSlug.value);
+
+    if (!hasProjectInRoute) {
+      replaceProjectQuery(currentProjects[0].slug);
+      return;
+    }
+
+    syncCurrentPage();
   },
-)
+  { deep: true }
+);
+
+watch(
+  () => route.query.project,
+  () => {
+    syncCurrentPage();
+  }
+);
 
 onMounted(async () => {
-  await loadRepos()
+  await loadRepos();
 
   if (!repos.value.length) {
-    return
+    return;
   }
 
   if (!repo.value) {
-    redirectToNotFound()
-    return
+    redirectToNotFound();
   }
-
-  syncCurrentPage()
-})
+});
 </script>
 
 <template>
   <MatrixShell>
-    <section class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+    <section class="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
       <article
         class="rounded-[24px] border border-white/10 bg-white/5 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] sm:p-6 xl:h-[560px] xl:overflow-hidden"
-        :aria-busy="loadingRepos || loadingReadme"
+        :aria-busy="loadingRepos || loadingRepoProjects"
       >
         <div
           v-if="loadingRepos"
@@ -169,20 +229,60 @@ onMounted(async () => {
           {{ reposError }}
         </div>
 
-        <div v-else-if="repo" class="flex h-full min-h-0 flex-col">
+        <div
+          v-else-if="loadingRepoProjects"
+          class="flex min-h-[320px] items-center justify-center text-center text-sm text-slate-400 xl:h-full"
+          role="status"
+          aria-live="polite"
+        >
+          Buscando projetos com deploy neste repositório...
+        </div>
+
+        <div
+          v-else-if="repoProjectsError"
+          class="flex min-h-[320px] items-center justify-center text-center text-sm text-rose-300 xl:h-full"
+          role="status"
+          aria-live="polite"
+        >
+          {{ repoProjectsError }}
+        </div>
+
+        <div
+          v-else-if="repo && !selectedProject"
+          class="flex min-h-[320px] flex-col items-center justify-center gap-4 text-center text-sm text-slate-400 xl:h-full"
+        >
+          <p>Este repositório ainda não possui projetos internos com deploy publicado.</p>
+
+          <RouterLink
+            :to="projectsRoute"
+            class="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10"
+          >
+            Voltar
+          </RouterLink>
+        </div>
+
+        <div v-else-if="repo && selectedProject" class="flex h-full min-h-0 flex-col">
           <p class="text-[10px] uppercase tracking-[0.28em] text-cyan-300/80 sm:text-xs">
-            Projeto
+            Repositório selecionado: {{ repo.name }}
           </p>
 
-          <h1 class="mt-3 break-words text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
-            {{ repo.name }}
-          </h1>
+          <h2 class="mt-3 break-words text-xl font-semibold text-slate-100 sm:text-2xl lg:text-3xl">
+            {{ selectedProject.name }}
+          </h2>
 
           <p class="mt-4 text-sm leading-7 text-slate-300">
-            {{ repo.description }}
+            {{ selectedProject.description }}
           </p>
 
           <div class="mt-5 flex flex-wrap gap-2">
+            <span class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs">
+              {{ repo.name }}
+            </span>
+
+            <span class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs">
+              {{ selectedProject.path }}
+            </span>
+
             <span
               v-if="repo.language"
               class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs"
@@ -190,52 +290,22 @@ onMounted(async () => {
               {{ repo.language }}
             </span>
 
-            <span
-              class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs"
-            >
-              ★ {{ repo.stargazersCount }}
-            </span>
-
-            <span
-              class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs"
-            >
-              Forks {{ repo.forksCount }}
-            </span>
-
-            <span
-              class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs"
-            >
-              Atualizado em {{ formatGitHubDate(repo.updatedAt) }}
+            <span class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] text-slate-200 sm:text-xs">
+              Criado em {{ formatGitHubDate(repo.createdAt) }}
             </span>
           </div>
 
           <div class="mt-6 grid gap-3 sm:flex sm:flex-wrap">
             <RouterLink
-              to="/projetos"
+              :to="projectsRoute"
               class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 sm:w-auto"
             >
-              Voltar para projetos
-            </RouterLink>
-
-            <RouterLink
-              v-if="previousRepo"
-              :to="`/projetos/${encodeURIComponent(previousRepo.slug)}`"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-white/20 hover:bg-white/10 sm:w-auto"
-            >
-              Projeto anterior
-            </RouterLink>
-
-            <RouterLink
-              v-if="nextRepo"
-              :to="`/projetos/${encodeURIComponent(nextRepo.slug)}`"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-white/20 hover:bg-white/10 sm:w-auto"
-            >
-              Próximo projeto
+              Voltar para os repositórios
             </RouterLink>
 
             <a
-              v-if="repo.homepage"
-              :href="repo.homepage"
+              v-if="!selectedProjectDeployDisabled"
+              :href="selectedProject.deployUrl"
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm text-white transition hover:bg-cyan-400/20 sm:w-auto"
@@ -243,8 +313,19 @@ onMounted(async () => {
               Ver deploy
             </a>
 
+            <button
+              v-else
+              type="button"
+              disabled
+              class="inline-flex w-full cursor-not-allowed items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-500 opacity-70 sm:w-auto"
+              title="Deploy indisponível para este projeto"
+              aria-disabled="true"
+            >
+              Ver deploy
+            </button>
+
             <a
-              :href="repo.htmlUrl"
+              :href="selectedProject.htmlUrl"
               target="_blank"
               rel="noopener noreferrer"
               class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 sm:w-auto"
@@ -253,7 +334,7 @@ onMounted(async () => {
             </a>
           </div>
 
-          <div class="mt-6 min-h-0 flex-1 rounded-[24px] border border-white/10 bg-black/20 p-4">
+          <div class="mt-5 min-h-0 flex-1 pb-8">
             <p class="mb-4 text-[10px] uppercase tracking-[0.28em] text-violet-300/80 sm:text-xs">
               README
             </p>
@@ -262,105 +343,80 @@ onMounted(async () => {
               class="h-[320px] overflow-y-auto rounded-[18px] border border-white/10 bg-slate-950/80 p-4 sm:h-[360px] lg:h-[420px] xl:h-full xl:min-h-0"
               aria-live="polite"
             >
-              <div v-if="loadingReadme" class="text-sm text-slate-400" role="status">
-                Carregando README...
-              </div>
-
-              <div v-else-if="readmeError" class="text-sm text-rose-300" role="status">
-                {{ readmeError }}
-              </div>
-
-              <pre
-                v-else
-                class="whitespace-pre-wrap break-words text-xs leading-6 text-slate-200 sm:text-sm sm:leading-7"
-              >{{ readme }}</pre>
+              <pre class="whitespace-pre-wrap break-words text-xs leading-6 text-slate-200 sm:text-sm sm:leading-7">{{ selectedProject.readme }}</pre>
             </div>
           </div>
         </div>
       </article>
 
-      <aside class="grid gap-6 md:grid-cols-2 xl:grid-cols-1">
+      <aside class="grid gap-6">
         <section
-          aria-labelledby="repo-summary-title"
-          class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 xl:h-[265px] xl:overflow-hidden"
-        >
-          <div v-if="repo" class="flex h-full flex-col">
-            <h2
-              id="repo-summary-title"
-              class="text-center text-[10px] uppercase tracking-[0.28em] text-emerald-300/80 sm:text-xs"
-            >
-              Resumo e links
-            </h2>
-
-            <div class="mt-5 flex min-h-0 flex-1 flex-col gap-4">
-              <div class="min-h-0 flex-1 rounded-2xl border border-white/10 bg-black/20 px-4 py-4">
-                <div class="overflow-visible xl:h-full xl:overflow-y-auto xl:pr-1">
-                  <p class="text-sm font-medium text-white">{{ repo.name }}</p>
-                  <p class="mt-1 text-sm leading-6 text-slate-400">
-                    {{ repo.description }}
-                  </p>
-                </div>
-              </div>
-
-              <a
-                :href="repo.homepage || repo.htmlUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition hover:border-emerald-400/40 hover:bg-emerald-400/10"
-              >
-                <p class="text-sm font-medium text-white">
-                  {{ repo.homepage ? 'Ver deploy' : 'Abrir repositório' }}
-                </p>
-                <p class="mt-1 break-all text-sm leading-6 text-slate-400">
-                  {{ repo.homepage || repo.htmlUrl }}
-                </p>
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section
-          aria-labelledby="related-repos-title"
-          class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 xl:h-[265px] xl:overflow-hidden"
+          aria-labelledby="repo-projects-title"
+          class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 xl:h-[560px] xl:overflow-hidden"
         >
           <div class="flex h-full flex-col">
             <h2
-              id="related-repos-title"
+              id="repo-projects-title"
               class="text-center text-[10px] uppercase tracking-[0.28em] text-emerald-300/80 sm:text-xs"
             >
-              Outros projetos
+              Projetos neste repositório
             </h2>
 
             <div class="mt-5 flex h-full flex-col xl:min-h-0">
               <div
-                class="grid gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:flex xl:flex-1 xl:flex-col xl:overflow-y-auto xl:pr-1"
+                v-if="loadingRepoProjects"
+                class="flex min-h-[180px] items-center justify-center text-center text-sm text-slate-400 xl:flex-1"
+                role="status"
               >
-                <RouterLink
-                  v-for="item in paginatedRepos"
-                  :key="item.id"
-                  :to="`/projetos/${encodeURIComponent(item.slug)}`"
-                  class="block rounded-2xl border px-4 py-3 text-left transition"
+                Carregando projetos...
+              </div>
+
+              <div
+                v-else-if="repoProjectsError"
+                class="flex min-h-[180px] items-center justify-center text-center text-sm text-rose-300 xl:flex-1"
+                role="status"
+              >
+                {{ repoProjectsError }}
+              </div>
+
+              <div
+                v-else-if="!repoProjects.length"
+                class="flex min-h-[180px] items-center justify-center text-center text-sm leading-6 text-slate-400 xl:flex-1"
+              >
+                Nenhum projeto com deploy publicado foi encontrado neste repositório.
+              </div>
+
+              <div
+                v-else
+                class="grid gap-3 sm:grid-cols-2 xl:flex xl:flex-1 xl:min-h-0 xl:flex-col xl:overflow-y-auto xl:pr-1"
+              >
+                <button
+                  v-for="project in paginatedProjects"
+                  :key="project.id"
+                  type="button"
+                  @click="selectProject(project.slug)"
+                  class="block w-full rounded-2xl border px-4 py-3 text-left transition"
                   :class="
-                    repo?.id === item.id
+                    selectedProject?.id === project.id
                       ? 'border-cyan-400/40 bg-cyan-400/10'
                       : 'border-white/10 bg-black/20 hover:border-violet-400/30 hover:bg-violet-400/10'
                   "
-                  :aria-current="repo?.id === item.id ? 'page' : undefined"
+                  :aria-pressed="selectedProject?.id === project.id"
                 >
-                  <p class="text-sm font-medium text-white">{{ item.name }}</p>
+                  <p class="text-sm font-medium text-white">{{ project.name }}</p>
                   <p class="mt-1 text-xs leading-5 text-slate-400">
-                    {{ item.description }}
+                    {{ project.description }}
                   </p>
-                </RouterLink>
+                </button>
               </div>
 
               <div class="mt-4 flex items-center justify-between gap-3">
                 <button
                   type="button"
                   @click="goToPage(currentPage - 1)"
-                  :disabled="currentPage === 1"
+                  :disabled="currentPage === 1 || !repoProjects.length"
                   class="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
-                  aria-label="Ir para a página anterior de projetos"
+                  aria-label="Ir para a pagina anterior de projetos"
                 >
                   Anterior
                 </button>
@@ -370,9 +426,9 @@ onMounted(async () => {
                 <button
                   type="button"
                   @click="goToPage(currentPage + 1)"
-                  :disabled="currentPage === totalPages"
+                  :disabled="currentPage === totalPages || !repoProjects.length"
                   class="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
-                  aria-label="Ir para a próxima página de projetos"
+                  aria-label="Ir para a proxima pagina de projetos"
                 >
                   Próxima
                 </button>
