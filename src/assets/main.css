@@ -45,8 +45,7 @@ body {
 }
 
 .panel-blur {
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background-color: rgba(10, 14, 30, 0.96);
 }
 
 .text-gradient {
