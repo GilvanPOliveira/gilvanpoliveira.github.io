@@ -19,16 +19,6 @@ function isActiveLink(to: string) {
     <div class="absolute inset-0 bg-grid bg-[size:42px_42px] opacity-30"></div>
 
     <div
-      class="absolute left-[-8rem] top-16 h-72 w-72 rounded-full bg-violet-600/20 blur-3xl"
-    ></div>
-    <div
-      class="absolute bottom-12 right-[-6rem] h-72 w-72 rounded-full bg-cyan-400/15 blur-3xl"
-    ></div>
-    <div
-      class="absolute left-1/2 top-1/3 h-60 w-60 -translate-x-1/2 rounded-full bg-emerald-400/10 blur-3xl"
-    ></div>
-
-    <div
       class="relative mx-auto flex w-full max-w-7xl items-start justify-center lg:min-h-[calc(100vh-3rem)] lg:items-center"
     >
       <div
@@ -49,8 +39,8 @@ function isActiveLink(to: string) {
                   <img
                     :src="profileImg"
                     :alt="`Foto de perfil de ${siteConfig.name}`"
-                    width="512"
-                    height="617"
+                    width="320"
+                    height="385"
                     class="h-36 w-36 rounded-xl border border-white/10 object-cover shadow-[0_0_20px_rgba(34,211,238,0.15)] sm:h-44 sm:w-44 lg:h-48 lg:w-48"
                     decoding="async"
                     fetchpriority="high"
