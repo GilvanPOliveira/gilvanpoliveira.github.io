@@ -37,7 +37,6 @@ function shouldShowFallback(label: string) {
         class="h-12 w-12 object-contain"
         width="48"
         height="48"
-        loading="lazy"
         decoding="async"
         @error="markAsFailed(item.label)"
       />

@@ -3,9 +3,17 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { getScrollBehavior } from '../utils/motion'
 
 const scrollY = ref(0)
+let scrollFrame = 0
 
 const handleScroll = () => {
-  scrollY.value = window.scrollY
+  if (scrollFrame) {
+    return
+  }
+
+  scrollFrame = window.requestAnimationFrame(() => {
+    scrollFrame = 0
+    scrollY.value = window.scrollY
+  })
 }
 
 const isVisible = computed(() => scrollY.value > 360)
@@ -24,6 +32,10 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
+
+  if (scrollFrame) {
+    window.cancelAnimationFrame(scrollFrame)
+  }
 })
 </script>
 
