@@ -283,14 +283,7 @@ const primaryActions = [
           class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 max-[350px]:rounded-[18px] max-[350px]:p-4 xl:h-[265px] xl:overflow-hidden"
         >
           <div class="flex h-full flex-col">
-            <h2
-              id="contato-direto-title"
-              class="text-center text-xs uppercase tracking-[0.3em] text-emerald-300/80 max-[350px]:tracking-[0.18em]"
-            >
-              Contato direto
-            </h2>
-
-            <div class="mt-5 space-y-4 max-[350px]:mt-4 max-[350px]:space-y-3 xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-1">
+            <div class="space-y-4 max-[350px]:mt-4 max-[350px]:space-y-3 xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-1">
               <a
                 :href="`mailto:${siteConfig.email}`"
                 class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
@@ -330,7 +323,7 @@ const primaryActions = [
                 <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
                   <div class="min-w-0">
                     <p class="text-sm font-medium text-white max-[350px]:text-[13px]">Agende uma conversa comigo</p>
-                    <p class="mt-3 text-sm leading-6 text-slate-400 max-[350px]:mt-2 max-[350px]:text-xs max-[350px]:leading-5">
+                    <p class="mt-2 text-sm leading-2 text-slate-400 max-[350px]:mt-2 max-[350px]:text-xs max-[350px]:leading-5">
                       Link direto para marcar uma conversa rápida ou alinhamento de ideias.
                     </p>
                   </div>
