@@ -39,6 +39,17 @@
     />
     <meta name="twitter:image" content="https://gilvanpoliveira.github.io/og-image.svg" />
 
+    <script>
+      ;(function () {
+        var redirect = sessionStorage.getItem('spa-github-pages-redirect')
+
+        if (redirect) {
+          sessionStorage.removeItem('spa-github-pages-redirect')
+          history.replaceState(null, '', redirect)
+        }
+      })()
+    </script>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
