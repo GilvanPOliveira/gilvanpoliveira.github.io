@@ -283,7 +283,7 @@ const primaryActions = [
           class="rounded-[24px] border border-violet-400/20 bg-violet-400/10 p-5 max-[350px]:rounded-[18px] max-[350px]:p-4 xl:h-[265px] xl:overflow-hidden"
         >
           <div class="flex h-full flex-col">
-            <div class="space-y-4 max-[350px]:mt-4 max-[350px]:space-y-3 xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-1">
+            <div class="space-y-3 max-[350px]:mt-4 max-[350px]:space-y-3 xl:min-h-0 xl:flex-1 xl:pr-1">
               <a
                 :href="`mailto:${siteConfig.email}`"
                 class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
@@ -293,7 +293,7 @@ const primaryActions = [
                     <p class="text-sm font-medium text-white max-[350px]:text-[13px]">
                       Canal direto para vagas, propostas e contato profissional
                     </p>
-                    <p class="mt-1 break-words text-sm leading-4 text-slate-400 max-[350px]:text-xs max-[350px]:leading-5">
+                    <p class="mt-1 break-words text-sm text-slate-400 max-[350px]:text-xs max-[350px]:leading-5">
                       {{ siteConfig.email }}
                     </p>
                   </div>
