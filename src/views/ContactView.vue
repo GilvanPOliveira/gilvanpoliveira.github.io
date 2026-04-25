@@ -293,7 +293,7 @@ const primaryActions = [
                     <p class="text-sm font-medium text-white max-[350px]:text-[13px]">
                       Canal direto para vagas, propostas e contato profissional
                     </p>
-                    <p class="mt-1 break-words text-sm leading-6 text-slate-400 max-[350px]:text-xs max-[350px]:leading-5">
+                    <p class="mt-1 break-words text-sm leading-4 text-slate-400 max-[350px]:text-xs max-[350px]:leading-5">
                       {{ siteConfig.email }}
                     </p>
                   </div>
@@ -323,7 +323,7 @@ const primaryActions = [
                 <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
                   <div class="min-w-0">
                     <p class="text-sm font-medium text-white max-[350px]:text-[13px]">Agende uma conversa comigo</p>
-                    <p class="mt-2 text-sm leading-2 text-slate-400 max-[350px]:mt-2 max-[350px]:text-xs max-[350px]:leading-5">
+                    <p class="mt-2 text-sm text-slate-400 max-[350px]:mt-2 max-[350px]:text-xs max-[350px]:leading-5">
                       Link direto para marcar uma conversa rápida ou alinhamento de ideias.
                     </p>
                   </div>
