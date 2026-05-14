@@ -7,17 +7,82 @@ const props = defineProps<{
 }>()
 
 const failedIcons = ref<Record<string, boolean>>({})
+const iconAliases: Record<string, string> = {
+  'alpine.js': 'alpinejs',
+  alpine: 'alpinejs',
+  azure: 'azure',
+  '.net': 'dotnet',
+  dotnet: 'dotnet',
+  csharp: 'cs',
+  c: 'c',
+  'c++': 'cpp',
+  cpp: 'cpp',
+  postgresql: 'postgres',
+  postgres: 'postgres',
+}
+const knownSkillIcons = new Set([
+  'androidstudio',
+  'angular',
+  'arduino',
+  'azure',
+  'blender',
+  'bootstrap',
+  'c',
+  'cpp',
+  'cs',
+  'css',
+  'dart',
+  'dotnet',
+  'fastapi',
+  'firebase',
+  'flask',
+  'flutter',
+  'git',
+  'github',
+  'html',
+  'java',
+  'jquery',
+  'js',
+  'mongodb',
+  'mysql',
+  'nextjs',
+  'nodejs',
+  'opencv',
+  'php',
+  'pinia',
+  'postman',
+  'postgres',
+  'python',
+  'raspberrypi',
+  'react',
+  'sass',
+  'styledcomponents',
+  'supabase',
+  'swift',
+  'tailwind',
+  'ts',
+  'unrealengine',
+  'vite',
+  'vue',
+  'wordpress',
+])
 
 function markAsFailed(label: string) {
   failedIcons.value[label] = true
 }
 
 function getIconUrl(icon: string) {
-  return `https://skillicons.dev/icons?i=${icon}`
+  return `https://skillicons.dev/icons?i=${getNormalizedIcon(icon)}`
 }
 
-function shouldShowFallback(label: string) {
-  return Boolean(failedIcons.value[label])
+function getNormalizedIcon(icon: string) {
+  const normalizedIcon = icon.toLowerCase().trim()
+  return iconAliases[normalizedIcon] || normalizedIcon
+}
+
+function shouldShowFallback(item: StackItem) {
+  const icon = getNormalizedIcon(item.icon)
+  return Boolean(failedIcons.value[item.label]) || !knownSkillIcons.has(icon)
 }
 
 function getFallbackText(label: string) {
@@ -52,7 +117,7 @@ function getFallbackText(label: string) {
       :title="item.label"
     >
       <img
-        v-if="!shouldShowFallback(item.label)"
+        v-if="!shouldShowFallback(item)"
         :src="getIconUrl(item.icon)"
         :alt="item.label"
         class="h-12 w-12 object-contain"

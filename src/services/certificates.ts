@@ -12,6 +12,17 @@ type CertificatesStaticData = {
   certificates?: Certificate[]
 }
 
+function normalizeCertificate(certificate: Certificate): Certificate {
+  return {
+    title: certificate.title || 'Certificado',
+    category: certificate.category || 'Diversos',
+    issuer: certificate.issuer || '',
+    date: certificate.date || '',
+    workload: certificate.workload || '',
+    tags: Array.isArray(certificate.tags) ? certificate.tags : [],
+  }
+}
+
 export async function fetchCertificates(): Promise<Certificate[]> {
   try {
     const response = await fetch('/certificates.json', {
@@ -23,7 +34,7 @@ export async function fetchCertificates(): Promise<Certificate[]> {
     }
 
     const data = (await response.json()) as CertificatesStaticData
-    return Array.isArray(data.certificates) ? data.certificates : []
+    return Array.isArray(data.certificates) ? data.certificates.map(normalizeCertificate) : []
   } catch {
     return []
   }
