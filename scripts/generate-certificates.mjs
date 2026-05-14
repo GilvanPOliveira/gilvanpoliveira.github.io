@@ -121,7 +121,7 @@ async function listDriveChildren(auth, parentId) {
   do {
     const params = new URLSearchParams({
       q: `'${parentId}' in parents and trashed = false`,
-      fields: 'nextPageToken,files(id,name,description,mimeType,createdTime,modifiedTime)',
+      fields: 'nextPageToken,files(id,name,description,mimeType,createdTime,modifiedTime,shortcutDetails)',
       orderBy: 'folder,name',
       pageSize: '100',
       supportsAllDrives: 'true',
@@ -158,6 +158,23 @@ async function listCertificateFiles(auth, parentId = folderId, parentPath = []) 
   for (const child of children) {
     if (child.mimeType === 'application/vnd.google-apps.folder') {
       files.push(...(await listCertificateFiles(auth, child.id, [...parentPath, child.name])))
+      continue
+    }
+
+    if (child.mimeType === 'application/vnd.google-apps.shortcut' && child.shortcutDetails?.targetId) {
+      const targetMimeType = child.shortcutDetails.targetMimeType || ''
+
+      if (targetMimeType === 'application/vnd.google-apps.folder') {
+        files.push(...(await listCertificateFiles(auth, child.shortcutDetails.targetId, [...parentPath, child.name])))
+        continue
+      }
+
+      files.push({
+        ...child,
+        mimeType: targetMimeType,
+        category: parentPath[0] || 'Diversos',
+        folderPath: parentPath.join(' / '),
+      })
       continue
     }
 
@@ -312,6 +329,24 @@ function readExistingCertificates() {
   }
 }
 
+function summarizeCertificates(certificates) {
+  return certificates.reduce((summary, certificate) => {
+    summary[certificate.category] = (summary[certificate.category] || 0) + 1
+    return summary
+  }, {})
+}
+
+function logCertificateSummary(certificates) {
+  const summary = summarizeCertificates(certificates)
+
+  console.log('[certificates] Resumo por categoria:')
+  Object.keys(summary)
+    .sort((a, b) => a.localeCompare(b, 'pt-BR'))
+    .forEach((category) => {
+      console.log(`[certificates] - ${category}: ${summary[category]}`)
+    })
+}
+
 async function main() {
   if (!folderId) {
     console.warn('[certificates] Configuracao ausente. Nenhum certificado sera publicado.')
@@ -353,6 +388,7 @@ async function main() {
     return
   }
 
+  logCertificateSummary(certificates)
   await writeCertificates(certificates)
   console.log(`[certificates] ${certificates.length} certificados gerados em ${outputPath}`)
 }
