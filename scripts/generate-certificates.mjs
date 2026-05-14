@@ -14,6 +14,7 @@ const folderId = process.env.GOOGLE_DRIVE_CERTIFICATES_FOLDER_ID || extractFolde
 const serviceAccount = loadServiceAccount()
 const apiKey = process.env.GOOGLE_DRIVE_API_KEY || ''
 const driveScope = 'https://www.googleapis.com/auth/drive.metadata.readonly'
+const isCi = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true'
 
 function loadDotEnv(path) {
   try {
@@ -317,6 +318,10 @@ async function main() {
   } else if (apiKey) {
     files = await listCertificateFiles({ apiKey })
   } else {
+    if (isCi) {
+      throw new Error('Credencial do Google Drive ausente no CI. Configure GOOGLE_SERVICE_ACCOUNT_JSON.')
+    }
+
     console.warn('[certificates] Sem credencial/API key. Tentando leitura publica da pasta compartilhada.')
     files = await listPublicFolderFiles()
   }
@@ -324,6 +329,10 @@ async function main() {
   const certificates = files
     .map(normalizeCertificate)
     .sort((a, b) => a.category.localeCompare(b.category, 'pt-BR') || a.title.localeCompare(b.title, 'pt-BR'))
+
+  if (isCi && !certificates.length) {
+    throw new Error('Nenhum certificado foi encontrado no CI. Verifique o compartilhamento da pasta e os secrets.')
+  }
 
   await writeCertificates(certificates)
   console.log(`[certificates] ${certificates.length} certificados gerados em ${outputPath}`)
