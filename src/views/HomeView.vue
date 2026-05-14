@@ -1,10 +1,21 @@
 <script setup lang="ts">
+import { computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import MatrixShell from '../components/MatrixShell.vue'
 import StackStrip from '../components/StackStrip.vue'
+import { useGitHubPortfolio } from '../composables/useGitHubPortfolio'
 import { coreStacks, formations, technicalCourses } from '../data/profile'
 import { siteConfig } from '../data/site'
 
+const { stackSummary, loadStackSummary } = useGitHubPortfolio()
+
+const recentStacks = computed(() =>
+  stackSummary.value?.recent.length ? stackSummary.value.recent : coreStacks,
+)
+
+onMounted(() => {
+  void loadStackSummary()
+})
 </script>
 
 <template>
@@ -56,7 +67,7 @@ import { siteConfig } from '../data/site'
             </div>
 
             <div class="mt-6">
-              <StackStrip :items="coreStacks" />
+              <StackStrip :items="recentStacks" />
             </div>
           </section>
         </div>

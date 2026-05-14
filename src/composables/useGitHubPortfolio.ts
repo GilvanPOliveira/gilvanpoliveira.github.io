@@ -3,19 +3,24 @@ import {
   fetchGitHubReadme,
   fetchGitHubRepoProjects,
   fetchGitHubRepos,
+  fetchGitHubStackSummary,
   type GitHubRepo,
   type GitHubRepoProject,
+  type GitHubStackSummary,
 } from '../services/github'
 
 export function useGitHubPortfolio() {
   const repos = ref<GitHubRepo[]>([])
   const repoProjects = ref<GitHubRepoProject[]>([])
+  const stackSummary = ref<GitHubStackSummary | null>(null)
   const readme = ref('')
   const loadingRepos = ref(false)
   const loadingRepoProjects = ref(false)
+  const loadingStackSummary = ref(false)
   const loadingReadme = ref(false)
   const reposError = ref('')
   const repoProjectsError = ref('')
+  const stackSummaryError = ref('')
   const readmeError = ref('')
   let repoProjectsRequestId = 0
 
@@ -29,6 +34,20 @@ export function useGitHubPortfolio() {
       reposError.value = error instanceof Error ? error.message : 'Erro ao carregar os repositórios.'
     } finally {
       loadingRepos.value = false
+    }
+  }
+
+  async function loadStackSummary() {
+    loadingStackSummary.value = true
+    stackSummaryError.value = ''
+
+    try {
+      stackSummary.value = await fetchGitHubStackSummary()
+    } catch (error) {
+      stackSummaryError.value =
+        error instanceof Error ? error.message : 'Erro ao carregar as stacks do GitHub.'
+    } finally {
+      loadingStackSummary.value = false
     }
   }
 
@@ -84,15 +103,19 @@ export function useGitHubPortfolio() {
   return {
     repos,
     repoProjects,
+    stackSummary,
     readme,
     loadingRepos,
     loadingRepoProjects,
+    loadingStackSummary,
     loadingReadme,
     reposError,
     repoProjectsError,
+    stackSummaryError,
     readmeError,
     loadRepos,
     loadRepoProjects,
+    loadStackSummary,
     loadReadme,
   }
 }
