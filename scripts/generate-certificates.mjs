@@ -303,9 +303,23 @@ async function writeCertificates(certificates) {
   )
 }
 
+function readExistingCertificates() {
+  try {
+    const data = JSON.parse(readFileSync(outputPath, 'utf8'))
+    return Array.isArray(data.certificates) ? data.certificates : []
+  } catch {
+    return []
+  }
+}
+
 async function main() {
   if (!folderId) {
     console.warn('[certificates] Configuracao ausente. Nenhum certificado sera publicado.')
+    if (!isCi && readExistingCertificates().length) {
+      console.warn('[certificates] Mantendo JSON local existente.')
+      return
+    }
+
     await writeCertificates([])
     return
   }
@@ -332,6 +346,11 @@ async function main() {
 
   if (isCi && !certificates.length) {
     throw new Error('Nenhum certificado foi encontrado no CI. Verifique o compartilhamento da pasta e os secrets.')
+  }
+
+  if (!isCi && !certificates.length && readExistingCertificates().length) {
+    console.warn('[certificates] Nenhum certificado encontrado localmente. Mantendo JSON local existente.')
+    return
   }
 
   await writeCertificates(certificates)
