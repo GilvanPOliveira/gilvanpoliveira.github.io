@@ -52,6 +52,18 @@ function showAbout() {
   showingCertificates.value = false;
 }
 
+function getCertificateInitials(certificate: Certificate) {
+  const source = certificate.issuer || certificate.category || certificate.title;
+
+  return source
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join('')
+    .toUpperCase();
+}
+
 onMounted(async () => {
   void loadStackSummary();
   await loadCertificates();
@@ -186,39 +198,55 @@ onMounted(async () => {
                   <article
                     v-for="certificate in filteredCertificates"
                     :key="`${certificate.category}-${certificate.title}-${certificate.issuer}-${certificate.date}`"
-                    class="rounded-2xl border border-white/10 bg-black/20 p-4"
+                    class="grid gap-4 rounded-2xl border border-white/10 bg-black/20 p-4 sm:grid-cols-[150px_minmax(0,1fr)]"
                   >
-                    <p class="text-sm font-medium text-white">{{ certificate.title }}</p>
-                    <p v-if="certificate.issuer" class="mt-1 text-xs leading-5 text-slate-400">
-                      {{ certificate.issuer }}
-                    </p>
+                    <div class="certificate-preview" aria-hidden="true">
+                      <div class="certificate-preview__seal">
+                        {{ getCertificateInitials(certificate) }}
+                      </div>
+                      <div class="certificate-preview__lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="certificate-preview__ribbon"></div>
+                    </div>
 
-                    <div class="mt-3 flex flex-wrap gap-2">
-                      <span class="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] text-emerald-100">
-                        {{ certificate.category }}
-                      </span>
+                    <div class="min-w-0">
+                      <p class="text-sm font-medium text-white [overflow-wrap:anywhere]">
+                        {{ certificate.title }}
+                      </p>
+                      <p v-if="certificate.issuer" class="mt-1 text-xs leading-5 text-slate-400">
+                        {{ certificate.issuer }}
+                      </p>
 
-                      <span
-                        v-if="certificate.date"
-                        class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-slate-200"
-                      >
-                        {{ certificate.date }}
-                      </span>
+                      <div class="mt-3 flex flex-wrap gap-2">
+                        <span class="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] text-emerald-100">
+                          {{ certificate.category }}
+                        </span>
 
-                      <span
-                        v-if="certificate.workload"
-                        class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-slate-200"
-                      >
-                        {{ certificate.workload }}
-                      </span>
+                        <span
+                          v-if="certificate.date"
+                          class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-slate-200"
+                        >
+                          {{ certificate.date }}
+                        </span>
 
-                      <span
-                        v-for="tag in certificate.tags"
-                        :key="tag"
-                        class="rounded-full border border-violet-400/20 bg-violet-400/10 px-3 py-1 text-[11px] text-violet-100"
-                      >
-                        {{ tag }}
-                      </span>
+                        <span
+                          v-if="certificate.workload"
+                          class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-slate-200"
+                        >
+                          {{ certificate.workload }}
+                        </span>
+
+                        <span
+                          v-for="tag in certificate.tags"
+                          :key="tag"
+                          class="rounded-full border border-violet-400/20 bg-violet-400/10 px-3 py-1 text-[11px] text-violet-100"
+                        >
+                          {{ tag }}
+                        </span>
+                      </div>
                     </div>
                   </article>
                 </div>
