@@ -25,8 +25,8 @@ function normalizeCertificate(certificate: Certificate): Certificate {
 
 export async function fetchCertificates(): Promise<Certificate[]> {
   try {
-    const response = await fetch('/certificates.json', {
-      cache: 'no-cache',
+    const response = await fetch(`/certificates.json?updatedAt=${Date.now()}`, {
+      cache: 'no-store',
     })
 
     if (!response.ok) {

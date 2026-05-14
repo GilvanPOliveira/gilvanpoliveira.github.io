@@ -105,90 +105,99 @@ body {
   }
 }
 
-.certificate-preview {
+.certificate-badge {
   position: relative;
-  display: grid;
-  min-height: 96px;
+  display: flex;
+  min-height: 112px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 14px;
-  background:
-    linear-gradient(135deg, rgba(236, 253, 245, 0.95), rgba(224, 242, 254, 0.92)),
-    radial-gradient(circle at 18% 20%, rgba(16, 185, 129, 0.28), transparent 28%),
-    radial-gradient(circle at 82% 18%, rgba(124, 58, 237, 0.22), transparent 24%);
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(8, 145, 178, 0.92), rgba(124, 58, 237, 0.86));
   box-shadow:
-    inset 0 0 0 6px rgba(15, 23, 42, 0.08),
-    inset 0 0 0 7px rgba(255, 255, 255, 0.72);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 16px 36px rgba(2, 6, 23, 0.22);
 }
 
-.certificate-preview::before {
+.certificate-badge::before {
   content: '';
   position: absolute;
-  inset: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.22);
-  border-radius: 10px;
+  inset: -30% -10% auto auto;
+  width: 90px;
+  height: 90px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
 }
 
-.certificate-preview__seal {
+.certificate-badge::after {
+  content: '';
   position: absolute;
-  left: 18px;
-  top: 18px;
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
+  inset: auto auto -22px -20px;
+  width: 78px;
+  height: 78px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #0891b2, #7c3aed);
-  color: white;
-  font-size: 11px;
+  background: rgba(15, 23, 42, 0.16);
+}
+
+.certificate-badge__eyebrow,
+.certificate-badge__label {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 9px;
   font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
-.certificate-preview__lines {
-  position: absolute;
-  left: 62px;
-  right: 18px;
-  top: 24px;
+.certificate-badge__mark {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: 8px;
-}
-
-.certificate-preview__lines span {
-  display: block;
-  height: 6px;
-  border-radius: 999px;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 14px;
   background: rgba(15, 23, 42, 0.22);
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
 }
 
-.certificate-preview__lines span:nth-child(1) {
-  width: 86%;
+.certificate-badge--badges {
+  background: linear-gradient(135deg, #1d4ed8, #7c3aed);
 }
 
-.certificate-preview__lines span:nth-child(2) {
-  width: 64%;
+.certificate-badge--dio {
+  background: linear-gradient(135deg, #2563eb, #0891b2);
 }
 
-.certificate-preview__lines span:nth-child(3) {
-  width: 42%;
+.certificate-badge--oracle {
+  background: linear-gradient(135deg, #b91c1c, #f97316);
 }
 
-.certificate-preview__ribbon {
-  position: absolute;
-  right: 20px;
-  bottom: 15px;
-  width: 22px;
-  height: 34px;
-  border-radius: 999px 999px 4px 4px;
-  background: linear-gradient(180deg, #10b981, #0e7490);
+.certificate-badge--origamid {
+  background: linear-gradient(135deg, #0f766e, #2563eb);
 }
 
-.certificate-preview__ribbon::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -8px;
-  width: 14px;
-  height: 14px;
-  background: #0e7490;
-  transform: translateX(-50%) rotate(45deg);
+.certificate-badge--vai-na-web {
+  background: linear-gradient(135deg, #059669, #16a34a);
+}
+
+.certificate-badge--unibra,
+.certificate-badge--estacio,
+.certificate-badge--graduacao,
+.certificate-badge--unibratec {
+  background: linear-gradient(135deg, #854d0e, #ca8a04);
+}
+
+.certificate-badge--impacta-avanade {
+  background: linear-gradient(135deg, #7c2d12, #db2777);
 }

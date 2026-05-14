@@ -64,6 +64,15 @@ function getCertificateInitials(certificate: Certificate) {
     .toUpperCase();
 }
 
+function getCertificateCategoryClass(category: string) {
+  return `certificate-badge--${category
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'default'}`;
+}
+
 onMounted(async () => {
   void loadStackSummary();
   await loadCertificates();
@@ -198,18 +207,18 @@ onMounted(async () => {
                   <article
                     v-for="certificate in filteredCertificates"
                     :key="`${certificate.category}-${certificate.title}-${certificate.issuer}-${certificate.date}`"
-                    class="grid gap-4 rounded-2xl border border-white/10 bg-black/20 p-4 sm:grid-cols-[150px_minmax(0,1fr)]"
+                    class="grid gap-4 rounded-2xl border border-white/10 bg-black/20 p-4 sm:grid-cols-[132px_minmax(0,1fr)]"
                   >
-                    <div class="certificate-preview" aria-hidden="true">
-                      <div class="certificate-preview__seal">
+                    <div
+                      class="certificate-badge"
+                      :class="getCertificateCategoryClass(certificate.category)"
+                      aria-hidden="true"
+                    >
+                      <span class="certificate-badge__eyebrow">{{ certificate.category }}</span>
+                      <div class="certificate-badge__mark">
                         {{ getCertificateInitials(certificate) }}
                       </div>
-                      <div class="certificate-preview__lines">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                      <div class="certificate-preview__ribbon"></div>
+                      <span class="certificate-badge__label">Credencial</span>
                     </div>
 
                     <div class="min-w-0">
