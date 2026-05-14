@@ -65,3 +65,42 @@ body {
     radial-gradient(rgba(255,255,255,0.22) 0.5px, transparent 0.5px);
   background-size: 8px 8px;
 }
+
+.portfolio-flip-card {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+  perspective: 1400px;
+  border-radius: 24px;
+}
+
+.portfolio-flip-face {
+  backface-visibility: hidden;
+  inset: 0;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 520ms ease, opacity 520ms ease;
+  will-change: transform, opacity;
+}
+
+.portfolio-flip-back {
+  position: absolute;
+  opacity: 0;
+  transform: rotateY(180deg);
+}
+
+.portfolio-flip-card.is-flipped .portfolio-flip-face:first-child {
+  opacity: 0;
+  transform: rotateY(-180deg);
+}
+
+.portfolio-flip-card.is-flipped .portfolio-flip-back {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-flip-face {
+    transition: opacity 160ms ease;
+  }
+}

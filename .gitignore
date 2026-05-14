@@ -17,10 +17,12 @@ dist
 dist-ssr
 coverage
 public/github-portfolio.json
+public/certificates.json
 .vite
 .vercel
 .netlify
 .output
+.secrets
 
 # Env files
 .env
