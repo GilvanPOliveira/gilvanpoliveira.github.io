@@ -1,124 +1,53 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { StackItem } from '../data/profile'
+import { getSkillIconUrl, isSupportedSkillIcon, normalizeSkillIconId } from '../utils/skillIcons'
 
 const props = defineProps<{
   items: StackItem[]
 }>()
 
 const failedIcons = ref<Record<string, boolean>>({})
-const iconAliases: Record<string, string> = {
-  'alpine.js': 'alpinejs',
-  alpine: 'alpinejs',
-  azure: 'azure',
-  '.net': 'dotnet',
-  dotnet: 'dotnet',
-  csharp: 'cs',
-  c: 'c',
-  'c++': 'cpp',
-  cpp: 'cpp',
-  postgresql: 'postgres',
-  postgres: 'postgres',
-}
-const knownSkillIcons = new Set([
-  'androidstudio',
-  'angular',
-  'arduino',
-  'azure',
-  'blender',
-  'bootstrap',
-  'c',
-  'cpp',
-  'cs',
-  'css',
-  'dart',
-  'dotnet',
-  'fastapi',
-  'firebase',
-  'flask',
-  'flutter',
-  'git',
-  'github',
-  'html',
-  'java',
-  'jquery',
-  'js',
-  'mongodb',
-  'mysql',
-  'nextjs',
-  'nodejs',
-  'opencv',
-  'php',
-  'pinia',
-  'postman',
-  'postgres',
-  'python',
-  'raspberrypi',
-  'react',
-  'sass',
-  'styledcomponents',
-  'supabase',
-  'swift',
-  'tailwind',
-  'ts',
-  'unrealengine',
-  'vite',
-  'vue',
-  'wordpress',
-])
+
+const visibleItems = computed(() => {
+  const seenIcons = new Set<string>()
+  const seenLabels = new Set<string>()
+
+  return props.items.filter((item) => {
+    const icon = normalizeSkillIconId(item.icon)
+    const label = item.label.toLowerCase().trim()
+
+    if (
+      failedIcons.value[item.label] ||
+      !isSupportedSkillIcon(icon) ||
+      seenIcons.has(icon) ||
+      seenLabels.has(label)
+    ) {
+      return false
+    }
+
+    seenIcons.add(icon)
+    seenLabels.add(label)
+    return true
+  })
+})
 
 function markAsFailed(label: string) {
   failedIcons.value[label] = true
-}
-
-function getIconUrl(icon: string) {
-  return `https://skillicons.dev/icons?i=${getNormalizedIcon(icon)}`
-}
-
-function getNormalizedIcon(icon: string) {
-  const normalizedIcon = icon.toLowerCase().trim()
-  return iconAliases[normalizedIcon] || normalizedIcon
-}
-
-function shouldShowFallback(item: StackItem) {
-  const icon = getNormalizedIcon(item.icon)
-  return Boolean(failedIcons.value[item.label]) || !knownSkillIcons.has(icon)
-}
-
-function getFallbackText(label: string) {
-  const words = label
-    .replace(/[^a-zA-Z0-9+#. ]/g, ' ')
-    .split(/\s+/)
-    .filter(Boolean)
-
-  if (!words.length) {
-    return '?'
-  }
-
-  if (words.length === 1) {
-    return words[0].slice(0, 3).toUpperCase()
-  }
-
-  return words
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join('')
-    .toUpperCase()
 }
 </script>
 
 <template>
   <div class="flex flex-wrap justify-center gap-2" role="list" aria-label="Stacks e ferramentas">
     <div
-      v-for="item in props.items"
+      v-for="item in visibleItems"
       :key="item.label"
       role="listitem"
       class="flex h-12 min-w-[44px] items-center"
       :title="item.label"
     >
       <img
-        v-if="!shouldShowFallback(item)"
-        :src="getIconUrl(item.icon)"
+        :src="getSkillIconUrl(item.icon)"
         :alt="item.label"
         class="h-12 w-12 object-contain"
         width="48"
@@ -126,14 +55,6 @@ function getFallbackText(label: string) {
         decoding="async"
         @error="markAsFailed(item.label)"
       />
-
-      <span
-        v-else
-        class="grid h-12 w-12 place-items-center rounded-xl border border-white/10 bg-gradient-to-br from-cyan-400/20 via-violet-400/20 to-emerald-400/20 text-[10px] font-semibold text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-        :aria-label="item.label"
-      >
-        {{ getFallbackText(item.label) }}
-      </span>
     </div>
   </div>
 </template>

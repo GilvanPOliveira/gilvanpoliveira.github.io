@@ -9,7 +9,7 @@ export const coreStacks: StackItem[] = [
   { label: 'Vue', icon: 'vue' },
   { label: 'React', icon: 'react' },
   { label: 'Angular', icon: 'angular' },
-  { label: 'Python', icon: 'python' },
+  { label: 'Python', icon: 'py' },
   { label: 'PostgreSQL', icon: 'postgres' },
 ]
 
@@ -33,7 +33,7 @@ export const styling: StackItem[] = [
 ]
 
 export const backend: StackItem[] = [
-  { label: 'Python', icon: 'python' },
+  { label: 'Python', icon: 'py' },
   { label: 'Flask', icon: 'flask' },
   { label: 'Node.js', icon: 'nodejs' },
   { label: 'Java', icon: 'java' },
@@ -74,8 +74,8 @@ export const engineeringAndOtherStudies: StackItem[] = [
   { label: 'AutoCAD', icon: 'autocad' },
   { label: 'SketchUp', icon: 'sketchup' },
   { label: 'Blender', icon: 'blender' },
-  { label: 'Photoshop', icon: 'photoshop' },
-  { label: 'Unreal Engine', icon: 'unrealengine' },
+  { label: 'Photoshop', icon: 'ps' },
+  { label: 'Unreal Engine', icon: 'unreal' },
 ]
 
 export const studyStackGroups = [

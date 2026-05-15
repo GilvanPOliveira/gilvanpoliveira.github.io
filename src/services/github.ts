@@ -1,3 +1,5 @@
+import { isSupportedSkillIcon, normalizeSkillIconId } from '../utils/skillIcons'
+
 const GITHUB_API_BASE = 'https://api.github.com'
 const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com'
 const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME || 'GilvanPOliveira'
@@ -561,7 +563,7 @@ const knownStacks = [
   { label: 'Angular', icon: 'angular', group: 'Front-end', aliases: ['angular'] },
   { label: 'Next.js', icon: 'nextjs', group: 'Front-end', aliases: ['nextjs', 'next.js'] },
   { label: 'jQuery', icon: 'jquery', group: 'Front-end', aliases: ['jquery'] },
-  { label: 'Python', icon: 'python', group: 'Back-end', aliases: ['python', 'py'] },
+  { label: 'Python', icon: 'py', group: 'Back-end', aliases: ['python', 'py'] },
   { label: 'Flask', icon: 'flask', group: 'Back-end', aliases: ['flask'] },
   { label: 'FastAPI', icon: 'fastapi', group: 'Back-end', aliases: ['fastapi', 'fast api'] },
   { label: 'Node.js', icon: 'nodejs', group: 'Back-end', aliases: ['node', 'nodejs', 'node.js'] },
@@ -582,7 +584,7 @@ const knownStacks = [
   { label: 'GitHub API', icon: 'github', group: 'Ferramentas', aliases: ['github api', 'github rest api'] },
   { label: 'Vite', icon: 'vite', group: 'Ferramentas', aliases: ['vite'] },
   { label: 'Pinia', icon: 'pinia', group: 'Ferramentas', aliases: ['pinia'] },
-  { label: 'Jupyter Notebook', icon: 'python', group: 'Ferramentas', aliases: ['jupyter notebook', 'jupyter'] },
+  { label: 'Jupyter Notebook', icon: 'py', group: 'Ferramentas', aliases: ['jupyter notebook', 'jupyter'] },
   { label: 'Postman', icon: 'postman', group: 'Ferramentas', aliases: ['postman'] },
   { label: 'WordPress', icon: 'wordpress', group: 'Ferramentas', aliases: ['wordpress'] },
   { label: 'Android Studio', icon: 'androidstudio', group: 'Ferramentas', aliases: ['androidstudio', 'android studio'] },
@@ -590,7 +592,10 @@ const knownStacks = [
   { label: 'Arduino', icon: 'arduino', group: 'Outros', aliases: ['arduino'] },
   { label: 'Raspberry Pi', icon: 'raspberrypi', group: 'Outros', aliases: ['raspberrypi', 'raspberry pi'] },
   { label: 'Blender', icon: 'blender', group: 'Outros', aliases: ['blender'] },
-  { label: 'Unreal Engine', icon: 'unrealengine', group: 'Outros', aliases: ['unrealengine', 'unreal engine'] },
+  { label: 'AutoCAD', icon: 'autocad', group: 'Outros', aliases: ['autocad'] },
+  { label: 'SketchUp', icon: 'sketchup', group: 'Outros', aliases: ['sketchup'] },
+  { label: 'Photoshop', icon: 'ps', group: 'Outros', aliases: ['photoshop', 'adobe photoshop', 'ps'] },
+  { label: 'Unreal Engine', icon: 'unreal', group: 'Outros', aliases: ['unrealengine', 'unreal engine', 'unreal'] },
 ] as const
 
 const stackAliasMap = new Map(
@@ -614,7 +619,16 @@ function addStack(target: Map<string, GitHubStackItem & { group: string }>, valu
   const normalizedValue = value.toLowerCase().trim()
   const stack = stackAliasMap.get(normalizedValue)
   const fallbackLabel = formatProjectName(value)
-  const fallbackIcon = slugifyProjectPath(value)
+  const fallbackIcon = normalizeSkillIconId(slugifyProjectPath(value))
+  const icon = normalizeSkillIconId(stack?.icon ?? fallbackIcon)
+
+  if (!isSupportedSkillIcon(icon)) {
+    return
+  }
+
+  if ([...target.values()].some((item) => item.icon === icon)) {
+    return
+  }
 
   if (stack && target.has(stack.label)) {
     return
@@ -626,7 +640,7 @@ function addStack(target: Map<string, GitHubStackItem & { group: string }>, valu
 
   target.set(stack?.label ?? fallbackLabel, {
     label: stack?.label ?? fallbackLabel,
-    icon: stack?.icon ?? fallbackIcon,
+    icon,
     group: stack?.group ?? 'Outros',
   })
 }
@@ -652,7 +666,9 @@ function extractStacksFromText(readme: string) {
   const searchableText = cleanMarkdownText(readme).toLowerCase()
 
   for (const stack of knownStacks) {
-    if (stack.aliases.some((alias) => new RegExp(`(^|[^a-z0-9.])${escapeRegExp(alias)}([^a-z0-9.]|$)`, 'i').test(searchableText))) {
+    const searchableAliases = stack.aliases.filter((alias) => alias.length > 1)
+
+    if (searchableAliases.some((alias) => new RegExp(`(^|[^a-z0-9.])${escapeRegExp(alias)}([^a-z0-9.]|$)`, 'i').test(searchableText))) {
       addStack(foundStacks, stack.aliases[0])
     }
   }
