@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router'
-import profileImg from '../assets/perfil.jpg'
+import profileImg from '../assets/perfil-224.jpg'
 import { navLinks, siteConfig } from '../data/site'
 
 const route = useRoute()
@@ -15,14 +15,16 @@ function isActiveLink(to: string) {
 </script>
 
 <template>
-  <div class="relative min-h-screen overflow-hidden px-3 py-3 sm:px-5 sm:py-5 lg:px-10 lg:py-6">
-    <div class="absolute inset-0 bg-grid bg-[size:42px_42px] opacity-30"></div>
+  <div
+    class="animated-shell relative min-h-screen overflow-hidden px-3 py-3 sm:px-5 sm:py-5 lg:px-10 lg:py-6"
+  >
+    <div class="animated-grid absolute inset-0 bg-grid bg-[size:42px_42px] opacity-30"></div>
 
     <div
       class="relative mx-auto flex w-full max-w-7xl items-start justify-center lg:min-h-[calc(100vh-3rem)] lg:items-center"
     >
       <div
-        class="noise-overlay panel-blur relative w-full overflow-hidden rounded-[28px] border border-white/10 bg-panel shadow-glow lg:grid lg:min-h-[600px] lg:grid-cols-[260px_minmax(0,1fr)]"
+        class="noise-overlay panel-blur relative z-10 w-full overflow-hidden rounded-[28px] border border-white/10 bg-panel shadow-glow lg:grid lg:min-h-[600px] lg:grid-cols-[260px_minmax(0,1fr)]"
       >
         <aside
           aria-label="Perfil e navegação"
@@ -32,15 +34,15 @@ function isActiveLink(to: string) {
             <header class="mb-4 sm:mb-1 lg:mb-6">
               <div class="flex items-center justify-center">
                 <RouterLink
-                  to="/"
+                  to="/sobre"
                   class="rounded-[20px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300"
-                  aria-label="Ir para a página inicial"
+                  aria-label="Ir para a página sobre"
                 >
                   <img
                     :src="profileImg"
                     :alt="`Foto de perfil de ${siteConfig.name}`"
-                    width="320"
-                    height="385"
+                    width="224"
+                    height="224"
                     class="h-36 w-36 rounded-xl border border-white/10 object-cover shadow-[0_0_20px_rgba(34,211,238,0.15)] sm:h-44 sm:w-44 lg:h-48 lg:w-48"
                     decoding="async"
                     fetchpriority="high"
@@ -62,7 +64,7 @@ function isActiveLink(to: string) {
                 v-for="link in navLinks"
                 :key="link.to"
                 :to="link.to"
-                class="flex min-h-[56px] items-center justify-between rounded-2xl border px-4 py-4 text-sm transition"
+                class="interactive-button flex min-h-[56px] items-center justify-between rounded-2xl border px-4 py-4 text-sm transition"
                 :class="
                   isActiveLink(link.to)
                     ? 'border-cyan-500/40 bg-cyan-500/10 text-white'

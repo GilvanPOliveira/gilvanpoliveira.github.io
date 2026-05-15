@@ -309,7 +309,7 @@ onBeforeUnmount(() => {
 
           <RouterLink
             :to="projectsRoute"
-            class="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10"
+            class="interactive-button inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10"
           >
             Voltar
           </RouterLink>
@@ -352,7 +352,7 @@ onBeforeUnmount(() => {
           <div class="mt-6 grid gap-3 sm:flex sm:flex-wrap">
             <RouterLink
               :to="projectsRoute"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 sm:w-auto"
+              class="interactive-button inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 sm:w-auto"
             >
               Voltar para os repositórios
             </RouterLink>
@@ -362,7 +362,7 @@ onBeforeUnmount(() => {
               :href="selectedProject.deployUrl"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm text-white transition hover:bg-cyan-400/20 sm:w-auto"
+              class="interactive-button inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm text-white transition hover:bg-cyan-400/20 sm:w-auto"
             >
               Ver deploy
             </a>
@@ -382,7 +382,7 @@ onBeforeUnmount(() => {
               :href="selectedProject.htmlUrl"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 sm:w-auto"
+              class="interactive-button inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 sm:w-auto"
             >
               Abrir repositório
             </a>
@@ -449,7 +449,7 @@ onBeforeUnmount(() => {
                   :key="project.id"
                   type="button"
                   @click="selectProject(project.slug)"
-                  class="block min-w-0 w-full rounded-2xl border px-4 py-3 text-left transition"
+                  class="interactive-card block min-w-0 w-full rounded-2xl border px-4 py-3 text-left transition"
                   :class="
                     selectedProject?.id === project.id
                       ? 'border-cyan-400/40 bg-cyan-400/10'
@@ -469,7 +469,7 @@ onBeforeUnmount(() => {
                   type="button"
                   @click="goToPage(currentPage - 1)"
                   :disabled="currentPage === 1 || !repoProjects.length"
-                  class="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
+                  class="interactive-button rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
                   aria-label="Ir para a pagina anterior de projetos"
                 >
                   Anterior
@@ -481,7 +481,7 @@ onBeforeUnmount(() => {
                   type="button"
                   @click="goToPage(currentPage + 1)"
                   :disabled="currentPage === totalPages || !repoProjects.length"
-                  class="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
+                  class="interactive-button rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
                   aria-label="Ir para a proxima pagina de projetos"
                 >
                   Próxima

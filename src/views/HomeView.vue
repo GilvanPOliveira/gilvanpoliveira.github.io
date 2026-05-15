@@ -1,21 +1,9 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import MatrixShell from '../components/MatrixShell.vue'
 import StackStrip from '../components/StackStrip.vue'
-import { useGitHubPortfolio } from '../composables/useGitHubPortfolio'
 import { coreStacks, formations, technicalCourses } from '../data/profile'
 import { siteConfig } from '../data/site'
-
-const { stackSummary, loadStackSummary } = useGitHubPortfolio()
-
-const recentStacks = computed(() =>
-  stackSummary.value?.recent.length ? stackSummary.value.recent : coreStacks,
-)
-
-onMounted(() => {
-  void loadStackSummary()
-})
 </script>
 
 <template>
@@ -43,14 +31,14 @@ onMounted(() => {
           <div class="mt-6 flex flex-wrap items-center justify-center gap-3 sm:justify-center">
             <RouterLink
               to="/projetos"
-              class="inline-flex w-fit items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-cyan-400/20"
+              class="interactive-button inline-flex w-fit items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-cyan-400/20"
             >
               Ver projetos
             </RouterLink>
 
             <RouterLink
               to="/sobre"
-              class="inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white"
+              class="interactive-button inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white"
             >
               Sobre mim
             </RouterLink>
@@ -67,7 +55,7 @@ onMounted(() => {
             </div>
 
             <div class="mt-6">
-              <StackStrip :items="recentStacks" />
+              <StackStrip :items="coreStacks" />
             </div>
           </section>
         </div>
@@ -90,7 +78,7 @@ onMounted(() => {
               <div
                 v-for="formation in formations"
                 :key="formation.title"
-                class="rounded-2xl border border-white/10 bg-black/20 px-4 py-4"
+                class="interactive-card rounded-2xl border border-white/10 bg-black/20 px-4 py-4"
               >
                 <p class="text-sm font-medium text-white">{{ formation.title }}</p>
                 <p class="text-sm leading-6 text-slate-400">
@@ -117,7 +105,7 @@ onMounted(() => {
               <div
                 v-for="course in technicalCourses"
                 :key="course.title"
-                class="rounded-2xl border border-white/10 bg-black/20 px-4 py-4"
+                class="interactive-card rounded-2xl border border-white/10 bg-black/20 px-4 py-4"
               >
                 <p class="text-sm font-medium text-white">{{ course.title }}</p>
                 <p class="text-sm leading-6 text-slate-400">

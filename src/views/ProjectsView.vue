@@ -296,7 +296,7 @@ onBeforeUnmount(() => {
             <RouterLink
               v-if="hasRepoProjects"
               :to="detailRoute"
-              class="inline-flex min-w-[130px] w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm text-white transition hover:bg-cyan-400/20 sm:w-auto"
+              class="interactive-button inline-flex min-w-[130px] w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm text-white transition hover:bg-cyan-400/20 sm:w-auto"
               :title="detailsButtonTitle"
             >
               Ver detalhes
@@ -318,7 +318,7 @@ onBeforeUnmount(() => {
               :href="selectedRepo.homepage"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-2.5 text-sm text-white transition hover:bg-emerald-400/20 sm:w-auto"
+              class="interactive-button inline-flex w-full items-center justify-center rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-2.5 text-sm text-white transition hover:bg-emerald-400/20 sm:w-auto"
               :aria-label="`Abrir deploy do projeto ${selectedRepo.name}`"
             >
               Ver deploy
@@ -328,7 +328,7 @@ onBeforeUnmount(() => {
               :href="selectedRepo.htmlUrl"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 sm:w-auto"
+              class="interactive-button inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 sm:w-auto"
               :aria-label="`Abrir repositório ${selectedRepo.name} no GitHub`"
             >
               Repositório no GitHub
@@ -339,7 +339,7 @@ onBeforeUnmount(() => {
             <RouterLink
               v-if="hasRepoProjects"
               :to="detailRoute"
-              class="inline-flex w-full items-center justify-center rounded-[18px] border border-violet-400/30 bg-violet-400/10 px-4 py-3 text-sm text-white transition hover:bg-violet-400/20"
+              class="interactive-button inline-flex w-full items-center justify-center rounded-[18px] border border-violet-400/30 bg-violet-400/10 px-4 py-3 text-sm text-white transition hover:bg-violet-400/20"
               :title="detailsButtonTitle"
             >
               Ver detalhes
@@ -406,7 +406,7 @@ onBeforeUnmount(() => {
                   :key="repo.id"
                   type="button"
                   @click="selectRepo(repo)"
-                  class="block w-full rounded-2xl border px-4 py-3 text-left transition"
+                  class="interactive-card block w-full rounded-2xl border px-4 py-3 text-left transition"
                   :class="
                     selectedRepo?.id === repo.id
                       ? 'border-cyan-400/40 bg-cyan-400/10'
@@ -426,7 +426,7 @@ onBeforeUnmount(() => {
                   type="button"
                   @click="goToPage(currentPage - 1)"
                   :disabled="currentPage === 1"
-                  class="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
+                  class="interactive-button rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
                   aria-label="Ir para a página anterior de repositórios"
                 >
                   Anterior
@@ -438,7 +438,7 @@ onBeforeUnmount(() => {
                   type="button"
                   @click="goToPage(currentPage + 1)"
                   :disabled="currentPage === totalPages"
-                  class="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
+                  class="interactive-button rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-slate-200 transition disabled:cursor-not-allowed disabled:opacity-40"
                   aria-label="Ir para a próxima página de repositórios"
                 >
                   Próxima

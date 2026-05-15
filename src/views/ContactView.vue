@@ -8,7 +8,7 @@ const calConfig = {
   theme: 'dark',
 }
 const calendarButtonClass =
-  'inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/50 hover:bg-cyan-400/20 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto'
+  'inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:border-cyan-300/50 hover:bg-cyan-400/20 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto'
 let calEmbedPromise: Promise<void> | null = null
 
 type CalCommand = ((command: string, ...args: unknown[]) => void) & { q?: unknown[] }
@@ -118,7 +118,7 @@ const primaryActions = [
     rel: 'me noopener noreferrer',
     target: '_blank',
     className:
-      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
+      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
   },
   {
     label: 'LinkedIn',
@@ -126,7 +126,7 @@ const primaryActions = [
     rel: 'me noopener noreferrer',
     target: '_blank',
     className:
-      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
+      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
   },
   {
     label: 'Email',
@@ -134,7 +134,7 @@ const primaryActions = [
     rel: undefined,
     target: undefined,
     className:
-      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
+      'inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition duration-200 hover:border-emerald-400/40 hover:bg-emerald-400/10 hover:text-white max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:text-xs sm:w-auto',
   },
 ] as const
 </script>
@@ -221,7 +221,7 @@ const primaryActions = [
                 :href="siteConfig.githubUrl"
                 target="_blank"
                 rel="me noopener noreferrer"
-                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-400/40 hover:bg-cyan-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
+                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:border-cyan-400/40 hover:bg-cyan-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
               >
                 <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
                   <div class="min-w-0">
@@ -251,7 +251,7 @@ const primaryActions = [
                 :href="siteConfig.linkedinUrl"
                 target="_blank"
                 rel="me noopener noreferrer"
-                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/40 hover:bg-violet-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
+                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:border-violet-400/40 hover:bg-violet-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
               >
                 <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
                   <div class="min-w-0">
@@ -286,7 +286,7 @@ const primaryActions = [
             <div class="space-y-3 max-[350px]:mt-4 max-[350px]:space-y-3 xl:min-h-0 xl:flex-1 xl:pr-1">
               <a
                 :href="`mailto:${siteConfig.email}`"
-                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-emerald-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
+                class="group block rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition duration-200 hover:border-emerald-400/40 hover:bg-emerald-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
               >
                 <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">
                   <div class="min-w-0">
@@ -317,7 +317,7 @@ const primaryActions = [
 
               <button
                 type="button"
-                class="group block w-full rounded-2xl border border-cyan-400/20 bg-black/20 px-4 py-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/40 hover:bg-cyan-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
+                class="group block w-full rounded-2xl border border-cyan-400/20 bg-black/20 px-4 py-4 text-left transition duration-200 hover:border-cyan-300/40 hover:bg-cyan-400/10 max-[350px]:rounded-xl max-[350px]:px-3 max-[350px]:py-3"
                 @click="openCalendar"
               >
                 <div class="flex items-start justify-between gap-3 max-[350px]:gap-2">

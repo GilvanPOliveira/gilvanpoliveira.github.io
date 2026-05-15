@@ -38,21 +38,27 @@ function markAsFailed(label: string) {
 </script>
 
 <template>
-  <div class="flex flex-wrap justify-center gap-2" role="list" aria-label="Stacks e ferramentas">
+  <div
+    class="stack-strip flex flex-wrap justify-center gap-2"
+    role="list"
+    aria-label="Stacks e ferramentas"
+  >
     <div
       v-for="item in visibleItems"
       :key="item.label"
       role="listitem"
-      class="flex h-12 min-w-[44px] items-center"
+      class="stack-chip flex h-12 min-w-[44px] items-center"
       :title="item.label"
     >
       <img
         :src="getSkillIconUrl(item.icon)"
         :alt="item.label"
-        class="h-12 w-12 object-contain"
+        class="stack-icon h-12 w-12 object-contain"
         width="48"
         height="48"
         decoding="async"
+        loading="lazy"
+        fetchpriority="low"
         @error="markAsFailed(item.label)"
       />
     </div>

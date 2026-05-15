@@ -25,7 +25,7 @@ const route = useRoute()
               do portfólio.
             </p>
 
-            <div class="mt-4 rounded-2xl border border-white/10 bg-black/20 px-4 py-4">
+            <div class="interactive-card mt-4 rounded-2xl border border-white/10 bg-black/20 px-4 py-4">
               <p class="text-xs uppercase tracking-[0.24em] text-slate-400">Endereço acessado</p>
               <p class="mt-2 break-all text-sm text-slate-200">{{ route.fullPath }}</p>
             </div>
@@ -34,14 +34,14 @@ const route = useRoute()
           <div class="mt-8 grid gap-3 sm:flex sm:flex-wrap">
             <RouterLink
               to="/"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-cyan-400/20 sm:w-auto"
+              class="interactive-button inline-flex w-full items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-cyan-400/20 sm:w-auto"
             >
               Ir para a home
             </RouterLink>
 
             <RouterLink
               to="/projetos"
-              class="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white sm:w-auto"
+              class="interactive-button inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white sm:w-auto"
             >
               Ver projetos
             </RouterLink>
@@ -65,7 +65,7 @@ const route = useRoute()
             <div class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-1">
               <RouterLink
                 to="/sobre"
-                class="rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition hover:border-violet-400/40 hover:bg-violet-400/10"
+                class="interactive-card rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition hover:border-violet-400/40 hover:bg-violet-400/10"
               >
                 <p class="text-sm font-medium text-white">Sobre mim</p>
                 <p class="mt-2 text-sm leading-6 text-slate-400">
@@ -75,7 +75,7 @@ const route = useRoute()
 
               <RouterLink
                 to="/contato"
-                class="rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition hover:border-emerald-400/40 hover:bg-emerald-400/10"
+                class="interactive-card rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition hover:border-emerald-400/40 hover:bg-emerald-400/10"
               >
                 <p class="text-sm font-medium text-white">Contato</p>
                 <p class="mt-2 text-sm leading-6 text-slate-400">
@@ -85,7 +85,7 @@ const route = useRoute()
 
               <RouterLink
                 to="/projetos"
-                class="rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 md:col-span-2 xl:col-span-1"
+                class="interactive-card rounded-2xl border border-white/10 bg-black/20 px-4 py-4 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 md:col-span-2 xl:col-span-1"
               >
                 <p class="text-sm font-medium text-white">Projetos</p>
                 <p class="mt-2 text-sm leading-6 text-slate-400">

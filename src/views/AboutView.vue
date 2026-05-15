@@ -2,20 +2,14 @@
 import { computed, onMounted, ref } from 'vue';
 import MatrixShell from '../components/MatrixShell.vue';
 import StackStrip from '../components/StackStrip.vue';
-import { useGitHubPortfolio } from '../composables/useGitHubPortfolio';
 import { studyStackGroups } from '../data/profile';
 import { siteConfig } from '../data/site';
 import { fetchCertificates, type Certificate } from '../services/certificates';
 
-const { stackSummary, loadStackSummary } = useGitHubPortfolio();
 const certificates = ref<Certificate[]>([]);
 const loadingCertificates = ref(false);
 const showingCertificates = ref(false);
 const selectedCertificateCategory = ref('Todos');
-
-const studiedStackGroups = computed(() =>
-  stackSummary.value?.studiedGroups.length ? stackSummary.value.studiedGroups : studyStackGroups
-);
 
 const certificateCategories = computed(() => [
   'Todos',
@@ -74,7 +68,6 @@ function getCertificateCategoryClass(category: string) {
 }
 
 onMounted(async () => {
-  void loadStackSummary();
   await loadCertificates();
 });
 </script>
@@ -120,7 +113,7 @@ onMounted(async () => {
                   :href="siteConfig.linkedinUrl"
                   target="_blank"
                   rel="me noopener noreferrer"
-                  class="inline-flex w-fit items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-cyan-400/20"
+                  class="interactive-button inline-flex w-fit items-center justify-center rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-cyan-400/20"
                 >
                   Ver LinkedIn
                 </a>
@@ -129,14 +122,14 @@ onMounted(async () => {
                   :href="siteConfig.githubUrl"
                   target="_blank"
                   rel="me noopener noreferrer"
-                  class="inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white"
+                  class="interactive-button inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white"
                 >
                   Ver GitHub
                 </a>
 
                 <button
                   type="button"
-                  class="inline-flex w-fit items-center justify-center rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-emerald-400/20"
+                  class="interactive-button inline-flex w-fit items-center justify-center rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-emerald-400/20"
                   @click="showCertificates"
                 >
                   Certificados
@@ -161,7 +154,7 @@ onMounted(async () => {
 
               <button
                 type="button"
-                class="inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white"
+                class="interactive-button inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white"
                 @click="showAbout"
               >
                 Voltar
@@ -189,7 +182,7 @@ onMounted(async () => {
                     v-for="category in certificateCategories"
                     :key="category"
                     type="button"
-                    class="rounded-xl border px-3 py-2 text-xs transition"
+                    class="interactive-button rounded-xl border px-3 py-2 text-xs transition"
                     :class="
                       selectedCertificateCategory === category
                         ? 'border-emerald-400/40 bg-emerald-400/10 text-white'
@@ -207,7 +200,7 @@ onMounted(async () => {
                   <article
                     v-for="certificate in filteredCertificates"
                     :key="`${certificate.category}-${certificate.title}-${certificate.issuer}-${certificate.date}`"
-                    class="grid gap-4 rounded-2xl border border-white/10 bg-black/20 p-4 sm:grid-cols-[132px_minmax(0,1fr)]"
+                    class="interactive-card grid gap-4 rounded-2xl border border-white/10 bg-black/20 p-4 sm:grid-cols-[132px_minmax(0,1fr)]"
                   >
                     <div
                       class="certificate-badge"
@@ -283,9 +276,9 @@ onMounted(async () => {
             >
               <div class="space-y-4">
                 <section
-                  v-for="group in studiedStackGroups"
+                  v-for="group in studyStackGroups"
                   :key="group.title"
-                  class="rounded-2xl border border-white/10 bg-black/20 p-4"
+                  class="interactive-card rounded-2xl border border-white/10 bg-black/20 p-4"
                 >
                   <h3 class="text-xs uppercase tracking-[0.25em] text-slate-300">
                     {{ group.title }}
