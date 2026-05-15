@@ -10,7 +10,7 @@
     "generate:data": "npm run generate:github && npm run generate:certificates",
     "prebuild": "npm run generate:data",
     "typecheck": "vue-tsc -b",
-    "build": "npm run typecheck && vite build",
+    "build": "npm run typecheck && vite build && node scripts/generate-spa-fallbacks.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
