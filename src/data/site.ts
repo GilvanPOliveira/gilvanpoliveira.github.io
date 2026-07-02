@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'Gilvan Oliveira',
   role: 'Desenvolvedor Full Stack | Analista Júnior | PCD',
-  roleShort: 'Full Stack | Analista Júnior | PCD',
+  roleShort: 'Desenvolvedor Full Stack',
   url: 'https://gilvanpoliveira.github.io',
   email: 'gilvanoliveira06@gmail.com',
   githubUrl: 'https://github.com/GilvanPOliveira',

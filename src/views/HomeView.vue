@@ -18,7 +18,7 @@ import { siteConfig } from '../data/site'
           <h1
             class="mt-4 max-w-3xl text-2xl font-semibold leading-tight text-white sm:text-3xl lg:text-4xl"
           >
-            me chamo {{ siteConfig.name }}. {{ siteConfig.role }}.
+            me chamo {{ siteConfig.name }}.
           </h1>
 
           <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base text-justify">
