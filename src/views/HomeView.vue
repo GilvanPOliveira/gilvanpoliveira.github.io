@@ -18,14 +18,14 @@ import { siteConfig } from '../data/site'
           <h1
             class="mt-4 max-w-3xl text-2xl font-semibold leading-tight text-white sm:text-3xl lg:text-4xl"
           >
-            me chamo {{ siteConfig.name }}, {{ siteConfig.role }}.
+            me chamo {{ siteConfig.name }}. {{ siteConfig.role }}.
           </h1>
 
           <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base text-justify">
-            Construo aplicações web completas com JavaScript e TypeScript no frontend, Python no
-            backend e integração com APIs REST e bancos relacionais. Meu foco está em arquitetura
-            limpa, código organizado, performance, acessibilidade e interfaces que funcionam bem em
-            qualquer tela.
+            Tenho interesse em desenvolvimento de software e arquitetura de aplicações, com foco em
+            construir soluções organizadas, escaláveis e de fácil manutenção. Atualmente faço parte da
+            Avanade, onde sigo evoluindo tecnicamente por meio de colaboração, estudos e aprendizado
+            contínuo.
           </p>
 
           <div class="mt-6 flex flex-wrap items-center justify-center gap-3 sm:justify-center">

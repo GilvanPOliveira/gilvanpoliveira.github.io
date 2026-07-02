@@ -89,23 +89,31 @@ onMounted(async () => {
               class="overflow-visible py-2 pr-0 text-justify sm:pr-2 xl:flex-1 xl:overflow-y-auto xl:pr-4"
             >
               <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
-                Sou {{ siteConfig.role }}, com foco na construcao de aplicacoes web completas, desde a
-                modelagem de dados e definicao de regras de negocio ate a entrega de interfaces bem
-                estruturadas no frontend. Trabalho com JavaScript, TypeScript e desenvolvimento de Web
-                Apps em Vue, React e Angular, alem de APIs REST em Python com Flask e FastAPI.
+                Desenvolvedor Full Stack e Analista Júnior, com interesse em desenvolvimento de
+                software e arquitetura de aplicações.
               </p>
 
               <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
-                Priorizo organizacao de codigo, separacao de responsabilidades e consistencia
-                arquitetural para que o sistema permaneca previsivel, escalavel e simples de manter.
-                Tambem dedico atencao a performance, acessibilidade e responsividade para garantir uma
-                experiencia solida em diferentes contextos de uso.
+                Ao longo da minha trajetória, desenvolvi projetos utilizando diferentes tecnologias,
+                sempre buscando construir soluções organizadas, escaláveis e de fácil manutenção,
+                valorizando boas práticas, colaboração e evolução constante.
               </p>
 
               <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
-                Sou Pessoa com Deficiencia (PCD) e estou em busca de oportunidades que valorizem
-                diversidade, colaboracao e evolucao continua. Quero contribuir com consistencia,
-                aprender com o time e crescer em projetos de impacto real.
+                Tenho interesse em engenharia de software, computação em nuvem, ciência de dados e
+                cibersegurança, áreas nas quais continuo me aprimorando por meio de estudos, projetos
+                e certificações.
+              </p>
+
+              <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
+                Sou Pessoa com Deficiência (PCD) e acredito que ambientes diversos e inclusivos
+                fortalecem a inovação, a colaboração e o desenvolvimento de equipes de alta
+                performance.
+              </p>
+
+              <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
+                Atualmente, faço parte da Avanade, onde inicio uma nova etapa da minha trajetória
+                profissional, com foco em desenvolvimento técnico, colaboração e aprendizado contínuo.
               </p>
 
               <div class="mt-8 flex flex-wrap items-center justify-center gap-3 sm:justify-start">

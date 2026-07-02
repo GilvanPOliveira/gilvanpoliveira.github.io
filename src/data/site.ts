@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'Gilvan Oliveira',
-  role: 'Desenvolvedor Full Stack',
-  roleShort: 'Desenvolvedor Full Stack',
+  role: 'Desenvolvedor Full Stack | Analista Júnior | PCD',
+  roleShort: 'Full Stack | Analista Júnior | PCD',
   url: 'https://gilvanpoliveira.github.io',
   email: 'gilvanoliveira06@gmail.com',
   githubUrl: 'https://github.com/GilvanPOliveira',
@@ -10,12 +10,14 @@ export const siteConfig = {
   socialImagePath: '/og-image.svg',
   locale: 'pt-BR',
   ogLocale: 'pt_BR',
-  defaultTitle: 'Gilvan Oliveira | Desenvolvedor Full Stack',
+  defaultTitle: 'Gilvan Oliveira | Desenvolvedor Full Stack e Analista Júnior',
   defaultDescription:
-    'Portfólio de Gilvan Oliveira, desenvolvedor full stack com foco em aplicações web acessíveis, performáticas e integradas a APIs REST.',
+    'Portfólio de Gilvan Oliveira, desenvolvedor full stack e analista júnior com interesse em desenvolvimento de software, arquitetura de aplicações e evolução constante.',
   keywords: [
     'Gilvan Oliveira',
     'desenvolvedor full stack',
+    'analista júnior',
+    'PCD',
     'portfólio',
     'Vue',
     'React',
@@ -39,7 +41,7 @@ export const routeSeo = {
   home: {
     title: siteConfig.defaultTitle,
     description:
-      'Conheça o portfólio de Gilvan Oliveira, com foco em aplicações web modernas, acessíveis e integradas a APIs.',
+      'Conheça o portfólio de Gilvan Oliveira, desenvolvedor full stack e analista júnior com interesse em desenvolvimento de software e arquitetura de aplicações.',
   },
   projects: {
     title: 'Projetos | Gilvan Oliveira',
@@ -54,7 +56,7 @@ export const routeSeo = {
   about: {
     title: 'Sobre | Gilvan Oliveira',
     description:
-      'Conheça a trajetória, formações e stacks estudadas por Gilvan Oliveira em desenvolvimento full stack.',
+      'Conheça a trajetória de Gilvan Oliveira em desenvolvimento full stack, análise júnior, estudos, certificações e tecnologia.',
   },
   contact: {
     title: 'Contato | Gilvan Oliveira',
